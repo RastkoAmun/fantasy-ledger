@@ -3,10 +3,10 @@ import { Box, Grid, Stack, Typography } from "@mui/material";
 
 type AbilityScoreCardProps = {
   name: string;
-  topPosition?: number;
+  value: number;
 };
 
-const AbilityScoreCard = ({ name, topPosition }: AbilityScoreCardProps) => {
+const AbilityScoreCard = ({ name, value }: AbilityScoreCardProps) => {
   return (
     <Grid
       item
@@ -36,7 +36,7 @@ const AbilityScoreCard = ({ name, topPosition }: AbilityScoreCardProps) => {
           sx={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}
         >
           <Typography fontSize={28} textAlign="center" mb={1}>
-            16
+            {value}
           </Typography>
         </Box>
       </Stack>
@@ -46,7 +46,7 @@ const AbilityScoreCard = ({ name, topPosition }: AbilityScoreCardProps) => {
         border={3}
         borderColor="purple"
         position="absolute"
-        top={topPosition ?? 68}
+        top={68}
         bgcolor="white"
         borderRadius={10}
       >
