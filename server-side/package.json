@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@apollo/server": "^4.10.5",
+    "@neondatabase/serverless": "^0.9.4",
+    "dotenv": "^16.4.5",
     "graphql": "^16.9.0"
   }
 }
