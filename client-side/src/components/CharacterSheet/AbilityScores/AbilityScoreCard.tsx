@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
+import { calculateModifier } from "@/utils/helpers";
 
 type AbilityScoreCardProps = {
   name: string;
@@ -7,6 +8,7 @@ type AbilityScoreCardProps = {
 };
 
 const AbilityScoreCard = ({ name, value }: AbilityScoreCardProps) => {
+  const { modifier, sign } = calculateModifier(value);
   return (
     <Grid
       item
@@ -51,7 +53,7 @@ const AbilityScoreCard = ({ name, value }: AbilityScoreCardProps) => {
         borderRadius={10}
       >
         <Typography textAlign="center" mt="1px">
-          +3
+          {sign}{modifier}
         </Typography>
       </Box>
     </Grid>
