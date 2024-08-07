@@ -3,7 +3,8 @@ export const typeDefs =`#graphql
     abilityScores: AbilityScores!
   }
 
-  type AbilityScores {
+  type AbilityScores {,
+    id: Int!
     strength: Int!,
     dexterity: Int!,
     constitution: Int!,
