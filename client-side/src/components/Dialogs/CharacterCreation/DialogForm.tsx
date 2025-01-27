@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box, Dialog, Tabs, Tab } from "@mui/material";
+import CoreDialogPage from "./DialogPages/CoreDialogPage";
 
 const tabLabels = {
   main: {
@@ -13,6 +14,11 @@ const tabLabels = {
 
 const CharacterCreationDialog = () => {
   const [value, setValue] = useState(0);
+
+  const pagesNavigation = {
+    goNext: () => setValue(value + 1),
+    goBack: () => setValue(value - 1),
+  };
 
   return (
     <>
@@ -55,6 +61,7 @@ const CharacterCreationDialog = () => {
             />
           </Tabs>
         </Box>
+        <CoreDialogPage value={value} pageNavigation={pagesNavigation} />
       </Dialog>
     </>
   );
