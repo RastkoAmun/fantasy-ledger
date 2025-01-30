@@ -11,17 +11,19 @@ import {
   Typography,
 } from "@mui/material";
 import CustomTabPanel from "@/components/Tabs/CustomTabPanel";
-
-type Navigation = {
-  goNext: () => void;
-  goBack: () => void;
-};
+import { InputEventType, PageNavigation } from "@/utils/types";
+import { coreInfoDefaultForm, healthDefaultForm } from "@/utils/defaultForms";
 
 type HealthDice = "d6" | "d8" | "d10" | "d12" | "" | null;
 
 type CharacterCreationPageProps = {
   value: number;
-  pageNavigation: Navigation;
+  tabNumber: number;
+  handlePageNavigation: PageNavigation;
+  coreForm: typeof coreInfoDefaultForm;
+  healthForm: typeof healthDefaultForm;
+  setCoreForm: React.Dispatch<React.SetStateAction<typeof coreInfoDefaultForm>>;
+  setHealthForm: React.Dispatch<React.SetStateAction<typeof healthDefaultForm>>;
 };
 
 const labels = {
@@ -35,7 +37,12 @@ const healthDiceArray: HealthDice[] = ["d6", "d8", "d10", "d12"];
 
 const CoreDialogPage = ({
   value,
-  pageNavigation,
+  tabNumber,
+  handlePageNavigation,
+  coreForm,
+  healthForm,
+  setCoreForm,
+  setHealthForm,
 }: CharacterCreationPageProps) => {
   const [name, setName] = useState("");
   const [health, setHealth] = useState("");
@@ -43,18 +50,22 @@ const CoreDialogPage = ({
   const [healthDice, setHealthDice] = useState("");
 
   // Handlers
-  const handleSetName = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameInput = (event: InputEventType) => {
     setName(event.target.value);
   };
-  const handleSetHealth = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLevelClick = (lvl: number) => {
+    setLevel(lvl);
+    setCoreForm((prev) => ({ ...prev, level: lvl }));
+  };
+  const handleHealthInput = (event: InputEventType) => {
     setHealth(event.target.value);
   };
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleHealthDiceInput = (event: InputEventType) => {
     setHealthDice(event.target.value);
   };
 
   return (
-    <CustomTabPanel value={value} index={0}>
+    <CustomTabPanel value={value} index={tabNumber}>
       <Stack>
         <Stack direction="row">
           <Stack>
@@ -62,8 +73,8 @@ const CoreDialogPage = ({
             <TextField
               variant="standard"
               value={name}
-              onChange={handleSetName}
-              onBlur={(e) => console.log(e.target.value)}
+              onChange={handleNameInput}
+              onBlur={(e) => setCoreForm({ ...coreForm, name: e.target.value })}
             />
           </Stack>
           <Stack ml={5}>
@@ -71,6 +82,7 @@ const CoreDialogPage = ({
             <Select
               variant="standard"
               defaultValue={1}
+              value={level}
               MenuProps={{
                 PaperProps: {
                   sx: {
@@ -80,7 +92,11 @@ const CoreDialogPage = ({
               }}
             >
               {Array.from({ length: 20 }, (_, i) => i + 1).map((lvl) => (
-                <MenuItem key={lvl} value={lvl} onClick={() => setLevel(lvl)}>
+                <MenuItem
+                  key={lvl}
+                  value={lvl}
+                  onClick={() => handleLevelClick(lvl)}
+                >
                   {lvl}
                 </MenuItem>
               ))}
@@ -93,7 +109,14 @@ const CoreDialogPage = ({
             <TextField
               variant="standard"
               value={health}
-              onChange={handleSetHealth}
+              onChange={handleHealthInput}
+              onBlur={(e) =>
+                setHealthForm({
+                  ...healthForm,
+                  maxHealth: Number(e.target.value),
+                  currentHealth: Number(e.target.value),
+                })
+              }
               sx={{ width: 90 }}
             />
           </Stack>
@@ -103,7 +126,7 @@ const CoreDialogPage = ({
               aria-labelledby="demo-radio-buttons-group-label"
               name="radio-buttons-group"
               value={healthDice}
-              onChange={handleChange}
+              onChange={handleHealthDiceInput}
             >
               <Stack direction="row">
                 {healthDiceArray.map((dice) => (
@@ -112,6 +135,12 @@ const CoreDialogPage = ({
                     value={dice}
                     control={
                       <Radio
+                        onClick={() =>
+                          setHealthForm({
+                            ...healthForm,
+                            hitDice: dice as string,
+                          })
+                        }
                         sx={{
                           "&.Mui-checked": {
                             color: "teal",
@@ -127,7 +156,10 @@ const CoreDialogPage = ({
           </Stack>
         </Stack>
         <Stack direction="row" justifyContent="center" mt={5} columnGap={10}>
-          <Button variant="contained" onClick={() => pageNavigation.goNext()}>
+          <Button
+            variant="contained"
+            onClick={() => handlePageNavigation.goNext()}
+          >
             Next
           </Button>
         </Stack>
