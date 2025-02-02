@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { Box, Dialog, Tabs, Tab } from "@mui/material";
 import CoreDialogPage from "./DialogPages/CoreDialogPage";
+import {
+  archtypeDefaultForm,
+  characterSheetDefault,
+  coreInfoDefaultForm,
+  healthDefaultForm,
+} from "@/utils/defaultForms";
+import ArchtypeDialogPage from "./DialogPages/ArchtypeDialogPage";
+import { CharacterCreationTabNumbers } from "@/utils/helpers";
 
 const tabLabels = {
   main: {
     core: "Core",
-    class: "Class & Race",
+    archtype: "Archtype",
     scores: "Ability Scores",
     features: "Features",
   },
@@ -14,8 +22,17 @@ const tabLabels = {
 
 const CharacterCreationDialog = () => {
   const [value, setValue] = useState(0);
+  const [characterSheet, setCharacterSheet] = useState(characterSheetDefault);
+  const [coreForm, setCoreForm] = useState(coreInfoDefaultForm);
+  const [healthForm, setHealthForm] = useState(healthDefaultForm);
+  const [archtypeForm, setArchtypeForm] = useState(archtypeDefaultForm);
 
-  const pagesNavigation = {
+  // const handleFinalize = () => {
+  //   //JUST TESTING FOR NOW IGNORE
+  //   setCharacterSheet({ ...characterSheet, archtype: archtypeForm });
+  // };
+
+  const handlePageNavigation = {
     goNext: () => setValue(value + 1),
     goBack: () => setValue(value - 1),
   };
@@ -61,7 +78,22 @@ const CharacterCreationDialog = () => {
             />
           </Tabs>
         </Box>
-        <CoreDialogPage value={value} pageNavigation={pagesNavigation} />
+        <CoreDialogPage
+          value={value}
+          tabNumber={CharacterCreationTabNumbers.CORE}
+          handlePageNavigation={handlePageNavigation}
+          coreForm={coreForm}
+          healthForm={healthForm}
+          setCoreForm={setCoreForm}
+          setHealthForm={setHealthForm}
+        />
+        <ArchtypeDialogPage
+          value={value}
+          tabNumber={CharacterCreationTabNumbers.ARCHTYPE}
+          handlePageNavigation={handlePageNavigation}
+          setArchtypeForm={setArchtypeForm}
+          archtypeForm={archtypeForm}
+        />
       </Dialog>
     </>
   );
