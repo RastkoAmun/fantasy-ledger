@@ -10,7 +10,8 @@ export enum AbilityScores {
 export enum CharacterCreationTabNumbers {
   CORE = 0,
   ARCHTYPE = 1,
-  ABILITY_SCORES = 2
+  ABILITY_SCORES = 2,
+  FINALIZE = 3
 }
 
 type AbilityScoreModifierType = {

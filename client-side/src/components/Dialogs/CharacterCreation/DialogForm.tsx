@@ -3,19 +3,22 @@ import { Box, Dialog, Tabs, Tab } from "@mui/material";
 import CoreDialogPage from "./DialogPages/CoreDialogPage";
 import {
   archtypeDefaultForm,
+  abilityScoreDefaultForm,
   characterSheetDefault,
   coreInfoDefaultForm,
   healthDefaultForm,
 } from "@/utils/defaultForms";
 import ArchtypeDialogPage from "./DialogPages/ArchtypeDialogPage";
 import { CharacterCreationTabNumbers } from "@/utils/helpers";
+import AbilityScoresDialogPage from "./DialogPages/AbilityScoresDialogPage";
+import FinalizeDialogPage from "./DialogPages/FinalizeDialogPage";
 
 const tabLabels = {
   main: {
     core: "Core",
     archtype: "Archtype",
     scores: "Ability Scores",
-    features: "Features",
+    // features: "Features",
   },
   finish: "Finish",
 };
@@ -26,11 +29,19 @@ const CharacterCreationDialog = () => {
   const [coreForm, setCoreForm] = useState(coreInfoDefaultForm);
   const [healthForm, setHealthForm] = useState(healthDefaultForm);
   const [archtypeForm, setArchtypeForm] = useState(archtypeDefaultForm);
+  const [abilityScoresForm, setAbilityScoresForm] = useState(
+    abilityScoreDefaultForm
+  );
 
-  // const handleFinalize = () => {
-  //   //JUST TESTING FOR NOW IGNORE
-  //   setCharacterSheet({ ...characterSheet, archtype: archtypeForm });
-  // };
+  const handleSubmit = () => {
+    const character = {
+      coreInfo: coreForm,
+      health: healthForm,
+      archtype: archtypeForm,
+      abilityScores: abilityScoresForm,
+    };
+    console.log(character);
+  };
 
   const handlePageNavigation = {
     goNext: () => setValue(value + 1),
@@ -66,7 +77,7 @@ const CharacterCreationDialog = () => {
             ))}
             <Tab
               label={tabLabels.finish}
-              onClick={() => setValue(4)}
+              onClick={() => setValue(CharacterCreationTabNumbers.FINALIZE)}
               color="green"
               sx={{
                 width: 180,
@@ -93,6 +104,19 @@ const CharacterCreationDialog = () => {
           handlePageNavigation={handlePageNavigation}
           setArchtypeForm={setArchtypeForm}
           archtypeForm={archtypeForm}
+        />
+        <AbilityScoresDialogPage
+          value={value}
+          tabNumber={CharacterCreationTabNumbers.ABILITY_SCORES}
+          handlePageNavigation={handlePageNavigation}
+          abilityScoresForm={abilityScoresForm}
+          setAbilityScoresForm={setAbilityScoresForm}
+        />
+        <FinalizeDialogPage
+          value={value}
+          tabNumber={CharacterCreationTabNumbers.FINALIZE}
+          handlePageNavigation={handlePageNavigation}
+          handleSubmit={handleSubmit}
         />
       </Dialog>
     </>
