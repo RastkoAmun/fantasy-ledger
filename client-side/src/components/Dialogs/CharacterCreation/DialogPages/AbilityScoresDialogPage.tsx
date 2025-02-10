@@ -46,7 +46,7 @@ const AbilityScoresDialogPage = ({
     charisma: setCharisma,
   };
 
-  console.log(abilityScoresForm)
+  // console.log(abilityScoresForm)
 
   const handleAbilityInput = (ability: keyof typeof setters, value: number) => {
     const setter = setters[ability];

@@ -12,4 +12,17 @@ export const typeDefs =`#graphql
     wisdom: Int!,
     charisma: Int!
   }
+
+  type Mutation {
+    createAbilityScores(input: AbilityScoresInput!): AbilityScores
+  }
+
+  input AbilityScoresInput {
+    strength: Int!,
+    dexterity: Int!,
+    constitution: Int!,
+    intelligence: Int!,
+    wisdom: Int!,
+    charisma: Int!
+  }
 `
