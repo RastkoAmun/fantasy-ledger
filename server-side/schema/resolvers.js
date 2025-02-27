@@ -17,11 +17,10 @@ const getAbilityScores = async () => {
     console.error("Error fetching data:", error);
     throw new Error("Error fetching data");
   }
-}
+};
 
 const createAbilityScores = async (_, { input }) => {
   if (!input) {
-    console.error("❌ No input received in mutation!");
     throw new Error("No input received in mutation.");
   }
   try {
@@ -30,16 +29,46 @@ const createAbilityScores = async (_, { input }) => {
       VALUES (${input.strength}, ${input.dexterity}, ${input.constitution}, ${input.intelligence}, ${input.wisdom}, ${input.charisma})
       RETURNING *;
     `;
-
-    // This will print id that is generated
-    // Use this later to connect id of AbilityScore with id of Character
-    console.log(newAbilityScores.id)
-
+    console.log(newAbilityScores);
     return newAbilityScores;
   } catch (error) {
     throw new Error("Failed to insert ability scores: " + error.message);
   }
-}
+};
+
+const createCharacter = async (_, { input }) => {
+  const {
+    name,
+    level,
+    race,
+    subrace,
+    subclass,
+    speed,
+    currentHealth,
+    temporaryHealth,
+    hitDice,
+    maxHealth,
+    abilityScores,
+  } = { ...input };
+
+  try {
+    const [newCharacter] = await sql`
+      INSERT INTO characters(
+        name, level, race, subrace, class, subclass, speed, 
+        current_health, max_health, temp_health, health_dice, ability_scores
+      )
+      VALUES (
+        ${name}, ${level}, ${race}, ${subrace}, ${input.class}, ${subclass}, ${speed}, 
+        ${currentHealth}, ${maxHealth}, ${temporaryHealth}, ${hitDice}, ${abilityScores}
+      )
+      RETURNING *;
+    `;
+
+    return newCharacter;
+  } catch (error) {
+    throw new Error("Failed to insert new character: " + error.message);
+  }
+};
 
 export const resolvers = {
   Query: {
@@ -47,6 +76,7 @@ export const resolvers = {
   },
 
   Mutation: {
-    createAbilityScores: (_, args) => createAbilityScores(_, args)
-  }
+    createAbilityScores: (_, args) => createAbilityScores(_, args),
+    createCharacter: (_, args) => createCharacter(_, args),
+  },
 };
