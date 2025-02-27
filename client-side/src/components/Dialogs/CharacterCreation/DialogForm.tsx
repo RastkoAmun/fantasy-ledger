@@ -12,6 +12,8 @@ import ArchtypeDialogPage from "./DialogPages/ArchtypeDialogPage";
 import { CharacterCreationTabNumbers } from "@/utils/helpers";
 import AbilityScoresDialogPage from "./DialogPages/AbilityScoresDialogPage";
 import FinalizeDialogPage from "./DialogPages/FinalizeDialogPage";
+import { useMutation } from "@apollo/client";
+import { createAbilityScores } from "@/state/remote/mutations/createAbilityScores";
 
 const tabLabels = {
   main: {
@@ -33,14 +35,20 @@ const CharacterCreationDialog = () => {
     abilityScoreDefaultForm
   );
 
-  const handleSubmit = () => {
-    const character = {
-      coreInfo: coreForm,
-      health: healthForm,
-      archtype: archtypeForm,
-      abilityScores: abilityScoresForm,
-    };
-    console.log(character);
+  const [createMutation] = useMutation(createAbilityScores);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await createMutation({
+        variables: { input: { ...abilityScoresForm } },
+      });
+      console.log(
+        "Ability Scores Submitted:",
+        response.data.createAbilityScores
+      );
+    } catch (err) {
+      console.error("Error submitting ability scores:", err);
+    }
   };
 
   const handlePageNavigation = {
