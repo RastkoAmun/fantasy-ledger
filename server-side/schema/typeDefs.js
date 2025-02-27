@@ -4,7 +4,8 @@ export const typeDefs =`#graphql
   }
 
   type Mutation {
-    createAbilityScores(input: CreateAbilityScoresInput!): AbilityScores!
+    createAbilityScores(input: CreateAbilityScoresInput!): AbilityScores!,
+    createCharacter(input: CreateCharacterInput!): Character
   }
 
   type AbilityScores {,
@@ -17,6 +18,22 @@ export const typeDefs =`#graphql
     charisma: Int!
   }
 
+  type Character {
+    id: Int!,
+    name: String!,
+    level: Int!,
+    currentHealth: Int,
+    maxHealth: Int,
+    temporaryHealth: Int,
+    hitDice: String,
+    race: String,
+    subrace: String,
+    class: String,
+    subclass: String,
+    speed: Int,
+    abilityScores: Int!
+  }
+
   input CreateAbilityScoresInput {
     strength: Int!,
     dexterity: Int!,
@@ -26,8 +43,17 @@ export const typeDefs =`#graphql
     charisma: Int!
   }
 
-  # input UpdateAbilityScoresInput {
-  #   id: Int!,
-  #   ...CreateAbilityScoresInput
-  # }
+  input CreateCharacterInput {
+    name: String!,
+    level: Int!,
+    currentHealth: Int!,
+    maxHealth: Int!,
+    temporaryHealth: Int!,
+    hitDice: String!,
+    race: String!,
+    subrace: String!,
+    class: String!,
+    subclass: String!,
+    abilityScores: Int!
+  }
 `
