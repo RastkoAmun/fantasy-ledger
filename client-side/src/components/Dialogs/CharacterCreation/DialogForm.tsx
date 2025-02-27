@@ -14,6 +14,7 @@ import AbilityScoresDialogPage from "./DialogPages/AbilityScoresDialogPage";
 import FinalizeDialogPage from "./DialogPages/FinalizeDialogPage";
 import { useMutation } from "@apollo/client";
 import { createAbilityScores } from "@/state/remote/mutations/createAbilityScores";
+import { createCharacter } from "@/state/remote/mutations/createCharacter";
 
 const tabLabels = {
   main: {
@@ -35,19 +36,43 @@ const CharacterCreationDialog = () => {
     abilityScoreDefaultForm
   );
 
-  const [createMutation] = useMutation(createAbilityScores);
+  const [createAbilityScoresMutation] = useMutation(createAbilityScores);
+  const [createCharacterMutation] = useMutation(createCharacter);
 
   const handleSubmit = async () => {
+    let abilityScoresID: number = 0;
+
     try {
-      const response = await createMutation({
+      console.log('Runs')
+      const response = await createAbilityScoresMutation({
         variables: { input: { ...abilityScoresForm } },
       });
+      abilityScoresID = response.data.createAbilityScores.id
       console.log(
         "Ability Scores Submitted:",
         response.data.createAbilityScores
       );
     } catch (err) {
       console.error("Error submitting ability scores:", err);
+    }
+
+    const character = {
+      ...coreForm,
+      ...healthForm,
+      ...archtypeForm,
+      abilityScores: abilityScoresID
+    };
+    console.log(character)
+    try {
+      const response = await createCharacterMutation({
+        variables: { input: { ...character } },
+      });
+      console.log(
+        "Character Submitted:",
+        response.data.createCharacter
+      );
+    } catch (err) {
+      console.error("Error submitting character:", err);
     }
   };
 
