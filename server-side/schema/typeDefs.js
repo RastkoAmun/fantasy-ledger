@@ -1,6 +1,7 @@
 export const typeDefs =`#graphql
   type Query {
     abilityScores: AbilityScores!
+    characters: [Character]
   }
 
   type Mutation {

@@ -9,6 +9,17 @@ const sql = neon(
   `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=require`
 );
 
+const getCharacters = async () => {
+  try{
+    const result = await sql`SELECT id, name, level, race, subrace, class, subclass FROM characters`
+    console.log(result)
+    return result
+  }catch(error){
+    console.error("Error fetching data:", error);
+    throw new Error("Error fetching data");
+  }
+}
+
 const getAbilityScores = async () => {
   try {
     const result = await sql`SELECT * FROM ability_scores WHERE id = 1`;
@@ -73,6 +84,7 @@ const createCharacter = async (_, { input }) => {
 export const resolvers = {
   Query: {
     abilityScores: () => getAbilityScores(),
+    characters: () => getCharacters()
   },
 
   Mutation: {
