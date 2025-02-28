@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <Test />
       <AbilityScoresDashboard />
-      <CharacterCreationDialog />
+      <CharacterCreationDialog isOpen={false} />
     </>
   );
 }
