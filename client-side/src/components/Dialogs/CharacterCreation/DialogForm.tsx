@@ -4,7 +4,6 @@ import CoreDialogPage from "./DialogPages/CoreDialogPage";
 import {
   archtypeDefaultForm,
   abilityScoreDefaultForm,
-  characterSheetDefault,
   coreInfoDefaultForm,
   healthDefaultForm,
 } from "@/utils/defaultForms";
@@ -21,14 +20,12 @@ const tabLabels = {
     core: "Core",
     archtype: "Archtype",
     scores: "Ability Scores",
-    // features: "Features",
   },
   finish: "Finish",
 };
 
-const CharacterCreationDialog = () => {
+const CharacterCreationDialog = ({ isOpen }: { isOpen: boolean }) => {
   const [value, setValue] = useState(0);
-  const [characterSheet, setCharacterSheet] = useState(characterSheetDefault);
   const [coreForm, setCoreForm] = useState(coreInfoDefaultForm);
   const [healthForm, setHealthForm] = useState(healthDefaultForm);
   const [archtypeForm, setArchtypeForm] = useState(archtypeDefaultForm);
@@ -43,11 +40,10 @@ const CharacterCreationDialog = () => {
     let abilityScoresID: number = 0;
 
     try {
-      console.log('Runs')
       const response = await createAbilityScoresMutation({
         variables: { input: { ...abilityScoresForm } },
       });
-      abilityScoresID = response.data.createAbilityScores.id
+      abilityScoresID = response.data.createAbilityScores.id;
       console.log(
         "Ability Scores Submitted:",
         response.data.createAbilityScores
@@ -60,17 +56,14 @@ const CharacterCreationDialog = () => {
       ...coreForm,
       ...healthForm,
       ...archtypeForm,
-      abilityScores: abilityScoresID
+      abilityScores: abilityScoresID,
     };
-    console.log(character)
+
     try {
       const response = await createCharacterMutation({
         variables: { input: { ...character } },
       });
-      console.log(
-        "Character Submitted:",
-        response.data.createCharacter
-      );
+      console.log("Character Submitted:", response.data.createCharacter);
     } catch (err) {
       console.error("Error submitting character:", err);
     }
@@ -83,7 +76,7 @@ const CharacterCreationDialog = () => {
 
   return (
     <>
-      <Dialog open={true} maxWidth={false}>
+      <Dialog open={isOpen} maxWidth={false}>
         <Box borderBottom={1}>
           <Tabs
             value={value}
