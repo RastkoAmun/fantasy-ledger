@@ -7,18 +7,19 @@ import abilityScores from "@/state/remote/queries/getAbilityScores";
 
 const AbilityScoresDashboard = () => {
   const { data, loading, error } = useQuery(abilityScores);
+  console.log(data)
 
   if (loading || error) return;
   if (!data) return;
 
   return (
     <Box
-      width={400}
       height={240}
       border={1}
       borderColor="purple"
       margin={2}
       bgcolor="#9A9696"
+      boxSizing='border-box'
     >
       <Grid container rowGap={3} mt={1}>
         {Object.keys(AbilityScores).map((abilityScore) => {
