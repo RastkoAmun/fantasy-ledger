@@ -22,7 +22,7 @@ const getCharacters = async () => {
 
 const getAbilityScores = async () => {
   try {
-    const result = await sql`SELECT * FROM ability_scores WHERE id = 1`;
+    const result = await sql`SELECT * FROM ability_scores WHERE id = 30`;
     return result[0];
   } catch (error) {
     console.error("Error fetching data:", error);
