@@ -1,8 +1,9 @@
 import { gql } from "@apollo/client";
 
 const query = gql`
-  query GetAbilityScores {
-    abilityScores {
+  query GetAbilityScores($id: ID!) {
+    abilityScores(id: $id) {
+      id
       strength
       dexterity
       constitution
