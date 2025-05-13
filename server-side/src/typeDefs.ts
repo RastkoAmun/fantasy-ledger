@@ -1,6 +1,7 @@
 export const typeDefs =`#graphql
   type Query {
-    abilityScores: AbilityScores!
+    character(id: ID!): Character!
+    abilityScores(id: ID!): AbilityScores!
     characters: [Character]
   }
 
@@ -23,16 +24,17 @@ export const typeDefs =`#graphql
     id: Int!,
     name: String!,
     level: Int!,
-    currentHealth: Int,
-    maxHealth: Int,
-    temporaryHealth: Int,
-    hitDice: String,
-    race: String,
-    subrace: String,
     class: String,
     subclass: String,
-    speed: Int,
-    abilityScores: Int!
+    race: String,
+    subrace: String,
+    speed: Int
+    maxHealth: Int,
+    currentHealth: Int,
+    tempHealth: Int,
+    healthDice: String,
+    proficiencies: [String]
+    abilityScoresId: Int
   }
 
   input CreateAbilityScoresInput {
