@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { getCharactersQuery } from "@/state/remote/queries/getCharacters";
+import { getAllCharactersQuery } from "@/state/remote/queries/getAllCharacters";
 import { useQuery } from "@apollo/client";
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
@@ -18,7 +18,7 @@ const cardStyle = {
 
 const CharactersDisplay = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { data, loading, error } = useQuery(getCharactersQuery);
+  const { data, loading, error } = useQuery(getAllCharactersQuery);
   console.log(data);
 
   if (loading || error) return;
