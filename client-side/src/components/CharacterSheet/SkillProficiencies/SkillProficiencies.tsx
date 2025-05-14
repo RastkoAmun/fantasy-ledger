@@ -3,9 +3,8 @@ import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import FiberManualRecordOutlinedIcon from "@mui/icons-material/FiberManualRecordOutlined";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import { useQuery } from "@apollo/client";
-import abilityScores from "@/state/remote/queries/getAbilityScores";
 import { calculateModifier } from "@/utils/helpers";
+import { AbilityScoresQueryType } from "@/utils/types";
 
 enum SkillCategoriesType {
   STRENGTH = "STRENGTH",
@@ -64,37 +63,30 @@ const calculateSkillModifier = (
   result = result + modifier;
   if (isProficient) result = result + 2;
 
-  if (result > 0) return "+" + result;
+  if (result >= 0) return "+" + result;
   else return result;
 };
 
 const SkillProficiencies = ({
   proficiencies,
-  abilityScoresId,
+  abilityScores,
 }: {
   proficiencies: string[];
-  abilityScoresId: number;
+  abilityScores: AbilityScoresQueryType
 }) => {
-  const { data, loading, error } = useQuery(abilityScores, {
-    variables: { id: abilityScoresId },
-  });
-
-  if (loading || error) return null;
-  if (!data) return;
-
   const proficiencySet = new Set(proficiencies);
 
   return (
     <>
       <Box
-        border={1}
+        border={2}
         borderColor="purple"
         bgcolor="#adadad"
         borderRadius={4}
         height="100%"
       >
         <Stack m={1}>
-          <Typography fontWeight={700} textAlign="center">
+          <Typography fontWeight={700} textAlign="center" mb={1}>
             SKILLS
           </Typography>
           <Stack>
@@ -124,7 +116,7 @@ const SkillProficiencies = ({
                           <FiberManualRecordIcon
                             fontSize="small"
                             sx={{
-                              fontSize: 11,
+                              fontSize: 16,
                               verticalAlign: "middle",
                               color: "purple",
                             }}
@@ -133,7 +125,7 @@ const SkillProficiencies = ({
                           <FiberManualRecordOutlinedIcon
                             fontSize="small"
                             sx={{
-                              fontSize: 11,
+                              fontSize: 16,
                               verticalAlign: "middle",
                             }}
                           />
@@ -142,7 +134,7 @@ const SkillProficiencies = ({
                           <FiberManualRecordOutlinedIcon
                             fontSize="small"
                             sx={{
-                              fontSize: 11,
+                              fontSize: 16,
                               mr: 1,
                               verticalAlign: "middle",
                             }}
@@ -167,7 +159,7 @@ const SkillProficiencies = ({
                         >
                           {calculateSkillModifier(
                             skill.toLowerCase() as Skill,
-                            data.abilityScores,
+                            abilityScores,
                             proficiencySet.has(skill.toLowerCase())
                           )}
                         </Typography>

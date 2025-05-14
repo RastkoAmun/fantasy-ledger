@@ -5,14 +5,29 @@ import Image from "next/image";
 import SkillProficiencies from "./SkillProficiencies/SkillProficiencies";
 import { useQuery } from "@apollo/client";
 import { getCharacterQuery } from "@/state/remote/queries/getCharacter";
+import getAbilityScores from "@/state/remote/queries/getAbilityScores";
+import SavingThrowsDashboard from "./SavingThrows/SavingThrowsDashboard";
 
 const MainDashboard = () => {
-  const { data, loading, error } = useQuery(getCharacterQuery, {
+  const {
+    data: characterData,
+    loading,
+    error,
+  } = useQuery(getCharacterQuery, {
     variables: { id: 19 },
   });
 
-  if (loading || error) return;
-  if (!data) return;
+  const {
+    data: abilitiesData,
+    loading: abilitiesLoading,
+    error: abilitiesError,
+  } = useQuery(getAbilityScores, {
+    variables: { id: characterData?.character?.abilityScoresId },
+  });
+
+  if (loading || abilitiesLoading) return;
+  if (error || abilitiesError) return;
+  if (!characterData || !abilitiesData) return;
 
   return (
     <Box mx={3}>
@@ -22,13 +37,13 @@ const MainDashboard = () => {
         alignItems="center"
         mt={5}
         spacing={1}
-        height="85vh"
+        height="78vh"
       >
         <Grid item height="100%" xs={4}>
           <Stack direction="column" height="100%" width="100%">
             <Box
-              height="20%"
-              border={1}
+              height="30%"
+              border={2}
               borderColor="purple"
               borderRadius={4}
               bgcolor="#dcd4d4"
@@ -57,14 +72,14 @@ const MainDashboard = () => {
               </Stack>
             </Box>
             <AbilityScoresDashboard
-              abilityScoresId={data.character.abilityScoresId as number}
+              abilityScores={abilitiesData.abilityScores}
             />
           </Stack>
         </Grid>
         <Grid item height="100%" xs={2.5}>
           <SkillProficiencies
-            proficiencies={data.character.proficiencies}
-            abilityScoresId={data.character.abilityScoresId}
+            proficiencies={characterData.character.proficiencies}
+            abilityScores={abilitiesData.abilityScores}
           />
         </Grid>
         <Grid item height="100%" xs={5.5}>
