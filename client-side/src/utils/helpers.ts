@@ -25,7 +25,7 @@ export const calculateModifier = (value: number): AbilityScoreModifierType => {
     case 11:
       return {
         modifier: 0,
-        sign: "",
+        sign: "+",
       };
     case 12:
     case 13:

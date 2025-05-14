@@ -16,6 +16,7 @@ export const getCharacterQuery = gql`
       tempHealth
       healthDice
       proficiencies
+      savingThrows
       abilityScoresId
     }
   }

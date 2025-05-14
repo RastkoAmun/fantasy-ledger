@@ -34,6 +34,7 @@ export const typeDefs =`#graphql
     tempHealth: Int,
     healthDice: String,
     proficiencies: [String]
+    savingThrows: [String]
     abilityScoresId: Int
   }
 
