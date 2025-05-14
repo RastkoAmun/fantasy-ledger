@@ -5,38 +5,50 @@ import SavingThrowCard from "./SavingThrowCard";
 import { AbilityScores, calculateModifier } from "@/utils/helpers";
 import { useQuery } from "@apollo/client";
 import abilityScores from "@/state/remote/queries/getAbilityScores";
+import {
+  AbilityScoresQueryKeysType,
+  AbilityScoresQueryType,
+} from "@/utils/types";
 
-const SavingThrowsDashboard = () => {
-  const { data, loading, error } = useQuery(abilityScores);
-
-  if (loading || error) return;
-  if (!data) return;
-
-  console.log(data.abilityScores);
-
+const SavingThrowsDashboard = ({
+  abilityScores,
+  savingThrows,
+}: {
+  abilityScores: AbilityScoresQueryType;
+  savingThrows: string[];
+}) => {
+  const savingThrowsSet = new Set(savingThrows);
+  console.log(savingThrowsSet)
   return (
     <Box
-      width={400}
-      height={130}
-      border={1}
-      borderColor="black"
-      margin={2}
+      width="100%"
+      height="26%"
+      border={2}
+      borderColor="purple"
+      borderRadius={5}
+      mt={1}
       bgcolor="#9A9696"
     >
-      <Typography textAlign="center" fontSize={12} fontWeight={700} mt={0.5}>
+      <Typography textAlign="center" fontWeight={700} mt={0.5}>
         SAVING THROWS
       </Typography>
-      <Grid container rowGap={1} columnGap={5}>
+      <Grid container rowGap={1} columnGap={5} justifyContent='center'>
         {Object.keys(AbilityScores).map((abilityScore) => {
           const { modifier, sign } = calculateModifier(
-            data.abilityScores[abilityScore.toLowerCase()]
+            abilityScores[
+              abilityScore.toLowerCase() as AbilityScoresQueryKeysType
+            ]
           );
           return (
             <SavingThrowCard
               key={abilityScore}
               name={abilityScore.substring(0, 3)}
-              modifier={sign + modifier}
-              proficient={Math.random() < 0.5}
+              modifier={
+                sign +
+                (modifier +
+                  (savingThrowsSet.has(abilityScore.toLocaleLowerCase()) ? 2 : 0))
+              }
+              proficient={savingThrowsSet.has(abilityScore.toLocaleLowerCase())}
             />
           );
         })}

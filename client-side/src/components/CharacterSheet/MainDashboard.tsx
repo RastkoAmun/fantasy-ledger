@@ -74,6 +74,10 @@ const MainDashboard = () => {
             <AbilityScoresDashboard
               abilityScores={abilitiesData.abilityScores}
             />
+            <SavingThrowsDashboard
+              abilityScores={abilitiesData.abilityScores}
+              savingThrows={characterData.character.savingThrows}
+            />
           </Stack>
         </Grid>
         <Grid item height="100%" xs={2.5}>
