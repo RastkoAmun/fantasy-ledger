@@ -14,18 +14,17 @@ const SavingThrowCard = ({
     <Grid item xs={2} m={1} mx={2} display="flex" position="relative">
       <Box
         display="flex"
-        width={160}
-        height={30}
+        height={28}
         sx={{ borderTopLeftRadius: 20, borderBottomLeftRadius: 20 }}
       >
-        <Typography alignSelf="center" ml={4.5} fontSize={13} fontWeight={700}>
+        <Typography alignSelf="center" ml={5.5} mt={1.2} fontSize={13} fontWeight={700}>
           {name}
         </Typography>
       </Box>
       <Box
-        width={30}
-        height={30}
-        border={3}
+        width={38}
+        height={38}
+        border={3.5}
         borderColor={proficient ? "purple" : "#9A9696"}
         position="absolute"
         bgcolor="white"
@@ -36,10 +35,18 @@ const SavingThrowCard = ({
           display="flex"
           alignItems="center"
           justifyContent="center"
-          mr={0.3}
-          mt="0.5px"
+          height='95%'
         >
-          <Typography>{modifier}</Typography>
+          <Typography
+            fontSize={17}
+            fontFamily="monospace"
+            height="100%"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            {modifier}
+          </Typography>
         </Stack>
       </Box>
     </Grid>

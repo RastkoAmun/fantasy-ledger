@@ -33,6 +33,7 @@ model characters {
   healthDice        String           @map("health_dice")
   abilityScoresId   Int?             @map("ability_scores_id") @unique(map: "characters_ability_scores_key")
   proficiencies     String[]
+  savingThrows      String[]         @map("saving_throws")
   ability_scores    ability_scores?  @relation(fields: [abilityScoresId], references: [id], onDelete: Cascade, map: "ability_scores_fk")
 }
 

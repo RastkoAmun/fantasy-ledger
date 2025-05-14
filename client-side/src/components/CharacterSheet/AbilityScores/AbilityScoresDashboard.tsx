@@ -4,37 +4,37 @@ import AbilityScoreCard from "@/components/CharacterSheet/AbilityScores/AbilityS
 import { AbilityScores } from "@/utils/helpers";
 import { useQuery } from "@apollo/client";
 import abilityScores from "@/state/remote/queries/getAbilityScores";
+import { AbilityScoresQueryKeysType, AbilityScoresQueryType } from "@/utils/types";
 
 const AbilityScoresDashboard = ({
-  abilityScoresId,
+  abilityScores,
 }: {
-  abilityScoresId: number;
+  abilityScores: AbilityScoresQueryType;
 }) => {
-  const { data, loading, error } = useQuery(abilityScores, {
-    variables: { id: abilityScoresId },
-  });
-  console.log(data);
-
-  if (loading || error) return;
-  if (!data) return;
-
   return (
     <Box
-      height={240}
-      border={1}
+      height="44%"
+      border={2}
       borderRadius={4}
       borderColor="purple"
       marginTop={1}
       bgcolor="#9A9696"
       boxSizing="border-box"
+      display='flex'
+      alignItems='center'
+      justifyContent='center'
     >
-      <Grid container rowGap={3} mt={1}>
+      <Grid container rowGap={3}>
         {Object.keys(AbilityScores).map((abilityScore) => {
           return (
             <AbilityScoreCard
               key={abilityScore}
               name={abilityScore}
-              value={data.abilityScores[abilityScore.toLowerCase()]}
+              value={
+                abilityScores[
+                  abilityScore.toLowerCase() as AbilityScoresQueryKeysType
+                ]
+              }
             />
           );
         })}
