@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ability_scores {
+  id           Int         @id @default(autoincrement())
+  strength     Int
+  dexterity    Int
+  constitution Int
+  intelligence Int
+  wisdom       Int
+  charisma     Int
+  characters   characters?
+}
+
+model characters {
+  id                Int              @id @default(autoincrement())
+  level             Int
+  name              String
+  race              String
+  subrace           String
+  class             String
+  subclass          String
+  speed             Int?
+  maxHealth         Int              @map("max_health")
+  currentHealth     Int              @map("current_health")
+  tempHealth        Int              @map("temp_health")
+  healthDice        String           @map("health_dice")
+  abilityScoresId   Int?             @map("ability_scores_id") @unique(map: "characters_ability_scores_key")
+  proficiencies     String[]
+  ability_scores    ability_scores?  @relation(fields: [abilityScoresId], references: [id], onDelete: Cascade, map: "ability_scores_fk")
+}
+
+model test_table {
+  id     Int      @id @default(autoincrement())
+  random String[]
+}

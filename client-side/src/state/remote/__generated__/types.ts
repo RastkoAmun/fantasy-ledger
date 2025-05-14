@@ -27,19 +27,20 @@ export type AbilityScores = {
 
 export type Character = {
   __typename?: 'Character';
-  abilityScores: Scalars['Int']['output'];
+  abilityScoresId?: Maybe<Scalars['Int']['output']>;
   class?: Maybe<Scalars['String']['output']>;
   currentHealth?: Maybe<Scalars['Int']['output']>;
-  hitDice?: Maybe<Scalars['String']['output']>;
+  healthDice?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   level: Scalars['Int']['output'];
   maxHealth?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
+  proficiencies?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   race?: Maybe<Scalars['String']['output']>;
   speed?: Maybe<Scalars['Int']['output']>;
   subclass?: Maybe<Scalars['String']['output']>;
   subrace?: Maybe<Scalars['String']['output']>;
-  temporaryHealth?: Maybe<Scalars['Int']['output']>;
+  tempHealth?: Maybe<Scalars['Int']['output']>;
 };
 
 export type CreateAbilityScoresInput = {
@@ -84,4 +85,16 @@ export type MutationCreateCharacterArgs = {
 export type Query = {
   __typename?: 'Query';
   abilityScores: AbilityScores;
+  character: Character;
+  characters?: Maybe<Array<Maybe<Character>>>;
+};
+
+
+export type QueryAbilityScoresArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryCharacterArgs = {
+  id: Scalars['ID']['input'];
 };
