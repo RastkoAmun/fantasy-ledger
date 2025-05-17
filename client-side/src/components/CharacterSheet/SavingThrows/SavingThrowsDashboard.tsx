@@ -27,7 +27,7 @@ const SavingThrowsDashboard = ({
       borderColor="purple"
       borderRadius={5}
       mt={1}
-      bgcolor="#9A9696"
+      bgcolor="#e1e1e1"
     >
       <Typography textAlign="center" fontWeight={700} mt={0.5}>
         SAVING THROWS

@@ -1,12 +1,13 @@
 import { AbilityScores } from "@/utils/helpers";
 import AbilityScoresDashboard from "@/components/CharacterSheet/AbilityScores/AbilityScoresDashboard";
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import SkillProficiencies from "./SkillProficiencies/SkillProficiencies";
 import { useQuery } from "@apollo/client";
 import { getCharacterQuery } from "@/state/remote/queries/getCharacter";
 import getAbilityScores from "@/state/remote/queries/getAbilityScores";
 import SavingThrowsDashboard from "./SavingThrows/SavingThrowsDashboard";
+import HealthAndBattleDashboard from "./HealthAndBattle/HealthAndBattleDashboard";
 
 const MainDashboard = () => {
   const {
@@ -38,6 +39,7 @@ const MainDashboard = () => {
         mt={5}
         spacing={1}
         height="78vh"
+        width="90%"
       >
         <Grid item height="100%" xs={4}>
           <Stack direction="column" height="100%" width="100%">
@@ -46,7 +48,7 @@ const MainDashboard = () => {
               border={2}
               borderColor="purple"
               borderRadius={4}
-              bgcolor="#dcd4d4"
+              bgcolor="#e1e1e1"
               boxSizing="border-box"
             >
               <Stack direction="row" justifyContent="space-between">
@@ -86,8 +88,73 @@ const MainDashboard = () => {
             abilityScores={abilitiesData.abilityScores}
           />
         </Grid>
-        <Grid item height="100%" xs={5.5}>
-          <Box height="100%" width="100%"></Box>
+        <Grid item width="100%" height="100%" xs={5.5}>
+          <HealthAndBattleDashboard />
+          <Box
+            width={500}
+            height="31%"
+            border={2}
+            borderColor="purple"
+            borderRadius={5}
+            mt={1}
+            bgcolor="#e1e1e1"
+          ><Typography fontSize={16} fontWeight={700} textAlign='center' mt={1}>CONDITIONS</Typography></Box>
+          <Box width={500} height="20%" mt={1}>
+            <Grid
+              container
+              spacing={1}
+            >
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    border: 2,
+                    borderColor: "purple",
+                    borderRadius: 5,
+                    bgcolor: "purple",
+                  }}
+                >
+                  <Typography>Go to Inventory</Typography>
+                </Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    height: 80,
+                    border: 2,
+                    borderColor: "purple",
+                    borderRadius: 5,
+                    bgcolor: "purple",
+                  }}
+                >
+                  <Typography textAlign="center">
+                    Go to
+                    <br />
+                    Spells
+                  </Typography>
+                </Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    height: 80,
+                    border: 2,
+                    borderColor: "purple",
+                    borderRadius: 5,
+                    bgcolor: "purple",
+                  }}
+                >
+                  <Typography>Go to Features</Typography>
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
       </Grid>
     </Box>

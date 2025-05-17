@@ -81,7 +81,7 @@ const SkillProficiencies = ({
       <Box
         border={2}
         borderColor="purple"
-        bgcolor="#adadad"
+        bgcolor="#e1e1e1"
         borderRadius={4}
         height="100%"
       >
