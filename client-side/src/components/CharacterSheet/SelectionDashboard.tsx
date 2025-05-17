@@ -16,6 +16,7 @@ import { useQuery } from "@apollo/client";
 import { getAllCharactersQuery } from "@/state/remote/queries/getAllCharacters";
 import AddIcon from "@mui/icons-material/Add";
 import { Character } from "@/state/remote/__generated__/types";
+import { useRouter } from "next/navigation";
 
 const characters = [
   {
@@ -37,6 +38,12 @@ const characters = [
 
 const CardGrid = () => {
   const { data, loading, error } = useQuery(getAllCharactersQuery);
+
+  const router = useRouter();
+
+  const handleRedirect = (id: number) => {
+    router.push(`${id}`)
+  }
 
   console.log(data);
 
@@ -80,7 +87,7 @@ const CardGrid = () => {
                     cursor: "pointer",
                   },
                 }}
-                onClick={() => alert(`Clicked ${character.name}`)}
+                onClick={() => handleRedirect(character.abilityScoresId as number)}
               >
                 <CardActionArea sx={{ height: "100%" }}>
                   <CardHeader

@@ -11,8 +11,8 @@ export default function Home() {
       {/* <Test />
       <MainDashboard />
       <CharacterCreationDialog isOpen={false} /> */}
-      {/* <SelectionDashboard /> */}
-      <CharactersDisplay />
+      <SelectionDashboard />
+      {/* <CharactersDisplay /> */}
     </>
   );
 }
