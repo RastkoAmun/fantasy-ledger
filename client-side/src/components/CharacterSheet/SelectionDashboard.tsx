@@ -5,11 +5,8 @@ import {
   Card,
   CardActionArea,
   CardHeader,
-  CardMedia,
   CardContent,
-  CardActions,
   Typography,
-  Button,
   Stack,
 } from "@mui/material";
 import { useQuery } from "@apollo/client";
@@ -42,8 +39,8 @@ const CardGrid = () => {
   const router = useRouter();
 
   const handleRedirect = (id: number) => {
-    router.push(`${id}`)
-  }
+    router.push(`/character/${id}`);
+  };
 
   console.log(data);
 
@@ -61,7 +58,7 @@ const CardGrid = () => {
       mx="auto"
     >
       <Stack>
-        <Typography variant="h2" textAlign="center" mb={3}>
+        <Typography variant="h2" textAlign="center" mb={5}>
           Choose Your Character
         </Typography>
         <Grid
@@ -80,32 +77,37 @@ const CardGrid = () => {
                 sx={{
                   width: 300,
                   height: 400,
-                  bgcolor: '#cae6ef',
+                  borderRadius: 3,
+                  background: "linear-gradient(135deg, #ede7f6, #d1c4e9)",
                   transition: "transform 0.2s",
                   "&:hover": {
                     transform: "scale(1.03)",
                     cursor: "pointer",
                   },
                 }}
-                onClick={() => handleRedirect(character.abilityScoresId as number)}
+                onClick={() => handleRedirect(character.id as number)}
               >
-                <CardActionArea sx={{ height: "100%" }}>
+                <CardActionArea
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    // alignItems: "center",
+                    // justifyContent: "center",
+                    textAlign: "center", // ensures centered text too
+                  }}
+                >
                   <CardHeader
                     title={character.name}
                     subheader={`Level: ${character.level}`}
+                    titleTypographyProps={{ fontSize: 50 }}
+                    subheaderTypographyProps={{ fontSize:24}}
                   />
-                  {/* <CardMedia
-                  component="img"
-                  height="150"
-                  image={card.image}
-                  alt={card.title}
-                /> */}
+
                   <CardContent>
-                    <Typography variant="body2">{character.class}</Typography>
+                    <Typography variant="body2" fontSize={20}>{character.subrace} {character.race} </Typography>
+                    <Typography variant="body2" fontSize={20} mt={1}> {character.subclass} {character.class}</Typography>
                   </CardContent>
-                  {/* <CardActions>
-                    <Button size="small">Action</Button>
-                  </CardActions> */}
                 </CardActionArea>
               </Card>
             </Grid>
@@ -116,7 +118,8 @@ const CardGrid = () => {
               sx={{
                 width: 300,
                 height: 400,
-                bgcolor: '#cae6ef',
+                borderRadius: 3,
+                bgcolor: "#cae6ef",
                 transition: "transform 0.2s",
                 "&:hover": {
                   transform: "scale(1.03)",
@@ -133,7 +136,13 @@ const CardGrid = () => {
                     height: "100%",
                   }}
                 >
-                  <AddIcon sx={{ fontSize: 200, textAlign: "center", color: '#444444' }} />
+                  <AddIcon
+                    sx={{
+                      fontSize: 200,
+                      textAlign: "center",
+                      color: "#444444",
+                    }}
+                  />
                 </CardContent>
               </CardActionArea>
             </Card>

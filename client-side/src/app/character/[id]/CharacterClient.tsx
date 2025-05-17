@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { AbilityScores } from "@/utils/helpers";
 import AbilityScoresDashboard from "@/components/CharacterSheet/AbilityScores/AbilityScoresDashboard";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
@@ -10,13 +10,13 @@ import SavingThrowsDashboard from "@/components/CharacterSheet/SavingThrows/Savi
 import SkillProficiencies from "@/components/CharacterSheet/SkillProficiencies/SkillProficiencies";
 import HealthAndBattleDashboard from "@/components/CharacterSheet/HealthAndBattle/HealthAndBattleDashboard";
 
-const CharacterClient = ({ id }: {id: number}) => {
+const CharacterClient = ({ id }: { id: number }) => {
   const {
     data: characterData,
     loading,
     error,
   } = useQuery(getCharacterQuery, {
-    variables: { id: 19 },
+    variables: { id: id },
   });
 
   const {
@@ -27,14 +27,19 @@ const CharacterClient = ({ id }: {id: number}) => {
     variables: { id: characterData?.character?.abilityScoresId },
   });
 
-  console.log(id)
-
   if (loading || abilitiesLoading) return;
   if (error || abilitiesError) return;
   if (!characterData || !abilitiesData) return;
 
   return (
-    <Box mx={3}>
+    <Box
+      width="80%"
+      height="100vh" // fill full viewport height
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      mx="auto"
+    >
       <Grid
         container
         justifyContent="center"
@@ -42,7 +47,7 @@ const CharacterClient = ({ id }: {id: number}) => {
         mt={5}
         spacing={1}
         height="78vh"
-        width="90%"
+        width="100%"
       >
         <Grid item height="100%" xs={4}>
           <Stack direction="column" height="100%" width="100%">
@@ -101,12 +106,18 @@ const CharacterClient = ({ id }: {id: number}) => {
             borderRadius={5}
             mt={1}
             bgcolor="#e1e1e1"
-          ><Typography fontSize={16} fontWeight={700} textAlign='center' mt={1}>CONDITIONS</Typography></Box>
-          <Box width={500} height="20%" mt={1}>
-            <Grid
-              container
-              spacing={1}
+          >
+            <Typography
+              fontSize={16}
+              fontWeight={700}
+              textAlign="center"
+              mt={1}
             >
+              CONDITIONS
+            </Typography>
+          </Box>
+          <Box width={500} height="20%" mt={1}>
+            <Grid container spacing={1}>
               <Grid item xs={4}>
                 <Button
                   variant="contained"

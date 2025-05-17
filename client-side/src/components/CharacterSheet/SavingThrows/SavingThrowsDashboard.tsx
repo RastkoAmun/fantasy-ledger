@@ -18,7 +18,7 @@ const SavingThrowsDashboard = ({
   savingThrows: string[];
 }) => {
   const savingThrowsSet = new Set(savingThrows);
-  console.log(savingThrowsSet)
+
   return (
     <Box
       width="100%"
