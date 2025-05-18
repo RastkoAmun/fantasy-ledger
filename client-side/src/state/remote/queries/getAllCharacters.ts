@@ -10,13 +10,6 @@ export const getAllCharactersQuery = gql`
       subclass
       race
       subrace
-      speed
-      maxHealth
-      currentHealth
-      tempHealth
-      healthDice
-      proficiencies
-      savingThrows
       abilityScoresId
     }
   }
