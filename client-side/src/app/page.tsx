@@ -1,14 +1,6 @@
 "use client";
-import MainDashboard from "@/components/CharacterSheet/MainDashboard";
-import CharacterCreationDialog from "@/components/Dialogs/CharacterCreation/DialogForm";
-import Test from "@/components/Test";
+import SelectionDashboard from "@/components/CharacterSheet/SelectionDashboard";
 
 export default function Home() {
-  return (
-    <>
-      {/* <Test /> */}
-      <MainDashboard />
-      <CharacterCreationDialog isOpen={false} />
-    </>
-  );
+  return <SelectionDashboard />;
 }
