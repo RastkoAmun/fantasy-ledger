@@ -37,6 +37,15 @@ model characters {
   ability_scores    ability_scores?  @relation(fields: [abilityScoresId], references: [id], onDelete: Cascade, map: "ability_scores_fk")
 }
 
+model users {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  username       String   @unique
+  password       String   @map("hashed_password")
+  createdAt      DateTime @map("created_at") @default(now())
+  updatedAt      DateTime @map("updated_at") @updatedAt
+}
+
 model test_table {
   id     Int      @id @default(autoincrement())
   random String[]
