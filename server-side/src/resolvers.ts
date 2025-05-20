@@ -1,6 +1,8 @@
 import process from "process";
 import { config } from "dotenv";
 import { neon } from "@neondatabase/serverless";
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
@@ -11,6 +13,8 @@ const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
 const sql = neon(
   `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=require`
 );
+
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 // --------------------------------------------------------------------------------------------
 // =================================== QUERIES ================================================
@@ -110,6 +114,40 @@ const createCharacter = async (_: unknown, { input }) => {
   }
 };
 
+
+const login = async (_: unknown, { input }) => {
+  console.log(input)
+  const user = await prisma.users.findUnique({ where: { username: input.username }})
+  if (!user) throw new Error('User not found.')
+  
+  const valid = await bcrypt.compare(input.password, user.password)
+  if (!valid) throw new Error('Incorrect Password');
+
+  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d'})
+  return { token, username: user.username }
+}
+
+
+const registerUser = async (_: unknown, { input }) => {
+  const { email, username, password } = input
+  console.log('Password', password)
+  const existing = await prisma.users.findFirst({
+    where: { OR: [{ email }, { username }]}
+  })
+  if (existing) throw new Error("Email or username already in use.")
+  
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await prisma.users.create({
+    data: {
+      email,
+      username,
+      password: hashedPassword
+    }
+  })
+
+  return { id: user.id, email: user.email, username: user.username, password: user.password }
+}
+
 export const resolvers = {
   Query: {
     character: (_: unknown, args) => getCharacter(_, args),
@@ -120,5 +158,7 @@ export const resolvers = {
   Mutation: {
     createAbilityScores: (_: unknown, args) => createAbilityScores(_, args),
     createCharacter: (_: unknown, args) => createCharacter(_, args),
+    registerUser: (_: unknown, args) => registerUser(_, args),   
+    login: (_: unknown, args) => login(_, args),   
   },
 };
