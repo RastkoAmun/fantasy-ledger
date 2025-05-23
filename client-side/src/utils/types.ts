@@ -1,6 +1,7 @@
 import { AbilityScores } from "@/state/remote/__generated__/types";
 
 export type InputEventType = React.ChangeEvent<HTMLInputElement>
+export type FormEventType = React.FormEvent<HTMLFormElement>
 
 export type PageNavigation = {
   goNext: () => void;

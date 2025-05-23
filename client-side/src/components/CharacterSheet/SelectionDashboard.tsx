@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Box,
@@ -8,6 +9,7 @@ import {
   CardContent,
   Typography,
   Stack,
+  CardMedia,
 } from "@mui/material";
 import { useQuery } from "@apollo/client";
 import { getAllCharactersQuery } from "@/state/remote/queries/getAllCharacters";
@@ -48,21 +50,12 @@ const CardGrid = () => {
   if (!data) return;
 
   return (
-    <Box
-      minHeight="80vh"
-      width="70%"
-      mt={10}
-      mx="auto"
-    >
+    <Box minHeight="80vh" width="70%" mt={10} mx="auto">
       <Stack>
         <Typography variant="h2" textAlign="center" mb={5}>
           Choose Your Character
         </Typography>
-        <Grid
-          container
-          rowGap={8}
-          sx={{ mx: "auto" }}
-        >
+        <Grid container rowGap={8} sx={{ mx: "auto" }}>
           {data.characters.map((character: Character, index: number) => (
             <Grid item xs={12} sm={6} md={4} key={index} justifyItems="center">
               <Card
@@ -80,9 +73,14 @@ const CardGrid = () => {
                 }}
                 onClick={() => handleRedirect(character.id as number)}
               >
+                <CardMedia
+                  sx={{ height: 160 }}
+                  image="/backgrounds/ranger.png"
+                  title="green iguana"
+                />
                 <CardActionArea
                   sx={{
-                    height: "100%",
+                    // height: "100%",
                     display: "flex",
                     flexDirection: "column",
                     textAlign: "center",
@@ -92,12 +90,17 @@ const CardGrid = () => {
                     title={character.name}
                     subheader={`Level: ${character.level}`}
                     titleTypographyProps={{ fontSize: 50 }}
-                    subheaderTypographyProps={{ fontSize:24}}
+                    subheaderTypographyProps={{ fontSize: 24 }}
                   />
 
                   <CardContent>
-                    <Typography variant="body2" fontSize={20}>{character.subrace} {character.race} </Typography>
-                    <Typography variant="body2" fontSize={20} mt={1}> {character.subclass} {character.class}</Typography>
+                    <Typography variant="body2" fontSize={20}>
+                      {character.subrace} {character.race}{" "}
+                    </Typography>
+                    <Typography variant="body2" fontSize={20} mt={1}>
+                      {" "}
+                      {character.subclass} {character.class}
+                    </Typography>
                   </CardContent>
                 </CardActionArea>
               </Card>

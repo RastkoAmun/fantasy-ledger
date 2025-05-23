@@ -1,6 +1,8 @@
 import process from "process";
 import { config } from "dotenv";
 import { neon } from "@neondatabase/serverless";
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
@@ -12,16 +14,23 @@ const sql = neon(
   `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=require`
 );
 
+const JWT_SECRET = process.env.JWT_SECRET!;
+
 // --------------------------------------------------------------------------------------------
 // =================================== QUERIES ================================================
 // --------------------------------------------------------------------------------------------
 
-const getCharacter = async (_: unknown, { id }: { id: string }) => {
+const getCharacter = async (_: unknown, { id }: { id: string }, context) => {
+  if (!context?.userId) throw new Error("Not authenticated");
   try{
     const characters = await prisma.characters.findUnique({
       where: { id: parseInt(id) }
     });
-    console.log(characters)
+    
+    if (!characters || characters.userId !== context.userId) {
+      throw new Error('Unauthorized access to character');
+    }
+
     return characters
   }catch(error){
     console.error("Error fetching data:", error);
@@ -30,12 +39,20 @@ const getCharacter = async (_: unknown, { id }: { id: string }) => {
 }
 
 
-const getAllCharacters = async () => {
+const getAllCharacters = async (_parent, _args, context) => {
   try{
-    const characters = await prisma.characters.findMany();
-    // const character = await sql`SELECT id, name, level, race, subrace, class, subclass, proficiencies, ability_scores_id FROM characters`
-    console.log(characters)
-    return characters
+    console.log('context:', context.userId); // TEMP: See what it looks like
+    if (!context?.userId) throw new Error("Not authenticated");
+  
+    console.log(context.userId)
+    return await prisma.characters.findMany({
+      where: { userId: context.userId }
+    });
+
+    // const characters = await prisma.characters.findMany();
+    // // const character = await sql`SELECT id, name, level, race, subrace, class, subclass, proficiencies, ability_scores_id FROM characters`
+    // console.log(characters)
+    // return characters
     // console.log(character)
     // return character
   }catch(error){
@@ -110,15 +127,51 @@ const createCharacter = async (_: unknown, { input }) => {
   }
 };
 
+
+const login = async (_: unknown, { input }) => {
+  console.log(input)
+  const user = await prisma.users.findUnique({ where: { username: input.username }})
+  if (!user) throw new Error('User not found.')
+  
+  const valid = await bcrypt.compare(input.password, user.password)
+  if (!valid) throw new Error('Incorrect Password');
+
+  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d'})
+  return { token, username: user.username }
+}
+
+
+const registerUser = async (_: unknown, { input }) => {
+  const { email, username, password } = input
+  console.log('Password', password)
+  const existing = await prisma.users.findFirst({
+    where: { OR: [{ email }, { username }]}
+  })
+  if (existing) throw new Error("Email or username already in use.")
+  
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await prisma.users.create({
+    data: {
+      email,
+      username,
+      password: hashedPassword
+    }
+  })
+
+  return { id: user.id, email: user.email, username: user.username, password: user.password }
+}
+
 export const resolvers = {
   Query: {
-    character: (_: unknown, args) => getCharacter(_, args),
+    character: (_: unknown, args, context) => getCharacter(_, args, context),
     abilityScores: (_: unknown, args: { id: number }) => getAbilityScores(_, args),
-    characters: () => getAllCharacters()
+    characters: (_parent, _args, context) => getAllCharacters(_parent, _args, context)
   },
 
   Mutation: {
     createAbilityScores: (_: unknown, args) => createAbilityScores(_, args),
     createCharacter: (_: unknown, args) => createCharacter(_, args),
+    registerUser: (_: unknown, args) => registerUser(_, args),   
+    login: (_: unknown, args) => login(_, args),   
   },
 };

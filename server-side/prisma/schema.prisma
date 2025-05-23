@@ -35,6 +35,16 @@ model characters {
   proficiencies     String[]
   savingThrows      String[]         @map("saving_throws")
   ability_scores    ability_scores?  @relation(fields: [abilityScoresId], references: [id], onDelete: Cascade, map: "ability_scores_fk")
+  userId            String           @map("user_id")
+}
+
+model users {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  username       String   @unique
+  password       String   @map("hashed_password")
+  createdAt      DateTime @map("created_at") @default(now())
+  updatedAt      DateTime @map("updated_at") @updatedAt
 }
 
 model test_table {
