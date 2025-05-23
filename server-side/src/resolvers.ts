@@ -20,12 +20,17 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 // =================================== QUERIES ================================================
 // --------------------------------------------------------------------------------------------
 
-const getCharacter = async (_: unknown, { id }: { id: string }) => {
+const getCharacter = async (_: unknown, { id }: { id: string }, context) => {
+  if (!context?.userId) throw new Error("Not authenticated");
   try{
     const characters = await prisma.characters.findUnique({
       where: { id: parseInt(id) }
     });
-    console.log(characters)
+    
+    if (!characters || characters.userId !== context.userId) {
+      throw new Error('Unauthorized access to character');
+    }
+
     return characters
   }catch(error){
     console.error("Error fetching data:", error);
@@ -34,12 +39,20 @@ const getCharacter = async (_: unknown, { id }: { id: string }) => {
 }
 
 
-const getAllCharacters = async () => {
+const getAllCharacters = async (_parent, _args, context) => {
   try{
-    const characters = await prisma.characters.findMany();
-    // const character = await sql`SELECT id, name, level, race, subrace, class, subclass, proficiencies, ability_scores_id FROM characters`
-    console.log(characters)
-    return characters
+    console.log('context:', context.userId); // TEMP: See what it looks like
+    if (!context?.userId) throw new Error("Not authenticated");
+  
+    console.log(context.userId)
+    return await prisma.characters.findMany({
+      where: { userId: context.userId }
+    });
+
+    // const characters = await prisma.characters.findMany();
+    // // const character = await sql`SELECT id, name, level, race, subrace, class, subclass, proficiencies, ability_scores_id FROM characters`
+    // console.log(characters)
+    // return characters
     // console.log(character)
     // return character
   }catch(error){
@@ -150,9 +163,9 @@ const registerUser = async (_: unknown, { input }) => {
 
 export const resolvers = {
   Query: {
-    character: (_: unknown, args) => getCharacter(_, args),
+    character: (_: unknown, args, context) => getCharacter(_, args, context),
     abilityScores: (_: unknown, args: { id: number }) => getAbilityScores(_, args),
-    characters: () => getAllCharacters()
+    characters: (_parent, _args, context) => getAllCharacters(_parent, _args, context)
   },
 
   Mutation: {

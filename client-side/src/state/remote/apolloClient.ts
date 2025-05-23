@@ -8,8 +8,10 @@ const httpLink = createHttpLink({
 const authLink = setContext((_, { headers }) => {
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
   return {
-    ...headers,
-    authorization: token ? `Bearer ${token}` : ''
+    headers: {
+      ...headers,
+      Authorization: token ? `Bearer ${token}` : ''
+    }
   }
 })
 

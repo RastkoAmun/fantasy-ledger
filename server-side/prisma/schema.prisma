@@ -35,6 +35,7 @@ model characters {
   proficiencies     String[]
   savingThrows      String[]         @map("saving_throws")
   ability_scores    ability_scores?  @relation(fields: [abilityScoresId], references: [id], onDelete: Cascade, map: "ability_scores_fk")
+  userId            String           @map("user_id")
 }
 
 model users {

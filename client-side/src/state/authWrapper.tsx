@@ -14,6 +14,6 @@ export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
     }
   }, [isAuthenticated, router]);
 
-  if (!isAuthenticated) return null; // or loading spinner
+  if (!isAuthenticated) return null;
   return <>{children}</>
 };
