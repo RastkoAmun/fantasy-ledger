@@ -41,7 +41,7 @@ const CardGrid = () => {
   const router = useRouter();
 
   const handleRedirect = (id: number) => {
-    router.push(`/character/${id}`);
+    router.push(`/characters/${id}`);
   };
 
   console.log(data);
@@ -55,7 +55,7 @@ const CardGrid = () => {
         <Typography variant="h2" textAlign="center" mb={5}>
           Choose Your Character
         </Typography>
-        <Grid container rowGap={8} sx={{ mx: "auto" }}>
+        <Grid container rowGap={8} sx={{ mx: "auto" }} justifyContent='center'>
           {data.characters.map((character: Character, index: number) => (
             <Grid item xs={12} sm={6} md={4} key={index} justifyItems="center">
               <Card

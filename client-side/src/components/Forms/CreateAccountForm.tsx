@@ -1,22 +1,28 @@
-"use client"
-import { gql, useMutation } from '@apollo/client';
-import { useState } from 'react';
+"use client";
+import { gql, useMutation } from "@apollo/client";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createUser } from '@/state/remote/mutations/createUser';
-import { FormEventType } from '@/utils/types';
-import { Box, Button, Paper, TextField, Typography } from '@mui/material';
+import { createUser } from "@/state/remote/mutations/createUser";
+import { FormEventType } from "@/utils/types";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 
 export default function CreateAccountForm() {
-  const [form, setForm] = useState({ email: '', username: '', password: '' });
+  const [form, setForm] = useState({ email: "", username: "", password: "" });
   const [registerUser] = useMutation(createUser);
 
   const router = useRouter();
-  
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && localStorage.getItem("token")) {
+      router.push("/characters");
+    }
+  }, [router]);
+
   const handleSubmit = async (event: FormEventType) => {
     event.preventDefault();
     await registerUser({ variables: { input: form } });
-    console.log('Account Created!')
-    router.push('/login');
+    console.log("Account Created!");
+    router.push("/login");
   };
 
   return (
@@ -37,7 +43,7 @@ export default function CreateAccountForm() {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundColor: `rgba(255,255,255,0.7)`,
-          backgroundBlendMode: 'lighten'
+          backgroundBlendMode: "lighten",
         }}
       >
         <Typography variant="h5" textAlign="center" mb={3}>

@@ -3,32 +3,30 @@ import { loginQuery } from "@/state/remote/mutations/login";
 import { FormEventType } from "@/utils/types";
 import { useMutation } from "@apollo/client";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import client from "@/state/remote/apolloClient";
 
 export default function LoginForm() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [login] = useMutation(loginQuery);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
-  }, []);
+    if (typeof window !== "undefined" && localStorage.getItem("token")) {
+      router.push("/characters");
+    }
+  }, [router]);
 
   const handleLogin = async (event: FormEventType) => {
     event.preventDefault();
     const { data } = await login({ variables: { input: form } });
-    console.log("LOGIN DATA:", data);
-    localStorage.setItem("token", data.login.token);
-    alert("Logged in!");
-    setIsLoggedIn(true);
-  };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    alert("Logged out!");
+    localStorage.setItem("token", data.login.token);
+    localStorage.setItem("username", data.login.username);
+    await client.resetStore();
+    router.push("/characters");
   };
 
   return (
@@ -55,7 +53,7 @@ export default function LoginForm() {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundColor: `rgba(255,255,255,0.8)`,
-          backgroundBlendMode: 'lighten'
+          backgroundBlendMode: "lighten",
         }}
       >
         <Typography variant="h5" textAlign="center" mb={3}>
@@ -91,18 +89,6 @@ export default function LoginForm() {
             Login
           </Button>
         </form>
-
-        {isLoggedIn && (
-          <Button
-            onClick={handleLogout}
-            variant="outlined"
-            color="secondary"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            Sign Out
-          </Button>
-        )}
       </Paper>
     </Box>
   );
