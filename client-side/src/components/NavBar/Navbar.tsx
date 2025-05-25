@@ -10,13 +10,14 @@ import {
   MenuItem,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [username, setUsername] = useState<string | null>(null);
   const open = Boolean(anchorEl);
-  const router = useRouter()
+  const router = useRouter();
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -26,12 +27,15 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    setUsername(localStorage.getItem("username"));
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    router.push('/')
+    router.push("/");
   };
-
 
   return (
     <AppBar
@@ -53,7 +57,7 @@ export default function Navbar() {
           }}
         >
           <Typography variant="subtitle1" color="inherit">
-            Logged in as: <strong>{localStorage.getItem("username")}</strong>
+            Logged in as: <strong>{username || "..."}</strong>
           </Typography>
         </Box>
 
