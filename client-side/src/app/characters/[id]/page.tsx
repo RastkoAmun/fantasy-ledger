@@ -1,5 +1,5 @@
 import React from "react";
-import CharacterClient from "@/app/character/[id]/CharacterClient";
+import CharacterClient from "@/app/characters/[id]/CharacterClient";
 
 type PageProps = {
   params: {
