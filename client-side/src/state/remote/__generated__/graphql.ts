@@ -75,10 +75,26 @@ export type CreateCharacterInput = {
   temporaryHealth: Scalars['Int']['input'];
 };
 
+export type CreateFeatureInput = {
+  characterId: Scalars['Int']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  level: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+};
+
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
+};
+
+export type Feature = {
+  __typename?: 'Feature';
+  characterId: Scalars['Int']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  level: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type LoginInput = {
@@ -90,6 +106,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createAbilityScores: AbilityScores;
   createCharacter?: Maybe<Character>;
+  createFeature: Feature;
   login: AuthPayload;
   registerUser: User;
   updateHealth?: Maybe<Character>;
@@ -103,6 +120,11 @@ export type MutationCreateAbilityScoresArgs = {
 
 export type MutationCreateCharacterArgs = {
   input: CreateCharacterInput;
+};
+
+
+export type MutationCreateFeatureArgs = {
+  input: CreateFeatureInput;
 };
 
 
@@ -126,6 +148,7 @@ export type Query = {
   abilityScores: AbilityScores;
   character: Character;
   characters?: Maybe<Array<Maybe<Character>>>;
+  features?: Maybe<Array<Maybe<Feature>>>;
 };
 
 
@@ -135,6 +158,11 @@ export type QueryAbilityScoresArgs = {
 
 
 export type QueryCharacterArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryFeaturesArgs = {
   id: Scalars['ID']['input'];
 };
 
