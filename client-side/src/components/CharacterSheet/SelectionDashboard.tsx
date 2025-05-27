@@ -17,24 +17,6 @@ import AddIcon from "@mui/icons-material/Add";
 import { Character } from "@/state/remote/__generated__/types";
 import { useRouter } from "next/navigation";
 
-const characters = [
-  {
-    name: "ICARUS",
-    level: 3,
-    class: "Warlock",
-  },
-  {
-    name: "ICARUS",
-    level: 3,
-    class: "Warlock",
-  },
-  {
-    name: "ICARUS",
-    level: 3,
-    class: "Warlock",
-  },
-];
-
 const CardGrid = () => {
   const { data, loading, error } = useQuery(getAllCharactersQuery);
 
@@ -55,7 +37,7 @@ const CardGrid = () => {
         <Typography variant="h2" textAlign="center" mb={5}>
           Choose Your Character
         </Typography>
-        <Grid container rowGap={8} sx={{ mx: "auto" }} justifyContent='center'>
+        <Grid container rowGap={8} sx={{ mx: "auto" }} justifyContent="center">
           {data.characters.map((character: Character, index: number) => (
             <Grid item xs={12} sm={6} md={4} key={index} justifyItems="center">
               <Card
@@ -74,13 +56,16 @@ const CardGrid = () => {
                 onClick={() => handleRedirect(character.id as number)}
               >
                 <CardMedia
-                  sx={{ height: 160 }}
-                  image="/backgrounds/ranger.png"
+                  sx={{
+                    height: 160,
+                    objectPosition: "top",
+                  }}
+                  image={`/backgrounds/${character.class}.png`}
                   title="green iguana"
+                  component="img"
                 />
                 <CardActionArea
                   sx={{
-                    // height: "100%",
                     display: "flex",
                     flexDirection: "column",
                     textAlign: "center",
