@@ -31,9 +31,10 @@ export const typeDefs =`#graphql
     race: String,
     subrace: String,
     speed: Int
-    maxHealth: Int,
-    currentHealth: Int,
-    tempHealth: Int,
+    armor: Int
+    maxHealth: Int!,
+    currentHealth: Int!,
+    tempHealth: Int!,
     healthDice: String,
     proficiencies: [String]
     savingThrows: [String]

@@ -11,6 +11,7 @@ export const getCharacterQuery = gql`
       race
       subrace
       speed
+      armor
       maxHealth
       currentHealth
       tempHealth
