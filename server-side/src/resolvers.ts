@@ -127,6 +127,17 @@ const createCharacter = async (_: unknown, { input }) => {
   }
 };
 
+const updateHealth = async (_: unknown, { id, input }) => {
+  try{
+    await prisma.characters.update({
+      where: { id: parseInt(id) },
+      data: input,
+    });
+  }catch(error){
+    console.error("Error fetching data:", error);
+    throw new Error("Error fetching data");
+  }
+}
 
 const login = async (_: unknown, { input }) => {
   console.log(input)
@@ -171,6 +182,7 @@ export const resolvers = {
   Mutation: {
     createAbilityScores: (_: unknown, args) => createAbilityScores(_, args),
     createCharacter: (_: unknown, args) => createCharacter(_, args),
+    updateHealth: (_: unknown, args) => updateHealth(_, args),
     registerUser: (_: unknown, args) => registerUser(_, args),   
     login: (_: unknown, args) => login(_, args),   
   },
