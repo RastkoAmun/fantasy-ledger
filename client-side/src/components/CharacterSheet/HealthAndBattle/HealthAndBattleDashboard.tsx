@@ -17,8 +17,8 @@ const HealthAndBattleDashboard = ({
   console.log(character);
   return (
     <Stack
-      width={500}
-      height="50%"
+      width='100%'
+      height='50%'
       border={2}
       borderColor="purple"
       bgcolor="#e1e1e1"
