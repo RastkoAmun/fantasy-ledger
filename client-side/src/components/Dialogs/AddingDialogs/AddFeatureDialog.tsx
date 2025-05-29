@@ -41,6 +41,9 @@ const AddFeatureDialog: React.FC<Props> = ({ open, onClose, characterId }) => {
       },
       refetchQueries: [getFeatures]
     });
+    setName("")
+    setLevel(null)
+    setDescription("")
     onClose()
   };
 

@@ -13,6 +13,7 @@ export const typeDefs =`#graphql
     registerUser(input: CreateUserInput!): User!
     login(input: LoginInput!): AuthPayload!
     updateHealth(id: ID!, input: UpdateHealthInput!): Character
+    deleteFeature(id: ID!): Feature
   }
 
   type AbilityScores {,
@@ -104,7 +105,7 @@ export const typeDefs =`#graphql
     currentHealth: Int!,
     tempHealth: Int!
   }
-  
+
   input CreateFeatureInput {
     name: String!
     description: String

@@ -1,35 +1,33 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Box,
-  Card,
-  Typography,
-  Grid,
-  Paper,
-  IconButton,
-} from "@mui/material";
+import { Box, Card, Typography, Grid, Paper, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import AddFeatureDialog from "../Dialogs/AddingDialogs/AddFeatureDialog";
 import { useQuery } from "@apollo/client";
 import { getFeatures } from "@/state/remote/queries/getFeatures";
 import DisplayFeatureDialog from "../Dialogs/DisplayDialogs/DisplayFeatureDialog";
+import { Feature } from "@/state/remote/__generated__/types";
+import { useRouter } from "next/navigation"
 
-const Features = ({ characterId }: {characterId: string}) => {
+const Features = ({ characterId }: { characterId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenDisplay, setIsOpenDisplay] = useState(false)
-  const [feature, setFeature] = useState({})
+  const [isOpenDisplay, setIsOpenDisplay] = useState(false);
+  const [feature, setFeature] = useState({});
 
-  const { data, loading, error } = useQuery(getFeatures, { variables: { id: characterId }})
+  const router = useRouter()
+
+  const { data, loading, error } = useQuery(getFeatures, {
+    variables: { id: characterId },
+  });
 
   if (loading || error) return;
-  if (!data) return
+  if (!data) return;
 
-  console.log(data)
   const handleOpenDisplay = (feature: any) => {
-    setIsOpenDisplay(true)
-    setFeature(feature)
-  }
+    setIsOpenDisplay(true);
+    setFeature(feature);
+  };
 
   const handleClose = () => {
     setIsOpen(false);
@@ -64,7 +62,7 @@ const Features = ({ characterId }: {characterId: string}) => {
 
         <Box sx={{ flexGrow: 1, overflowY: "auto", pr: 1 }}>
           <Grid container spacing={2}>
-            {data.features.map((feature, index) => (
+            {data.features.map((feature: Feature, index: number) => (
               <Grid item xs={3} key={index}>
                 <Card
                   onClick={() => handleOpenDisplay(feature)}
@@ -76,13 +74,13 @@ const Features = ({ characterId }: {characterId: string}) => {
                     textAlign: "center",
                     borderRadius: 4,
                     "&:hover": {
-                      bgcolor: "#e0f7fa",
+                      bgcolor: "#f6d1ff",
                       cursor: "pointer",
                     },
                   }}
                 >
                   <Typography variant="h6" fontWeight="bold">
-                    {feature.name}
+                    {feature.name} ({feature.level})
                   </Typography>
                 </Card>
               </Grid>
@@ -91,18 +89,42 @@ const Features = ({ characterId }: {characterId: string}) => {
         </Box>
 
         <Box mt={2} display="flex" justifyContent="space-between">
-          <IconButton size="large" sx={{ bgcolor: "#1e1e2f", color: "white" }}>
+          <IconButton
+            size="large"
+            sx={{
+              bgcolor: "#1e1e2f",
+              color: "white",
+              "&:hover": {
+                bgcolor: "purple",
+              },
+            }}
+            onClick={() => router.push(`/characters/${characterId}`)}
+          >
             <KeyboardBackspaceIcon />
           </IconButton>
           <IconButton
             size="large"
-            sx={{ bgcolor: "purple", color: "white" }}
+            sx={{
+              bgcolor: "#1e1e2f",
+              color: "white",
+              "&:hover": {
+                bgcolor: "purple",
+              },
+            }}
             onClick={() => setIsOpen(true)}
           >
             <AddIcon />
           </IconButton>
-          <AddFeatureDialog open={isOpen} onClose={handleClose} characterId={characterId} />
-          <DisplayFeatureDialog open={isOpenDisplay} onClose={handleClose} feature={feature} />
+          <AddFeatureDialog
+            open={isOpen}
+            onClose={handleClose}
+            characterId={characterId}
+          />
+          <DisplayFeatureDialog
+            open={isOpenDisplay}
+            onClose={handleClose}
+            feature={feature}
+          />
         </Box>
       </Paper>
     </Box>

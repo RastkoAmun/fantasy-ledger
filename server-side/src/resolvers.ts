@@ -164,6 +164,17 @@ const createFeature = async (_: unknown, { input }) => {
   }
 };
 
+const deleteFeature = async (_: unknown, { id }) => {
+  try{
+    await prisma.features.delete({
+      where: { id: id }
+    })
+  }catch (error) {
+    console.error('Error deleting feature:', error);
+    throw new Error('Failed to delete feature. Please try again.');
+  }
+}
+
 
 const login = async (_: unknown, { input }) => {
   console.log(input)
@@ -213,5 +224,6 @@ export const resolvers = {
     createFeature: (_: unknown, args) => createFeature(_, args),
     registerUser: (_: unknown, args) => registerUser(_, args),   
     login: (_: unknown, args) => login(_, args),
+    deleteFeature: (_: unknown, args) => deleteFeature(_, args)
   },
 };
