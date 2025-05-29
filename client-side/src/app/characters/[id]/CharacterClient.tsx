@@ -9,6 +9,7 @@ import SavingThrowsDashboard from "@/components/CharacterSheet/SavingThrows/Savi
 import SkillProficiencies from "@/components/CharacterSheet/SkillProficiencies/SkillProficiencies";
 import HealthAndBattleDashboard from "@/components/CharacterSheet/HealthAndBattle/HealthAndBattleDashboard";
 import CharacterInfo from "@/components/CharacterSheet/CharacterInfo/CharacterInfo";
+import { calculateModifier } from "@/utils/helpers";
 
 const CharacterClient = ({ id }: { id: number }) => {
   const {
@@ -68,7 +69,12 @@ const CharacterClient = ({ id }: { id: number }) => {
           />
         </Grid>
         <Grid item width="100%" height="100%" xs={5.5}>
-          <HealthAndBattleDashboard />
+          <HealthAndBattleDashboard
+            character={characterData.character}
+            initiative={
+              calculateModifier(abilitiesData.abilityScores.dexterity).modifier
+            }
+          />
           <Box
             width={500}
             height="31%"
