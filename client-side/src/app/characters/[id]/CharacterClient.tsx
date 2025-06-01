@@ -8,6 +8,8 @@ import getAbilityScores from "@/state/remote/queries/getAbilityScores";
 import SavingThrowsDashboard from "@/components/CharacterSheet/SavingThrows/SavingThrowsDashboard";
 import SkillProficiencies from "@/components/CharacterSheet/SkillProficiencies/SkillProficiencies";
 import HealthAndBattleDashboard from "@/components/CharacterSheet/HealthAndBattle/HealthAndBattleDashboard";
+import CharacterInfo from "@/components/CharacterSheet/CharacterInfo/CharacterInfo";
+import { calculateModifier } from "@/utils/helpers";
 
 const CharacterClient = ({ id }: { id: number }) => {
   const {
@@ -50,36 +52,7 @@ const CharacterClient = ({ id }: { id: number }) => {
       >
         <Grid item height="100%" xs={4}>
           <Stack direction="column" height="100%" width="100%">
-            <Box
-              height="30%"
-              border={2}
-              borderColor="purple"
-              borderRadius={4}
-              bgcolor="#e1e1e1"
-              boxSizing="border-box"
-            >
-              <Stack direction="row" justifyContent="space-between">
-                <Stack direction="row">
-                  <Box width={80} height={80} m={1} bgcolor="blue">
-                    <Image
-                      src="/images/ChImage.png"
-                      alt="character-picture"
-                      width={80}
-                      height={80}
-                    />
-                  </Box>
-                  <Stack mt={1}>
-                    <Typography>Eryarus</Typography>
-                    <Typography>Level: 1</Typography>
-                    <Typography>Male / Half-Elf</Typography>
-                  </Stack>
-                </Stack>
-                <Stack mr={3} justifyContent="center">
-                  <Typography>Gloomstalker</Typography>
-                  <Typography>Ranger</Typography>
-                </Stack>
-              </Stack>
-            </Box>
+            <CharacterInfo character={characterData.character} />
             <AbilityScoresDashboard
               abilityScores={abilitiesData.abilityScores}
             />
@@ -96,7 +69,12 @@ const CharacterClient = ({ id }: { id: number }) => {
           />
         </Grid>
         <Grid item width="100%" height="100%" xs={5.5}>
-          <HealthAndBattleDashboard />
+          <HealthAndBattleDashboard
+            character={characterData.character}
+            initiative={
+              calculateModifier(abilitiesData.abilityScores.dexterity).modifier
+            }
+          />
           <Box
             width={500}
             height="31%"
@@ -105,6 +83,10 @@ const CharacterClient = ({ id }: { id: number }) => {
             borderRadius={5}
             mt={1}
             bgcolor="#e1e1e1"
+            sx={{
+              backgroundColor: `rgba(255,255,255,0.4)`,
+              backgroundBlendMode: "lighten",
+            }}
           >
             <Typography
               fontSize={16}

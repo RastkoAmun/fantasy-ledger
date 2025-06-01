@@ -10,6 +10,7 @@ export const typeDefs =`#graphql
     createCharacter(input: CreateCharacterInput!): Character,
     registerUser(input: CreateUserInput!): User!
     login(input: LoginInput!): AuthPayload!
+    updateHealth(id: ID!, input: UpdateHealthInput!): Character
   }
 
   type AbilityScores {,
@@ -31,9 +32,10 @@ export const typeDefs =`#graphql
     race: String,
     subrace: String,
     speed: Int
-    maxHealth: Int,
-    currentHealth: Int,
-    tempHealth: Int,
+    armor: Int
+    maxHealth: Int!,
+    currentHealth: Int!,
+    tempHealth: Int!,
     healthDice: String,
     proficiencies: [String]
     savingThrows: [String]
@@ -86,5 +88,10 @@ export const typeDefs =`#graphql
   input LoginInput {
     username: String!
     password: String!
+  }
+
+  input UpdateHealthInput {
+    currentHealth: Int!,
+    tempHealth: Int!,
   }
 `

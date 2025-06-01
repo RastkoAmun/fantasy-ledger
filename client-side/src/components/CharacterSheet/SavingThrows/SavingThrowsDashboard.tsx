@@ -28,6 +28,10 @@ const SavingThrowsDashboard = ({
       borderRadius={5}
       mt={1}
       bgcolor="#e1e1e1"
+      sx={{
+        backgroundColor: `rgba(255,255,255,0.5)`,
+        backgroundBlendMode: "lighten",
+      }}
     >
       <Typography textAlign="center" fontWeight={700} mt={0.5}>
         SAVING THROWS

@@ -23,6 +23,10 @@ const AbilityScoresDashboard = ({
       display='flex'
       alignItems='center'
       justifyContent='center'
+      sx={{
+        backgroundColor: `rgba(255,255,255,0.5)`,
+        backgroundBlendMode: "lighten",
+      }}
     >
       <Grid container rowGap={3}>
         {Object.keys(AbilityScores).map((abilityScore) => {

@@ -72,7 +72,7 @@ const SkillProficiencies = ({
   abilityScores,
 }: {
   proficiencies: string[];
-  abilityScores: AbilityScoresQueryType
+  abilityScores: AbilityScoresQueryType;
 }) => {
   const proficiencySet = new Set(proficiencies);
 
@@ -84,6 +84,10 @@ const SkillProficiencies = ({
         bgcolor="#e1e1e1"
         borderRadius={4}
         height="100%"
+        sx={{
+          backgroundColor: `rgba(255,255,255,0.5)`,
+          backgroundBlendMode: "lighten",
+        }}
       >
         <Stack m={1}>
           <Typography fontWeight={700} textAlign="center" mb={1}>

@@ -86,3 +86,19 @@ export const calculateModifier = (value: number): AbilityScoreModifierType => {
       };
   }
 };
+
+
+export const calculateProficiency = (level: number) => {
+  switch (true) {
+    case level <= 4:
+      return 2;
+    case level <= 8:
+      return 3;
+    case level <= 12:
+      return 4;
+    case level <= 16:
+      return 5;
+    case level <= 20:
+      return 6;
+  }
+};

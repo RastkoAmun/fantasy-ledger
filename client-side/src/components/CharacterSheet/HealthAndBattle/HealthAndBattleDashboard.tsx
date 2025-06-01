@@ -2,21 +2,41 @@ import { Stack } from "@mui/material";
 import React from "react";
 import HealthBoard from "@/components/CharacterSheet/HealthAndBattle/HealthBoard";
 import BattleBoard from "./BattleBoard";
+import { CharacterType } from "@/utils/types";
+import { calculateProficiency } from "@/utils/helpers";
 
-const HealthAndBattleDashboard = () => {
+type HealthAndBattleDashboardType = {
+  character: CharacterType;
+  initiative: number;
+};
+
+const HealthAndBattleDashboard = ({
+  character,
+  initiative,
+}: HealthAndBattleDashboardType) => {
+  console.log(character);
   return (
     <Stack
       width={500}
-      height='50%'
+      height="50%"
       border={2}
-      borderColor='purple'
+      borderColor="purple"
       bgcolor="#e1e1e1"
       borderRadius={3}
       justifyContent="center"
-      alignItems='center'
+      alignItems="center"
+      sx={{
+        backgroundColor: `rgba(255,255,255,0.5)`,
+        backgroundBlendMode: "lighten",
+      }}
     >
-      <HealthBoard />
-      <BattleBoard proficiency={2} armor={16} speed={30} initiative={5} />
+      <HealthBoard character={character} />
+      <BattleBoard
+        proficiency={calculateProficiency(character.level) ?? 2}
+        armor={character.armor ?? 10}
+        speed={character.speed ?? 0}
+        initiative={initiative}
+      />
     </Stack>
   );
 };

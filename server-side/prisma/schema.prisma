@@ -27,6 +27,7 @@ model characters {
   class             String
   subclass          String
   speed             Int?
+  armor             Int?
   maxHealth         Int              @map("max_health")
   currentHealth     Int              @map("current_health")
   tempHealth        Int              @map("temp_health")

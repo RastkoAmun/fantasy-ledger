@@ -26,22 +26,30 @@ export type AbilityScores = {
   wisdom: Scalars['Int']['output'];
 };
 
+export type AuthPayload = {
+  __typename?: 'AuthPayload';
+  token: Scalars['String']['output'];
+  username: Scalars['String']['output'];
+};
+
 export type Character = {
   __typename?: 'Character';
   abilityScoresId?: Maybe<Scalars['Int']['output']>;
+  armor?: Maybe<Scalars['Int']['output']>;
   class?: Maybe<Scalars['String']['output']>;
-  currentHealth?: Maybe<Scalars['Int']['output']>;
+  currentHealth: Scalars['Int']['output'];
   healthDice?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   level: Scalars['Int']['output'];
-  maxHealth?: Maybe<Scalars['Int']['output']>;
+  maxHealth: Scalars['Int']['output'];
   name: Scalars['String']['output'];
   proficiencies?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   race?: Maybe<Scalars['String']['output']>;
+  savingThrows?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   speed?: Maybe<Scalars['Int']['output']>;
   subclass?: Maybe<Scalars['String']['output']>;
   subrace?: Maybe<Scalars['String']['output']>;
-  tempHealth?: Maybe<Scalars['Int']['output']>;
+  tempHealth: Scalars['Int']['output'];
 };
 
 export type CreateAbilityScoresInput = {
@@ -67,10 +75,24 @@ export type CreateCharacterInput = {
   temporaryHealth: Scalars['Int']['input'];
 };
 
+export type CreateUserInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
+export type LoginInput = {
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAbilityScores: AbilityScores;
   createCharacter?: Maybe<Character>;
+  login: AuthPayload;
+  registerUser: User;
+  updateHealth?: Maybe<Character>;
 };
 
 
@@ -81,6 +103,22 @@ export type MutationCreateAbilityScoresArgs = {
 
 export type MutationCreateCharacterArgs = {
   input: CreateCharacterInput;
+};
+
+
+export type MutationLoginArgs = {
+  input: LoginInput;
+};
+
+
+export type MutationRegisterUserArgs = {
+  input: CreateUserInput;
+};
+
+
+export type MutationUpdateHealthArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateHealthInput;
 };
 
 export type Query = {
@@ -98,4 +136,19 @@ export type QueryAbilityScoresArgs = {
 
 export type QueryCharacterArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type UpdateHealthInput = {
+  currentHealth: Scalars['Int']['input'];
+  tempHealth: Scalars['Int']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  createdAt?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  password: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
 };
