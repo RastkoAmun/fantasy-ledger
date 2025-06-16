@@ -3,14 +3,17 @@ export const typeDefs =`#graphql
     character(id: ID!): Character!
     abilityScores(id: ID!): AbilityScores!
     characters: [Character]
+    features(id: ID!): [Feature]
   }
 
   type Mutation {
     createAbilityScores(input: CreateAbilityScoresInput!): AbilityScores!,
     createCharacter(input: CreateCharacterInput!): Character,
+    createFeature(input: CreateFeatureInput!): Feature!,
     registerUser(input: CreateUserInput!): User!
     login(input: LoginInput!): AuthPayload!
     updateHealth(id: ID!, input: UpdateHealthInput!): Character
+    deleteFeature(id: ID!): Feature
   }
 
   type AbilityScores {,
@@ -56,6 +59,14 @@ export const typeDefs =`#graphql
     username: String!
   }
 
+  type Feature {
+    id: ID!
+    name: String!
+    description: String
+    level: Int!
+    characterId: Int!
+  }
+
   input CreateAbilityScoresInput {
     strength: Int!,
     dexterity: Int!,
@@ -92,6 +103,13 @@ export const typeDefs =`#graphql
 
   input UpdateHealthInput {
     currentHealth: Int!,
-    tempHealth: Int!,
+    tempHealth: Int!
+  }
+
+  input CreateFeatureInput {
+    name: String!
+    description: String
+    level: Int!
+    characterId: Int!
   }
 `

@@ -10,6 +10,7 @@ import SkillProficiencies from "@/components/CharacterSheet/SkillProficiencies/S
 import HealthAndBattleDashboard from "@/components/CharacterSheet/HealthAndBattle/HealthAndBattleDashboard";
 import CharacterInfo from "@/components/CharacterSheet/CharacterInfo/CharacterInfo";
 import { calculateModifier } from "@/utils/helpers";
+import { useRouter } from "next/navigation";
 
 const CharacterClient = ({ id }: { id: number }) => {
   const {
@@ -28,16 +29,22 @@ const CharacterClient = ({ id }: { id: number }) => {
     variables: { id: characterData?.character?.abilityScoresId },
   });
 
+  const router = useRouter()
+
   if (loading || abilitiesLoading) return;
   if (error || abilitiesError) return;
   if (!characterData || !abilitiesData) return;
+
+  const handleRedirect = (path: string) => {
+    router.push(`/characters/${id}/${path}`);
+  };
 
   return (
     <Box
       width="80%"
       height="100vh"
       display="flex"
-      justifyContent="center"
+      justifySelf="center"
       alignItems="center"
       mx="auto"
     >
@@ -76,7 +83,6 @@ const CharacterClient = ({ id }: { id: number }) => {
             }
           />
           <Box
-            width={500}
             height="31%"
             border={2}
             borderColor="purple"
@@ -144,6 +150,7 @@ const CharacterClient = ({ id }: { id: number }) => {
                     borderRadius: 5,
                     bgcolor: "purple",
                   }}
+                  onClick={() => handleRedirect("features")}
                 >
                   <Typography>Go to Features</Typography>
                 </Button>

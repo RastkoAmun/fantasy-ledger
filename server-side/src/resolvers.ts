@@ -38,6 +38,21 @@ const getCharacter = async (_: unknown, { id }: { id: string }, context) => {
   }
 }
 
+const getFeatures = async (_: unknown, { id }: {id: string }) => {
+  try{
+    const features = await prisma.features.findMany({
+      where: { characterId: parseInt(id) }
+    });
+
+    return features.map((f) => ({
+      ...f,
+      id: f.id.toString(),
+    }));
+  }catch(error){
+    console.error("Error fetching data:", error);
+    throw new Error("Error fetching data");
+  }
+}
 
 const getAllCharacters = async (_parent, _args, context) => {
   try{
@@ -49,12 +64,6 @@ const getAllCharacters = async (_parent, _args, context) => {
       where: { userId: context.userId }
     });
 
-    // const characters = await prisma.characters.findMany();
-    // // const character = await sql`SELECT id, name, level, race, subrace, class, subclass, proficiencies, ability_scores_id FROM characters`
-    // console.log(characters)
-    // return characters
-    // console.log(character)
-    // return character
   }catch(error){
     console.error("Error fetching data:", error);
     throw new Error("Error fetching data");
@@ -139,6 +148,34 @@ const updateHealth = async (_: unknown, { id, input }) => {
   }
 }
 
+const createFeature = async (_: unknown, { input }) => {
+  try {
+    const newFeature = await prisma.features.create({
+      data: input,
+    });
+
+    return {
+      ...newFeature,
+      id: newFeature.id.toString()
+    };
+  } catch (error) {
+    console.error('Error creating feature:', error);
+    throw new Error('Failed to create feature. Please try again.');
+  }
+};
+
+const deleteFeature = async (_: unknown, { id }) => {
+  try{
+    await prisma.features.delete({
+      where: { id: id }
+    })
+  }catch (error) {
+    console.error('Error deleting feature:', error);
+    throw new Error('Failed to delete feature. Please try again.');
+  }
+}
+
+
 const login = async (_: unknown, { input }) => {
   console.log(input)
   const user = await prisma.users.findUnique({ where: { username: input.username }})
@@ -176,14 +213,17 @@ export const resolvers = {
   Query: {
     character: (_: unknown, args, context) => getCharacter(_, args, context),
     abilityScores: (_: unknown, args: { id: number }) => getAbilityScores(_, args),
-    characters: (_parent, _args, context) => getAllCharacters(_parent, _args, context)
+    characters: (_parent, _args, context) => getAllCharacters(_parent, _args, context),
+    features: (_: unknown, args) => getFeatures(_, args)   
   },
 
   Mutation: {
     createAbilityScores: (_: unknown, args) => createAbilityScores(_, args),
     createCharacter: (_: unknown, args) => createCharacter(_, args),
     updateHealth: (_: unknown, args) => updateHealth(_, args),
+    createFeature: (_: unknown, args) => createFeature(_, args),
     registerUser: (_: unknown, args) => registerUser(_, args),   
-    login: (_: unknown, args) => login(_, args),   
+    login: (_: unknown, args) => login(_, args),
+    deleteFeature: (_: unknown, args) => deleteFeature(_, args)
   },
 };
