@@ -37,6 +37,7 @@ model characters {
   savingThrows      String[]         @map("saving_throws")
   ability_scores    ability_scores?  @relation(fields: [abilityScoresId], references: [id], onDelete: Cascade, map: "ability_scores_fk")
   userId            String           @map("user_id")
+  spells            Spells[]
 }
 
 model users {
@@ -57,6 +58,23 @@ model Features {
 
   @@map("features")
 }
+
+model Spells {
+  id          BigInt     @id @default(autoincrement())
+  name        String
+  level       Int
+  school      String?
+  casting     String?
+  range       String?
+  components  String?
+  duration    String?
+  description String?
+  characterId Int      @map("character_id")
+  character   characters   @relation(fields: [characterId], references: [id])
+
+  @@map("spells")
+}
+
 
 model test_table {
   id     Int      @id @default(autoincrement())

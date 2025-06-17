@@ -4,16 +4,19 @@ export const typeDefs =`#graphql
     abilityScores(id: ID!): AbilityScores!
     characters: [Character]
     features(id: ID!): [Feature]
+    spells(id: ID!): [Spell]
   }
 
   type Mutation {
     createAbilityScores(input: CreateAbilityScoresInput!): AbilityScores!,
     createCharacter(input: CreateCharacterInput!): Character,
     createFeature(input: CreateFeatureInput!): Feature!,
+    createSpell(input: CreateSpellInput!): Spell!
     registerUser(input: CreateUserInput!): User!
     login(input: LoginInput!): AuthPayload!
     updateHealth(id: ID!, input: UpdateHealthInput!): Character
     deleteFeature(id: ID!): Feature
+    deleteSpell(id: ID!): Spell
   }
 
   type AbilityScores {,
@@ -67,6 +70,19 @@ export const typeDefs =`#graphql
     characterId: Int!
   }
 
+  type Spell {
+    id: ID!
+    name: String!
+    level: Int!
+    school: String!
+    casting: String!
+    range: String!
+    components: String!
+    duration: String!
+    description: String!
+    characterId: Int!
+  }
+
   input CreateAbilityScoresInput {
     strength: Int!,
     dexterity: Int!,
@@ -110,6 +126,18 @@ export const typeDefs =`#graphql
     name: String!
     description: String
     level: Int!
+    characterId: Int!
+  }
+
+  input CreateSpellInput {
+    name: String!
+    level: Int!
+    school: String!
+    casting: String!
+    range: String!
+    components: String!
+    duration: String!
+    description: String!
     characterId: Int!
   }
 `

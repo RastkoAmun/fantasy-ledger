@@ -131,6 +131,7 @@ const CharacterClient = ({ id }: { id: number }) => {
                     borderRadius: 5,
                     bgcolor: "purple",
                   }}
+                  onClick={() => handleRedirect("spells")}
                 >
                   <Typography textAlign="center">
                     Go to

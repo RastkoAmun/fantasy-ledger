@@ -54,6 +54,22 @@ const getFeatures = async (_: unknown, { id }: {id: string }) => {
   }
 }
 
+const getSpells = async (_: unknown, { id }: {id: string }) => {
+  try{
+    const spells = await prisma.spells.findMany({
+      where: { characterId: parseInt(id) }
+    });
+
+    return spells.map((s) => ({
+      ...s,
+      id: s.id.toString(),
+    }));
+  }catch(error){
+    console.error("Error fetching data:", error);
+    throw new Error("Error fetching data");
+  }
+}
+
 const getAllCharacters = async (_parent, _args, context) => {
   try{
     console.log('context:', context.userId); // TEMP: See what it looks like
@@ -164,6 +180,22 @@ const createFeature = async (_: unknown, { input }) => {
   }
 };
 
+const createSpell = async (_: unknown, { input }) => {
+  try {
+    const newSpell = await prisma.spells.create({
+      data: input,
+    });
+
+    return {
+      ...newSpell,
+      id: newSpell.id.toString()
+    };
+  } catch (error) {
+    console.error('Error creating spell:', error);
+    throw new Error('Failed to create spell. Please try again.');
+  }
+};
+
 const deleteFeature = async (_: unknown, { id }) => {
   try{
     await prisma.features.delete({
@@ -172,6 +204,17 @@ const deleteFeature = async (_: unknown, { id }) => {
   }catch (error) {
     console.error('Error deleting feature:', error);
     throw new Error('Failed to delete feature. Please try again.');
+  }
+}
+
+const deleteSpell = async (_: unknown, { id }) => {
+  try{
+    await prisma.spells.delete({
+      where: { id: id }
+    })
+  }catch (error) {
+    console.error('Error deleting spell:', error);
+    throw new Error('Failed to delete spell. Please try again.');
   }
 }
 
@@ -214,7 +257,8 @@ export const resolvers = {
     character: (_: unknown, args, context) => getCharacter(_, args, context),
     abilityScores: (_: unknown, args: { id: number }) => getAbilityScores(_, args),
     characters: (_parent, _args, context) => getAllCharacters(_parent, _args, context),
-    features: (_: unknown, args) => getFeatures(_, args)   
+    features: (_: unknown, args) => getFeatures(_, args),
+    spells: (_: unknown, args) => getSpells(_, args)
   },
 
   Mutation: {
@@ -222,8 +266,10 @@ export const resolvers = {
     createCharacter: (_: unknown, args) => createCharacter(_, args),
     updateHealth: (_: unknown, args) => updateHealth(_, args),
     createFeature: (_: unknown, args) => createFeature(_, args),
+    createSpell: (_: unknown, args) => createSpell(_, args),
     registerUser: (_: unknown, args) => registerUser(_, args),   
     login: (_: unknown, args) => login(_, args),
-    deleteFeature: (_: unknown, args) => deleteFeature(_, args)
+    deleteFeature: (_: unknown, args) => deleteFeature(_, args),
+    deleteSpell: (_: unknown, args) => deleteSpell(_, args)
   },
 };
