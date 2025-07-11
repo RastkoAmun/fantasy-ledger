@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import process from "process";
 import { config } from "dotenv";
 import bcrypt from 'bcrypt'

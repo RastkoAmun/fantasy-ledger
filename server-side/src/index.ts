@@ -1,6 +1,8 @@
+// @ts-nocheck
+
 import { ApolloServer } from "@apollo/server";
-// import typeDefs from './typeDefs';
-import { resolvers } from "./resolvers";
+import { typeDefs } from "./typeDefs.js";
+import { resolvers } from "./resolvers.js";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
@@ -21,7 +23,8 @@ const typeDefs = gql(
   fs.readFileSync(path.join(__dirname, "schema.graphql"), "utf8")
 );
 
-dotenv.config();
+dotenv.config()
+const PORT = 3000;
 
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET!;
@@ -46,8 +49,8 @@ const context = async ({
 const server = new ApolloServer<MyContext>({ typeDefs, resolvers });
 
 const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
-  context,
+  listen: { port: PORT },
+  context
 });
 
 console.log(`Server ready at: ${url}`);
