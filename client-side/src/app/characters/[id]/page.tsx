@@ -7,8 +7,8 @@ type PageProps = {
   };
 };
 
-const Character = async ({ params }: PageProps) => {
-  const id = (await params).id;
+const Character = ({ params }: PageProps) => {
+  const id = params.id;
 
   return (
     <CharacterClient id={Number(id)} />
