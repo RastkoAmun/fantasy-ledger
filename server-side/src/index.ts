@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { ApolloServer } from "@apollo/server";
 import { typeDefs } from "./typeDefs";
 import { resolvers } from "./resolvers";
@@ -8,6 +10,7 @@ import jwt from 'jsonwebtoken'
 import type { IncomingMessage } from 'http'
 
 dotenv.config()
+const PORT = 3000;
 
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET!;
@@ -26,7 +29,7 @@ const context = async ({ req }: {req: IncomingMessage}) => {
 const server = new ApolloServer({ typeDefs, resolvers });
 
 const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
+  listen: { port: PORT },
   context
 });
 
