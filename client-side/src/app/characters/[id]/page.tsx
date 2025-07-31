@@ -2,13 +2,14 @@ import React from "react";
 import CharacterClient from "@/app/characters/[id]/CharacterClient";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-const Character = async ({ params }: PageProps) => {
-  const id = (await params).id;
+const Character = async (props: PageProps) => {
+  const params = await props.params;
+  const id = params.id;
 
   return (
     <CharacterClient id={Number(id)} />

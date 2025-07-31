@@ -60,7 +60,7 @@ const CardGrid = () => {
                     height: 160,
                     objectPosition: "top",
                   }}
-                  image={`/backgrounds/${character.class}.png`}
+                  image={`/backgrounds/${(character.class as any).toLowerCase().replace(/ /g, '-')}.png`}
                   title="green iguana"
                   component="img"
                 />

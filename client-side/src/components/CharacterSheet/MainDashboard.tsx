@@ -89,7 +89,7 @@ const MainDashboard = () => {
           />
         </Grid>
         <Grid item width="100%" height="100%" xs={5.5}>
-          <HealthAndBattleDashboard />
+          <HealthAndBattleDashboard character={characterData} initiative={0}/>
           <Box
             width={500}
             height="31%"
