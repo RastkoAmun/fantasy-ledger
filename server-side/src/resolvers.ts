@@ -1,18 +1,25 @@
 import process from "process";
 import { config } from "dotenv";
-import { neon } from "@neondatabase/serverless";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 import { PrismaClient } from '@prisma/client';
+import { 
+  AbilityScores, 
+  Character, 
+  Feature, 
+  LoginInput, 
+  MutationCreateAbilityScoresArgs, 
+  MutationCreateCharacterArgs, 
+  MutationCreateFeatureArgs, 
+  MutationDeleteFeatureArgs, 
+  MutationUpdateHealthArgs, 
+  Resolvers
+} from "./graphql/generated-types";
+import { MyContext } from "./context";
 const prisma = new PrismaClient();
 
 config();
-
-const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
-const sql = neon(
-  `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=require`
-);
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -20,7 +27,7 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 // =================================== QUERIES ================================================
 // --------------------------------------------------------------------------------------------
 
-const getCharacter = async (_: unknown, { id }: { id: string }, context) => {
+const getCharacter = async (_: unknown, { id }: { id: string }, context: MyContext) => {
   if (!context?.userId) throw new Error("Not authenticated");
   try{
     const characters = await prisma.characters.findUnique({
@@ -54,12 +61,10 @@ const getFeatures = async (_: unknown, { id }: {id: string }) => {
   }
 }
 
-const getAllCharacters = async (_parent, _args, context) => {
+const getAllCharacters = async (_parent: unknown, _args: unknown, context: MyContext) => {
   try{
-    console.log('context:', context.userId); // TEMP: See what it looks like
     if (!context?.userId) throw new Error("Not authenticated");
-  
-    console.log(context.userId)
+
     return await prisma.characters.findMany({
       where: { userId: context.userId }
     });
@@ -70,13 +75,18 @@ const getAllCharacters = async (_parent, _args, context) => {
   }
 }
 
-const getAbilityScores = async (_: unknown, { id }: { id: number}) => {
+const getAbilityScores = async (
+  _parent: unknown,
+  args: { id: string }
+): Promise<AbilityScores> => {
   try {
-    const result = await sql`SELECT * FROM ability_scores WHERE id = ${id}`;
-    return result[0];
+    const result = await prisma.ability_scores.findUnique({
+      where: { id: Number(args.id) },
+    });
+    return result as AbilityScores;
   } catch (error) {
-    console.error("Error fetching data:", error);
-    throw new Error("Error fetching data");
+    console.error('Error fetching ability scores:', error);
+    throw new Error('Error fetching data');
   }
 };
 
@@ -85,73 +95,108 @@ const getAbilityScores = async (_: unknown, { id }: { id: number}) => {
 // =================================== MUTATIONS ==============================================
 // --------------------------------------------------------------------------------------------
 
-const createAbilityScores = async (_: unknown, { input }) => {
+export const createAbilityScores = async (
+  _parent: unknown,
+  args: MutationCreateAbilityScoresArgs
+): Promise<AbilityScores> => {
+  const input = args.input;
+
   if (!input) {
     throw new Error("No input received in mutation.");
   }
+
   try {
-    const [newAbilityScores] = await sql`
-      INSERT INTO ability_scores (strength, dexterity, constitution, intelligence, wisdom, charisma)
-      VALUES (${input.strength}, ${input.dexterity}, ${input.constitution}, ${input.intelligence}, ${input.wisdom}, ${input.charisma})
-      RETURNING *;
-    `;
-    console.log(newAbilityScores);
-    return newAbilityScores;
-  } catch (error) {
+    const newAbilityScores = await prisma.ability_scores.create({
+      data: {
+        strength: input.strength,
+        dexterity: input.dexterity,
+        constitution: input.constitution,
+        intelligence: input.intelligence,
+        wisdom: input.wisdom,
+        charisma: input.charisma,
+      },
+    });
+
+    return newAbilityScores as AbilityScores;
+  } catch (error: any) {
+    console.error("Error creating ability scores:", error);
     throw new Error("Failed to insert ability scores: " + error.message);
   }
 };
 
-const createCharacter = async (_: unknown, { input }) => {
-  const {
-    name,
-    level,
-    race,
-    subrace,
-    subclass,
-    speed,
-    currentHealth,
-    temporaryHealth,
-    hitDice,
-    maxHealth,
-    abilityScoresID,
-  } = { ...input };
+export const createCharacter = async (
+  _parent: unknown,
+  args: MutationCreateCharacterArgs
+): Promise<Character> => {
+  const input = args.input;
+
+  if (!input) {
+    throw new Error("No input received in mutation.");
+  }
 
   try {
-    const [newCharacter] = await sql`
-      INSERT INTO characters(
-        name, level, race, subrace, class, subclass, speed, 
-        current_health, max_health, temp_health, health_dice, ability_scores_id
-      )
-      VALUES (
-        ${name}, ${level}, ${race}, ${subrace}, ${input.class}, ${subclass}, ${speed}, 
-        ${currentHealth}, ${maxHealth}, ${temporaryHealth}, ${hitDice}, ${abilityScoresID}
-      )
-      RETURNING *;
-    `;
+    const newCharacter = await prisma.characters.create({
+      data: {
+        name: input.name,
+        level: input.level,
+        race: input.race,
+        subrace: input.subrace,
+        class: input.class,
+        subclass: input.subclass,
+        speed: input.speed,
+        currentHealth: input.currentHealth, 
+        maxHealth: input.maxHealth,
+        tempHealth: input.temporaryHealth ?? 0,
+        healthDice: input.hitDice,
+        abilityScoresId: input.abilityScoresID ?? null,
+        proficiencies: [], //FIX LATER
+        savingThrows: [], //FIX LATER
+        userId: input.userId, //FIX LATER
+      },
+    });
 
-    return newCharacter;
-  } catch (error) {
+    return newCharacter as Character;
+  } catch (error: any) {
+    console.error("Error creating character:", error);
     throw new Error("Failed to insert new character: " + error.message);
   }
 };
 
-const updateHealth = async (_: unknown, { id, input }) => {
-  try{
-    await prisma.characters.update({
-      where: { id: parseInt(id) },
-      data: input,
-    });
-  }catch(error){
-    console.error("Error fetching data:", error);
-    throw new Error("Error fetching data");
-  }
-}
-
-const createFeature = async (_: unknown, { input }) => {
+const updateHealth = async (
+  _parent: unknown,
+  args: MutationUpdateHealthArgs
+): Promise<Character> => {
   try {
+    const characterId = Number(args.id);
+    const updated = await prisma.characters.update({
+      where: { id: characterId },
+      data: args.input,
+    });
+
+    return {
+      ...updated,
+      id: updated.id,
+    } as Character;
+
+  } catch (error) {
+    console.error('Error updating health:', error);
+    throw new Error('Error updating health');
+  }
+};
+
+const createFeature = async (
+  _parent: unknown, 
+  args: MutationCreateFeatureArgs
+) => {
+  try {
+    const { name, description, characterId, level } = args.input;
     const newFeature = await prisma.features.create({
-      data: input,
+      data: {
+        name,
+        description: description ?? "",
+        characterId: Number(characterId),
+        level: level ?? 1,
+      },
     });
 
     return {
@@ -164,11 +209,18 @@ const createFeature = async (_: unknown, { input }) => {
   }
 };
 
-const deleteFeature = async (_: unknown, { id }) => {
+const deleteFeature = async (
+  _parent: unknown, 
+  args: MutationDeleteFeatureArgs): Promise<Feature> => {
   try{
-    await prisma.features.delete({
-      where: { id: id }
+    const deleted = await prisma.features.delete({
+      where: { id: BigInt(args.id) }
     })
+
+    return {
+      ...deleted,
+      id: deleted.id.toString(),
+    } as Feature;
   }catch (error) {
     console.error('Error deleting feature:', error);
     throw new Error('Failed to delete feature. Please try again.');
@@ -176,7 +228,7 @@ const deleteFeature = async (_: unknown, { id }) => {
 }
 
 
-const login = async (_: unknown, { input }) => {
+const login = async (_: unknown, { input }: {input: LoginInput}) => {
   console.log(input)
   const user = await prisma.users.findUnique({ where: { username: input.username }})
   if (!user) throw new Error('User not found.')
@@ -209,21 +261,21 @@ const registerUser = async (_: unknown, { input }) => {
   return { id: user.id, email: user.email, username: user.username, password: user.password }
 }
 
-export const resolvers = {
+export const resolvers: Resolvers<MyContext> = {
   Query: {
-    character: (_: unknown, args, context) => getCharacter(_, args, context),
-    abilityScores: (_: unknown, args: { id: number }) => getAbilityScores(_, args),
+    character: (_parent, args, context) => getCharacter(_parent, args, context),
+    abilityScores: (_parent, args, _context) => getAbilityScores(_parent, args),
     characters: (_parent, _args, context) => getAllCharacters(_parent, _args, context),
-    features: (_: unknown, args) => getFeatures(_, args)   
+    features: (_parent, args, _context) => getFeatures(_parent, args),
   },
 
   Mutation: {
-    createAbilityScores: (_: unknown, args) => createAbilityScores(_, args),
-    createCharacter: (_: unknown, args) => createCharacter(_, args),
-    updateHealth: (_: unknown, args) => updateHealth(_, args),
-    createFeature: (_: unknown, args) => createFeature(_, args),
-    registerUser: (_: unknown, args) => registerUser(_, args),   
-    login: (_: unknown, args) => login(_, args),
-    deleteFeature: (_: unknown, args) => deleteFeature(_, args)
+    createAbilityScores: (_parent, args, _context) => createAbilityScores(_parent, args),
+    createCharacter: (_parent, args, _context) => createCharacter(_parent, args),
+    updateHealth: (_parent, args, _context) => updateHealth(_parent, args),
+    createFeature: (_parent, args, _context) => createFeature(_parent, args),
+    registerUser: (_parent, args, _context) => registerUser(_parent, args),
+    login: (_parent, args, _context) => login(_parent, args),
+    deleteFeature: (_parent, args, _context) => deleteFeature(_parent, args),
   },
 };
