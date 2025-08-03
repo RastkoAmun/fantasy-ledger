@@ -8,7 +8,7 @@ import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 
 export default function CreateAccountForm() {
   const [form, setForm] = useState({ email: "", username: "", password: "" });
-  const [registerUser] = useMutation(createUser);
+  const [registerUser, { error }] = useMutation(createUser);
 
   const router = useRouter();
 
@@ -76,6 +76,12 @@ export default function CreateAccountForm() {
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
           />
+
+          {error && (
+            <Typography color="error" my={1} sx={{ my: 1, textAlign: 'center' }}>
+              {error.graphQLErrors[0]?.message || "Something went wrong"}
+            </Typography>
+          )}
 
           <Button
             type="submit"

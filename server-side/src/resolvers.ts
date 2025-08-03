@@ -13,6 +13,7 @@ import {
   MutationCreateCharacterArgs, 
   MutationCreateFeatureArgs, 
   MutationDeleteFeatureArgs, 
+  MutationRegisterUserArgs, 
   MutationUpdateHealthArgs, 
   Resolvers
 } from "./graphql/generated-types";
@@ -231,7 +232,7 @@ const deleteFeature = async (
 const login = async (_: unknown, { input }: {input: LoginInput}) => {
   console.log(input)
   const user = await prisma.users.findUnique({ where: { username: input.username }})
-  if (!user) throw new Error('User not found.')
+  if (!user) throw new Error("Username does not exist")
   
   const valid = await bcrypt.compare(input.password, user.password)
   if (!valid) throw new Error('Incorrect Password');
@@ -241,13 +242,20 @@ const login = async (_: unknown, { input }: {input: LoginInput}) => {
 }
 
 
-const registerUser = async (_: unknown, { input }) => {
-  const { email, username, password } = input
-  console.log('Password', password)
-  const existing = await prisma.users.findFirst({
-    where: { OR: [{ email }, { username }]}
+const registerUser = async (_: unknown, args: MutationRegisterUserArgs) => {
+  const { email, username, password } = args.input
+
+  const existingUsername = await prisma.users.findFirst({
+    where: { username }
   })
-  if (existing) throw new Error("Email or username already in use.")
+  if (existingUsername) throw new Error("Username already in use.")
+
+  const existingEmail = await prisma.users.findFirst({
+    where: { email }
+  })
+  if (existingEmail) throw new Error("Email already in use.")
+
+  if (password.length < 8) throw new Error("Too weak password, use at least 8 characters")
   
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = await prisma.users.create({
