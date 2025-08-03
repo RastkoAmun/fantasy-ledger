@@ -9,7 +9,7 @@ import client from "@/state/remote/apolloClient";
 
 export default function LoginForm() {
   const [form, setForm] = useState({ username: "", password: "" });
-  const [login] = useMutation(loginQuery);
+  const [login, { error }] = useMutation(loginQuery);
 
   const router = useRouter();
 
@@ -78,6 +78,12 @@ export default function LoginForm() {
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
           />
+
+          {error && (
+            <Typography color="error" my={1} sx={{ my: 1, textAlign: 'center' }}>
+              {error.graphQLErrors[0]?.message || "Something went wrong"}
+            </Typography>
+          )}
 
           <Button
             type="submit"
