@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
+  Box,
   Button,
   FormControlLabel,
   MenuItem,
@@ -13,6 +14,7 @@ import {
 import CustomTabPanel from "@/components/Tabs/CustomTabPanel";
 import { InputEventType, PageNavigation } from "@/utils/types";
 import { coreInfoDefaultForm, healthDefaultForm } from "@/utils/defaultForms";
+import { teal } from "@mui/material/colors";
 
 type HealthDice = "d6" | "d8" | "d10" | "d12" | "" | null;
 
@@ -64,10 +66,48 @@ const CoreDialogPage = ({
     setHealthDice(event.target.value);
   };
 
+  const levelButtons = useMemo(
+    () => (
+      <Box display="grid" gridTemplateColumns="repeat(10, 1fr)" gap={1}>
+  {Array.from({ length: 20 }, (_, i) => {
+    const n = i + 1;
+    const selected = level === n;
+    return (
+      <Button
+        key={n}
+        size="small"
+        variant={selected ? "contained" : "outlined"}
+        onClick={() => setLevel(n)}
+        sx={{
+          minWidth: 30,
+          height: 30,
+          fontWeight: 500,
+          lineHeight: 1,
+          px: 0.5,
+          // base (outlined) style
+          borderColor: selected ? teal[700] : teal[500],
+          color: selected ? "#fff" : teal[700],
+          // selected (contained) style
+          bgcolor: selected ? teal[600] : "transparent",
+          "&:hover": {
+            bgcolor: selected ? teal[700] : "rgba(0,0,0,0.04)",
+            borderColor: teal[700],
+          },
+        }}
+      >
+        {n}
+      </Button>
+    );
+  })}
+</Box>
+    ),
+    [level]
+  );
+
   return (
     <CustomTabPanel value={value} index={tabNumber}>
-      <Stack>
-        <Stack direction="row">
+      <Stack rowGap={3}>
+        <Stack direction="row" gap={10}>
           <Stack>
             <Typography>{labels.name}</Typography>
             <TextField
@@ -77,33 +117,7 @@ const CoreDialogPage = ({
               onBlur={(e) => setCoreForm({ ...coreForm, name: e.target.value })}
             />
           </Stack>
-          <Stack ml={5}>
-            <Typography>{labels.level}</Typography>
-            <Select
-              variant="standard"
-              defaultValue={1}
-              value={level}
-              MenuProps={{
-                PaperProps: {
-                  sx: {
-                    "&::-webkit-scrollbar": { display: "none" },
-                  },
-                },
-              }}
-            >
-              {Array.from({ length: 20 }, (_, i) => i + 1).map((lvl) => (
-                <MenuItem
-                  key={lvl}
-                  value={lvl}
-                  onClick={() => handleLevelClick(lvl)}
-                >
-                  {lvl}
-                </MenuItem>
-              ))}
-            </Select>
-          </Stack>
-        </Stack>
-        <Stack direction="row" mt={4}>
+
           <Stack>
             <Typography>{labels.health}</Typography>
             <TextField
@@ -115,54 +129,67 @@ const CoreDialogPage = ({
                   ...healthForm,
                   maxHealth: Number(e.target.value),
                   currentHealth: Number(e.target.value),
+                  temporaryHealth: 0,
                 })
               }
               sx={{ width: 90 }}
             />
           </Stack>
-          <Stack ml={5}>
-            <Typography>{labels.dice}</Typography>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              name="radio-buttons-group"
-              value={healthDice}
-              onChange={handleHealthDiceInput}
-            >
-              <Stack direction="row">
-                {healthDiceArray.map((dice) => (
-                  <FormControlLabel
-                    key={dice}
-                    value={dice}
-                    control={
-                      <Radio
-                        onClick={() =>
-                          setHealthForm({
-                            ...healthForm,
-                            hitDice: dice as string,
-                          })
-                        }
-                        sx={{
-                          "&.Mui-checked": {
-                            color: "teal",
-                          },
-                        }}
-                      />
-                    }
-                    label={dice}
-                  />
-                ))}
-              </Stack>
-            </RadioGroup>
-          </Stack>
         </Stack>
-        <Stack direction="row" justifyContent="center" mt={5} columnGap={10}>
-          <Button
-            variant="contained"
-            onClick={() => handlePageNavigation.goNext()}
+        <Stack>
+          <Typography mb={1}>{labels.level}</Typography>
+          {levelButtons}
+        </Stack>
+        <Stack>
+          <Typography>{labels.dice}</Typography>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            name="radio-buttons-group"
+            value={healthDice}
+            onChange={handleHealthDiceInput}
           >
-            Next
-          </Button>
+            <Stack direction="row">
+              {healthDiceArray.map((dice) => (
+                <FormControlLabel
+                  key={dice}
+                  value={dice}
+                  control={
+                    <Radio
+                      onClick={() =>
+                        setHealthForm({
+                          ...healthForm,
+                          hitDice: dice as string,
+                        })
+                      }
+                      sx={{
+                        "&.Mui-checked": {
+                          color: "teal",
+                        },
+                      }}
+                    />
+                  }
+                  label={dice}
+                />
+              ))}
+            </Stack>
+          </RadioGroup>
         </Stack>
+      </Stack>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        mt={5}
+        columnGap={10}
+      >
+        <Button variant="contained" onClick={() => console.log("CLOSE HERE")}>
+          Close
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => handlePageNavigation.goNext()}
+        >
+          Next
+        </Button>
       </Stack>
     </CustomTabPanel>
   );

@@ -15,6 +15,8 @@ const archtypeDefaultForm = {
   subclass: "",
   race: "",
   subrace: "",
+  speed: 0,
+  armor: 0
 };
 
 const abilityScoreDefaultForm = {

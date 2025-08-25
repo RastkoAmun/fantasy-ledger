@@ -75,77 +75,75 @@ const CharacterCreationDialog = ({ isOpen }: { isOpen: boolean }) => {
   };
 
   return (
-    <>
-      <Dialog open={isOpen} maxWidth={false}>
-        <Box borderBottom={1}>
-          <Tabs
-            value={value}
-            sx={{
-              "& .MuiTabs-indicator": {
-                display: "none",
-              },
-            }}
-          >
-            {Object.entries(tabLabels.main).map(([key, value], index) => (
-              <Tab
-                key={key}
-                label={value}
-                onClick={() => setValue(index)}
-                sx={{
-                  width: 155,
-                  borderRight: 1,
-                  "&.Mui-selected": {
-                    backgroundColor: "teal",
-                    color: "white",
-                  },
-                }}
-              />
-            ))}
+    <Dialog open={isOpen} maxWidth={false}>
+      <Box borderBottom={1}>
+        <Tabs
+          value={value}
+          sx={{
+            "& .MuiTabs-indicator": {
+              display: "none",
+            },
+          }}
+        >
+          {Object.entries(tabLabels.main).map(([key, value], index) => (
             <Tab
-              label={tabLabels.finish}
-              onClick={() => setValue(CharacterCreationTabNumbers.FINALIZE)}
-              color="green"
+              key={key}
+              label={value}
+              onClick={() => setValue(index)}
               sx={{
-                width: 180,
+                width: 155,
+                borderRight: 1,
                 "&.Mui-selected": {
                   backgroundColor: "teal",
                   color: "white",
                 },
               }}
             />
-          </Tabs>
-        </Box>
-        <CoreDialogPage
-          value={value}
-          tabNumber={CharacterCreationTabNumbers.CORE}
-          handlePageNavigation={handlePageNavigation}
-          coreForm={coreForm}
-          healthForm={healthForm}
-          setCoreForm={setCoreForm}
-          setHealthForm={setHealthForm}
-        />
-        <ArchtypeDialogPage
-          value={value}
-          tabNumber={CharacterCreationTabNumbers.ARCHTYPE}
-          handlePageNavigation={handlePageNavigation}
-          setArchtypeForm={setArchtypeForm}
-          archtypeForm={archtypeForm}
-        />
-        <AbilityScoresDialogPage
-          value={value}
-          tabNumber={CharacterCreationTabNumbers.ABILITY_SCORES}
-          handlePageNavigation={handlePageNavigation}
-          abilityScoresForm={abilityScoresForm}
-          setAbilityScoresForm={setAbilityScoresForm}
-        />
-        <FinalizeDialogPage
-          value={value}
-          tabNumber={CharacterCreationTabNumbers.FINALIZE}
-          handlePageNavigation={handlePageNavigation}
-          handleSubmit={handleSubmit}
-        />
-      </Dialog>
-    </>
+          ))}
+          <Tab
+            label={tabLabels.finish}
+            onClick={() => setValue(CharacterCreationTabNumbers.FINALIZE)}
+            color="green"
+            sx={{
+              width: 180,
+              "&.Mui-selected": {
+                backgroundColor: "teal",
+                color: "white",
+              },
+            }}
+          />
+        </Tabs>
+      </Box>
+      <CoreDialogPage
+        value={value}
+        tabNumber={CharacterCreationTabNumbers.CORE}
+        handlePageNavigation={handlePageNavigation}
+        coreForm={coreForm}
+        healthForm={healthForm}
+        setCoreForm={setCoreForm}
+        setHealthForm={setHealthForm}
+      />
+      <ArchtypeDialogPage
+        value={value}
+        tabNumber={CharacterCreationTabNumbers.ARCHTYPE}
+        handlePageNavigation={handlePageNavigation}
+        setArchtypeForm={setArchtypeForm}
+        archtypeForm={archtypeForm}
+      />
+      <AbilityScoresDialogPage
+        value={value}
+        tabNumber={CharacterCreationTabNumbers.ABILITY_SCORES}
+        handlePageNavigation={handlePageNavigation}
+        abilityScoresForm={abilityScoresForm}
+        setAbilityScoresForm={setAbilityScoresForm}
+      />
+      <FinalizeDialogPage
+        value={value}
+        tabNumber={CharacterCreationTabNumbers.FINALIZE}
+        handlePageNavigation={handlePageNavigation}
+        handleSubmit={handleSubmit}
+      />
+    </Dialog>
   );
 };
 

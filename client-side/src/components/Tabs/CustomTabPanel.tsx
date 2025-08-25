@@ -12,7 +12,7 @@ function CustomTabPanel(props: TabPanelProps) {
   return (
     <Box id={`ch-dialog-tabpanel-${index}`}>
       {value === index && (
-        <Box height={300} p={3}>
+        <Box height={400} p={3}>
           {children}
         </Box>
       )}
