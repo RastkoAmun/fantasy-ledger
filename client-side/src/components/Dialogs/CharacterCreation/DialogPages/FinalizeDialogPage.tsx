@@ -1,6 +1,6 @@
 import CustomTabPanel from "@/components/Tabs/CustomTabPanel";
 import { PageNavigation } from "@/utils/types";
-import { Box, Button } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import React from "react";
 
 type FinazlieDialogPageType = {
@@ -13,13 +13,18 @@ type FinazlieDialogPageType = {
 const FinalizeDialogPage = ({
   value,
   tabNumber,
-  handleSubmit
+  handleSubmit,
 }: FinazlieDialogPageType) => {
   return (
     <CustomTabPanel value={value} index={tabNumber}>
-      <Box>
-        <Button onClick={handleSubmit}>Submit</Button>
-      </Box>
+      <Stack alignItems="center">
+        <Typography variant="h5" textAlign="center" my={10}>
+          Your Character is Ready!
+        </Typography>
+        <Button variant="contained" onClick={handleSubmit} sx={{ width: 150 }}>
+          Submit
+        </Button>
+      </Stack>
     </CustomTabPanel>
   );
 };

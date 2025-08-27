@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -16,9 +16,11 @@ import { getAllCharactersQuery } from "@/state/remote/queries/getAllCharacters";
 import AddIcon from "@mui/icons-material/Add";
 import { Character } from "@/state/remote/__generated__/types";
 import { useRouter } from "next/navigation";
+import CharacterCreationDialog from "../Dialogs/CharacterCreation/DialogForm";
 
 const CardGrid = () => {
   const { data, loading, error } = useQuery(getAllCharactersQuery);
+  const [ characterCreationOpen, setCharacterCreationOpen ] = useState(false);
 
   const router = useRouter();
 
@@ -60,7 +62,9 @@ const CardGrid = () => {
                     height: 160,
                     objectPosition: "top",
                   }}
-                  image={`/backgrounds/${(character.class as any).toLowerCase().replace(/ /g, '-')}.png`}
+                  image={`/backgrounds/${(character.class as any)
+                    .toLowerCase()
+                    .replace(/ /g, "-")}.png`}
                   title="green iguana"
                   component="img"
                 />
@@ -93,6 +97,7 @@ const CardGrid = () => {
           ))}
           <Grid item xs={12} sm={6} md={4} justifyItems="center">
             <Card
+              onClick={() => setCharacterCreationOpen(true)}
               elevation={5}
               sx={{
                 width: 300,
@@ -127,6 +132,7 @@ const CardGrid = () => {
             </Card>
           </Grid>
         </Grid>
+        <CharacterCreationDialog isOpen={characterCreationOpen} />
       </Stack>
     </Box>
   );
