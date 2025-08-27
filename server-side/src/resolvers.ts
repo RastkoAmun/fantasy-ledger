@@ -127,7 +127,8 @@ export const createAbilityScores = async (
 
 export const createCharacter = async (
   _parent: unknown,
-  args: MutationCreateCharacterArgs
+  args: MutationCreateCharacterArgs,
+  context: MyContext
 ): Promise<Character> => {
   const input = args.input;
 
@@ -147,12 +148,12 @@ export const createCharacter = async (
         speed: input.speed,
         currentHealth: input.currentHealth, 
         maxHealth: input.maxHealth,
-        tempHealth: input.temporaryHealth ?? 0,
-        healthDice: input.hitDice,
-        abilityScoresId: input.abilityScoresID ?? null,
-        proficiencies: [], //FIX LATER
-        savingThrows: [], //FIX LATER
-        userId: input.userId, //FIX LATER
+        tempHealth: input.tempHealth ?? 0,
+        healthDice: input.healthDice,
+        abilityScoresId: input.abilityScoresId ?? null,
+        proficiencies: input.proficiencies,
+        savingThrows: input.savingThrows,
+        userId: context.userId as string,
       },
     });
 
@@ -279,7 +280,7 @@ export const resolvers: Resolvers<MyContext> = {
 
   Mutation: {
     createAbilityScores: (_parent, args, _context) => createAbilityScores(_parent, args),
-    createCharacter: (_parent, args, _context) => createCharacter(_parent, args),
+    createCharacter: (_parent, args, context) => createCharacter(_parent, args, context),
     updateHealth: (_parent, args, _context) => updateHealth(_parent, args),
     createFeature: (_parent, args, _context) => createFeature(_parent, args),
     registerUser: (_parent, args, _context) => registerUser(_parent, args),
