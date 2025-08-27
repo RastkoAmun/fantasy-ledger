@@ -44,17 +44,17 @@ const CoreDialogPage = ({
   setCoreForm,
   setHealthForm,
 }: CharacterCreationPageProps) => {
-  const [name, setName] = useState("");
-  const [health, setHealth] = useState("");
-  const [level, setLevel] = useState(1);
-  const [healthDice, setHealthDice] = useState("");
+  const [name, setName] = useState(coreForm.name);
+  const [health, setHealth] = useState(healthForm.maxHealth);
+  const [level, setLevel] = useState(coreForm.level);
+  const [healthDice, setHealthDice] = useState(healthForm.healthDice);
 
   // Handlers
   const handleNameInput = (event: InputEventType) => {
     setName(event.target.value);
   };
   const handleHealthInput = (event: InputEventType) => {
-    setHealth(event.target.value);
+    setHealth(Number(event.target.value));
   };
   const handleHealthDiceInput = (event: InputEventType) => {
     setHealthDice(event.target.value);
@@ -178,7 +178,7 @@ const CoreDialogPage = ({
         position="relative"
         bottom={-10}
       >
-        <Button variant="contained" onClick={() => console.log("CLOSE HERE")}>
+        <Button variant="contained" onClick={() => handlePageNavigation.closeButton()}>
           Close
         </Button>
         <Button

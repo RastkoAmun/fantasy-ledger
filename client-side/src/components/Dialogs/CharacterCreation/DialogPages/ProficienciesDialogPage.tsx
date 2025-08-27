@@ -117,7 +117,7 @@ const ProficienciesDialogPage = ({
           position="relative"
           bottom={-26}
         >
-          <Button variant="contained" onClick={() => console.log("CLOSE")}>
+          <Button variant="contained" onClick={() => handlePageNavigation.closeButton()}>
             Close
           </Button>
           <Stack direction="row" columnGap={2}>

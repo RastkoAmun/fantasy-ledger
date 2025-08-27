@@ -33,12 +33,12 @@ const ArchtypeDialogPage = ({
   archtypeForm,
   setArchtypeForm,
 }: ArchtypeType) => {
-  const [chClass, setChClass] = useState("");
-  const [subclass, setSubclass] = useState("");
-  const [race, setRace] = useState("");
-  const [subrace, setSubrace] = useState("");
-  const [speed, setSpeed] = useState("");
-  const [armor, setArmor] = useState("");
+  const [chClass, setChClass] = useState(archtypeForm.class);
+  const [subclass, setSubclass] = useState(archtypeForm.subclass);
+  const [race, setRace] = useState(archtypeForm.race);
+  const [subrace, setSubrace] = useState(archtypeForm.subrace);
+  const [speed, setSpeed] = useState(archtypeForm.speed);
+  const [armor, setArmor] = useState(archtypeForm.armor);
 
   // TextField Handlers
   const handleClassInput = (event: InputEventType) => {
@@ -54,10 +54,10 @@ const ArchtypeDialogPage = ({
     setSubrace(event.target.value);
   };
   const handleSpeedInput = (event: InputEventType) => {
-    setSpeed(event.target.value);
+    setSpeed(Number(event.target.value));
   };
   const handleArmorInput = (event: InputEventType) => {
-    setArmor(event.target.value);
+    setArmor(Number(event.target.value));
   };
 
   return (
@@ -164,7 +164,7 @@ const ArchtypeDialogPage = ({
         >
           <Button
             variant="contained"
-            onClick={() => console.log("CLOSE")}
+            onClick={() => handlePageNavigation.closeButton()}
           >
             Close
           </Button>

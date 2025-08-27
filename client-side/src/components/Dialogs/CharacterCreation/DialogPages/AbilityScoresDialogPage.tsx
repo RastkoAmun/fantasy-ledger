@@ -21,12 +21,12 @@ const AbilityScoresDialogPage = ({
   abilityScoresForm,
   setAbilityScoresForm,
 }: AbilityScoresDialogPageType) => {
-  const [strength, setStrength] = useState(0);
-  const [dexterity, setDexterity] = useState(0);
-  const [constitution, setConstitution] = useState(0);
-  const [intelligence, setIntelligence] = useState(0);
-  const [wisdom, setWisdom] = useState(0);
-  const [charisma, setCharisma] = useState(0);
+  const [strength, setStrength] = useState(abilityScoresForm.strength);
+  const [dexterity, setDexterity] = useState(abilityScoresForm.dexterity);
+  const [constitution, setConstitution] = useState(abilityScoresForm.constitution);
+  const [intelligence, setIntelligence] = useState(abilityScoresForm.intelligence);
+  const [wisdom, setWisdom] = useState(abilityScoresForm.wisdom);
+  const [charisma, setCharisma] = useState(abilityScoresForm.charisma);
 
   const getters = {
     strength: strength,
@@ -96,7 +96,7 @@ const AbilityScoresDialogPage = ({
         >
           <Button
             variant="contained"
-            onClick={() => console.log("CLOSE")}
+            onClick={() => handlePageNavigation.closeButton()}
           >
             Close
           </Button>

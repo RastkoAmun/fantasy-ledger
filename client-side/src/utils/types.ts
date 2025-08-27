@@ -6,6 +6,7 @@ export type FormEventType = React.FormEvent<HTMLFormElement>
 export type PageNavigation = {
   goNext: () => void;
   goBack: () => void;
+  closeButton: () => void;
 };
 
 export type PageProps = {
