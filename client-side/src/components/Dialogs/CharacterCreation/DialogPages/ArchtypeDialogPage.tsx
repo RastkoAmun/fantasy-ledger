@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import CustomTabPanel from "@/components/Tabs/CustomTabPanel";
-import { archtypeDefaultForm, characterSheetDefault } from "@/utils/defaultForms";
+import {
+  archtypeDefaultForm,
+  characterSheetDefault,
+} from "@/utils/defaultForms";
 import { InputEventType, PageNavigation } from "@/utils/types";
 
 type ArchtypeType = {
@@ -15,11 +18,13 @@ type ArchtypeType = {
 };
 
 const inputTitles = {
-  class: "Class", 
+  class: "Class",
   subclass: "Subclass",
-  race: "Race", 
-  subrace: "Subrace"
-}
+  race: "Race",
+  subrace: "Subrace",
+  speed: "Speed",
+  armor: "Armor",
+};
 
 const ArchtypeDialogPage = ({
   value,
@@ -32,6 +37,8 @@ const ArchtypeDialogPage = ({
   const [subclass, setSubclass] = useState("");
   const [race, setRace] = useState("");
   const [subrace, setSubrace] = useState("");
+  const [speed, setSpeed] = useState("");
+  const [armor, setArmor] = useState("");
 
   // TextField Handlers
   const handleClassInput = (event: InputEventType) => {
@@ -46,71 +53,135 @@ const ArchtypeDialogPage = ({
   const handleSubraceInput = (event: InputEventType) => {
     setSubrace(event.target.value);
   };
+  const handleSpeedInput = (event: InputEventType) => {
+    setSpeed(event.target.value);
+  };
+  const handleArmorInput = (event: InputEventType) => {
+    setArmor(event.target.value);
+  };
 
   return (
     <CustomTabPanel value={value} index={tabNumber}>
-      <Stack justifyContent="center" alignItems="center">
-        <Stack direction="row" gap={5} mt={3}>
-          <Stack>
+      <Stack mt={2}>
+        <Grid container width={600} spacing={5} alignSelf="center">
+          {/* Class */}
+          <Grid item xs={12} md={6}>
             <Typography>{inputTitles.class}</Typography>
             <TextField
               variant="standard"
+              fullWidth
               value={chClass}
               onChange={handleClassInput}
               onBlur={(e) =>
                 setArchtypeForm({ ...archtypeForm, class: e.target.value })
               }
             />
-          </Stack>
-          <Stack>
+          </Grid>
+
+          {/* Subclass */}
+          <Grid item xs={12} md={6}>
             <Typography>{inputTitles.subclass}</Typography>
             <TextField
               variant="standard"
+              fullWidth
               value={subclass}
               onChange={handleSubclassInput}
               onBlur={(e) =>
                 setArchtypeForm({ ...archtypeForm, subclass: e.target.value })
               }
             />
-          </Stack>
-        </Stack>
-        <Stack direction="row" mt={5} gap={5}>
-          <Stack>
+          </Grid>
+
+          {/* Race */}
+          <Grid item xs={12} md={6}>
             <Typography>{inputTitles.race}</Typography>
             <TextField
               variant="standard"
+              fullWidth
               value={race}
               onChange={handleRaceInput}
               onBlur={(e) =>
                 setArchtypeForm({ ...archtypeForm, race: e.target.value })
               }
             />
-          </Stack>
-          <Stack>
+          </Grid>
+
+          {/* Subrace */}
+          <Grid item xs={12} md={6}>
             <Typography>{inputTitles.subrace}</Typography>
             <TextField
               variant="standard"
+              fullWidth
               value={subrace}
               onChange={handleSubraceInput}
               onBlur={(e) =>
                 setArchtypeForm({ ...archtypeForm, subrace: e.target.value })
               }
             />
+          </Grid>
+
+          {/* Speed */}
+          <Grid item xs={12} md={6}>
+            <Typography>{inputTitles.speed}</Typography>
+            <TextField
+              variant="standard"
+              fullWidth
+              value={speed}
+              onChange={handleSpeedInput}
+              onBlur={(e) =>
+                setArchtypeForm({
+                  ...archtypeForm,
+                  speed: Number(e.target.value),
+                })
+              }
+            />
+          </Grid>
+
+          {/* Armor */}
+          <Grid item xs={12} md={6}>
+            <Typography>{inputTitles.armor}</Typography>
+            <TextField
+              variant="standard"
+              fullWidth
+              value={armor}
+              onChange={handleArmorInput}
+              onBlur={(e) =>
+                setArchtypeForm({
+                  ...archtypeForm,
+                  armor: Number(e.target.value),
+                })
+              }
+            />
+          </Grid>
+        </Grid>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          mt={5}
+          columnGap={10}
+          position="relative"
+          bottom={-16}
+        >
+          <Button
+            variant="contained"
+            onClick={() => console.log("CLOSE")}
+          >
+            Close
+          </Button>
+          <Stack direction="row" columnGap={2}>
+            <Button
+              variant="contained"
+              onClick={() => handlePageNavigation.goBack()}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => handlePageNavigation.goNext()}
+            >
+              Next
+            </Button>
           </Stack>
-        </Stack>
-        <Stack direction="row" justifyContent="center" mt={5} columnGap={10}>
-          <Button
-            variant="contained"
-            onClick={() => handlePageNavigation.goBack()}
-          >
-            Back
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => handlePageNavigation.goNext()}
-          >
-            Next
-          </Button>
         </Stack>
       </Stack>
     </CustomTabPanel>
