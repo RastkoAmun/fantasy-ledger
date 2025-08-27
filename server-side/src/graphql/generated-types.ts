@@ -64,19 +64,21 @@ export type CreateAbilityScoresInput = {
 };
 
 export type CreateCharacterInput = {
-  abilityScores: Scalars['Int']['input'];
-  abilityScoresID?: InputMaybe<Scalars['Int']['input']>;
+  abilityScoresId: Scalars['Int']['input'];
+  armor?: InputMaybe<Scalars['Int']['input']>;
   class: Scalars['String']['input'];
   currentHealth: Scalars['Int']['input'];
-  hitDice: Scalars['String']['input'];
+  healthDice: Scalars['String']['input'];
   level: Scalars['Int']['input'];
   maxHealth: Scalars['Int']['input'];
   name: Scalars['String']['input'];
+  proficiencies: Array<Scalars['String']['input']>;
   race: Scalars['String']['input'];
+  savingThrows: Array<Scalars['String']['input']>;
   speed?: InputMaybe<Scalars['Int']['input']>;
   subclass: Scalars['String']['input'];
   subrace: Scalars['String']['input'];
-  temporaryHealth: Scalars['Int']['input'];
+  tempHealth: Scalars['Int']['input'];
 };
 
 export type CreateFeatureInput = {

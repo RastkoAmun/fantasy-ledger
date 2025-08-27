@@ -8,12 +8,17 @@ export const createCharacter = gql`
       level
       currentHealth
       maxHealth
-      temporaryHealth
-      hitDice
+      tempHealth
+      healthDice
       race
       subrace
       class
       subclass
+      speed
+      armor
+      proficiencies
+      savingThrows
+      abilityScoresId
     }
   }
 `

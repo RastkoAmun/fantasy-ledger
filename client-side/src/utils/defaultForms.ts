@@ -1,3 +1,5 @@
+import { SavingThrowsProficiencies, SkillProficiencies } from "./helpers";
+
 const coreInfoDefaultForm = {
   name: "",
   level: 1,
@@ -6,8 +8,8 @@ const coreInfoDefaultForm = {
 const healthDefaultForm = {
   maxHealth: 0,
   currentHealth: 0,
-  temporaryHealth: 0,
-  hitDice: "d6",
+  tempHealth: 0,
+  healthDice: "d6",
 };
 
 const archtypeDefaultForm = {
@@ -15,6 +17,8 @@ const archtypeDefaultForm = {
   subclass: "",
   race: "",
   subrace: "",
+  speed: 0,
+  armor: 0
 };
 
 const abilityScoreDefaultForm = {
@@ -26,11 +30,17 @@ const abilityScoreDefaultForm = {
   charisma: 0,
 };
 
+const proficienciesDefaultForm = {
+  proficiencies: [] as SkillProficiencies[],
+  savingThrows: [] as SavingThrowsProficiencies[]
+}
+
 export const characterSheetDefault = {
   coreInfo: coreInfoDefaultForm,
   health: healthDefaultForm,
   archtype: archtypeDefaultForm,
   abilityScores: abilityScoreDefaultForm,
+  proficiencies: proficienciesDefaultForm
 };
 
 export {
@@ -38,4 +48,5 @@ export {
   coreInfoDefaultForm,
   healthDefaultForm,
   archtypeDefaultForm,
+  proficienciesDefaultForm
 };

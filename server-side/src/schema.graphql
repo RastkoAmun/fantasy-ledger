@@ -80,15 +80,17 @@ input CreateCharacterInput {
   level: Int!
   currentHealth: Int!
   maxHealth: Int!
-  temporaryHealth: Int!
-  hitDice: String!
+  tempHealth: Int!
+  healthDice: String!
   race: String!
   subrace: String!
   class: String!
   subclass: String!
-  abilityScores: Int!
   speed: Int
-  abilityScoresID: Int
+  armor: Int,
+  proficiencies: [String!]!,
+  savingThrows: [String!]!,
+  abilityScoresId: Int!
 }
 
 input CreateUserInput {
