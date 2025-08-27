@@ -8,12 +8,16 @@ type FinazlieDialogPageType = {
   tabNumber: number;
   handlePageNavigation: PageNavigation;
   handleSubmit: () => void;
+  handleEdit?: () => void;
+  isEditing?: boolean;
 };
 
 const FinalizeDialogPage = ({
   value,
   tabNumber,
   handleSubmit,
+  handleEdit,
+  isEditing,
 }: FinazlieDialogPageType) => {
   return (
     <CustomTabPanel value={value} index={tabNumber}>
@@ -21,8 +25,12 @@ const FinalizeDialogPage = ({
         <Typography variant="h5" textAlign="center" my={10}>
           Your Character is Ready!
         </Typography>
-        <Button variant="contained" onClick={handleSubmit} sx={{ width: 150 }}>
-          Submit
+        <Button
+          variant="contained"
+          onClick={isEditing ? handleEdit : handleSubmit}
+          sx={{ width: 150 }}
+        >
+          {isEditing ? "Update" : "Submit" }
         </Button>
       </Stack>
     </CustomTabPanel>

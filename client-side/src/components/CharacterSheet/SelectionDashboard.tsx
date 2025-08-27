@@ -28,8 +28,6 @@ const CardGrid = () => {
     router.push(`/characters/${id}`);
   };
 
-  console.log(data);
-
   if (loading || error) return;
   if (!data) return;
 
@@ -132,7 +130,7 @@ const CardGrid = () => {
             </Card>
           </Grid>
         </Grid>
-        <CharacterCreationDialog isOpen={characterCreationOpen} />
+        <CharacterCreationDialog isOpen={characterCreationOpen} setIsOpen={setCharacterCreationOpen}/>
       </Stack>
     </Box>
   );

@@ -1,9 +1,24 @@
-import { CharacterType } from "@/utils/types";
+import CharacterCreationDialog from "@/components/Dialogs/CharacterCreation/DialogForm";
+import { AbilityScoresQueryType, CharacterType } from "@/utils/types";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
-const CharacterInfo = ({ character }: { character: CharacterType }) => {
+const CharacterInfo = ({
+  character,
+  abilityScores
+}: {
+  character: CharacterType;
+  abilityScores: AbilityScoresQueryType;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEditButton = () => {
+    setIsOpen(true)
+    setIsEditing(true)
+  }
+
   return (
     <Box
       height="30%"
@@ -28,7 +43,7 @@ const CharacterInfo = ({ character }: { character: CharacterType }) => {
               <Box width={80} height={80} m={1} bgcolor="blue">
                 <Image
                   // src={`/images/${sorcerer}.png`}
-                  src='/icons/sorcerer-icon.png'
+                  src="/icons/sorcerer-icon.png"
                   alt="character-picture"
                   width={80}
                   height={80}
@@ -51,27 +66,48 @@ const CharacterInfo = ({ character }: { character: CharacterType }) => {
             </Stack>
           </Stack>
         </Grid>
-        <Grid item xs={4} 
-          display='flex' 
-          justifyContent="space-between" 
-          alignItems='flex-end' 
-          direction='column'
-          padding={1}>
-            <Stack>
-              <Button variant="outlined" sx={{ width: "110px", bgcolor: 'white' }}>
-                Edit
-              </Button>
-            </Stack>
-            <Stack direction="column" rowGap={1} position='relative' top={8}>
-              <Button variant="outlined" sx={{ width: "110px", padding: 0, bgcolor: 'white' }}>
-                Short Rest
-              </Button>
-              <Button variant="outlined" sx={{ width: "110px", padding: 0, bgcolor: 'white' }}>
-                Long Rest
-              </Button>
-            </Stack>
+        <Grid
+          item
+          xs={4}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="flex-end"
+          direction="column"
+          padding={1}
+        >
+          <Stack>
+            <Button
+              variant="outlined"
+              onClick={handleEditButton}
+              sx={{ width: "110px", bgcolor: "white" }}
+            >
+              Edit
+            </Button>
+          </Stack>
+          <Stack direction="column" rowGap={1} position="relative" top={8}>
+            <Button
+              variant="outlined"
+              sx={{ width: "110px", padding: 0, bgcolor: "white" }}
+            >
+              Short Rest
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{ width: "110px", padding: 0, bgcolor: "white" }}
+            >
+              Long Rest
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
+      <CharacterCreationDialog
+        isOpen={isOpen}
+        isEditingMode={isEditing}
+        characterInfo={character}
+        abilityScores={abilityScores}
+        setIsOpen={setIsOpen}
+        setIsEditing={setIsEditing}
+      />
     </Box>
   );
 };

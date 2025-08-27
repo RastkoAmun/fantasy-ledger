@@ -29,7 +29,7 @@ const CharacterClient = ({ id }: { id: number }) => {
     variables: { id: characterData?.character?.abilityScoresId },
   });
 
-  const router = useRouter()
+  const router = useRouter();
 
   if (loading || abilitiesLoading) return;
   if (error || abilitiesError) return;
@@ -59,7 +59,10 @@ const CharacterClient = ({ id }: { id: number }) => {
       >
         <Grid item height="100%" xs={4}>
           <Stack direction="column" height="100%" width="100%">
-            <CharacterInfo character={characterData.character} />
+            <CharacterInfo
+              character={characterData.character}
+              abilityScores={abilitiesData.abilityScores}
+            />
             <AbilityScoresDashboard
               abilityScores={abilitiesData.abilityScores}
             />
