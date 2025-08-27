@@ -38,19 +38,19 @@ export type Character = {
   __typename?: 'Character';
   abilityScoresId?: Maybe<Scalars['Int']['output']>;
   armor?: Maybe<Scalars['Int']['output']>;
-  class?: Maybe<Scalars['String']['output']>;
+  class: Scalars['String']['output'];
   currentHealth: Scalars['Int']['output'];
-  healthDice?: Maybe<Scalars['String']['output']>;
+  healthDice: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   level: Scalars['Int']['output'];
   maxHealth: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  proficiencies?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  race?: Maybe<Scalars['String']['output']>;
-  savingThrows?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  proficiencies: Array<Scalars['String']['output']>;
+  race: Scalars['String']['output'];
+  savingThrows: Array<Scalars['String']['output']>;
   speed?: Maybe<Scalars['Int']['output']>;
-  subclass?: Maybe<Scalars['String']['output']>;
-  subrace?: Maybe<Scalars['String']['output']>;
+  subclass: Scalars['String']['output'];
+  subrace: Scalars['String']['output'];
   tempHealth: Scalars['Int']['output'];
 };
 
@@ -65,7 +65,7 @@ export type CreateAbilityScoresInput = {
 
 export type CreateCharacterInput = {
   abilityScoresId: Scalars['Int']['input'];
-  armor?: InputMaybe<Scalars['Int']['input']>;
+  armor: Scalars['Int']['input'];
   class: Scalars['String']['input'];
   currentHealth: Scalars['Int']['input'];
   healthDice: Scalars['String']['input'];
@@ -75,7 +75,7 @@ export type CreateCharacterInput = {
   proficiencies: Array<Scalars['String']['input']>;
   race: Scalars['String']['input'];
   savingThrows: Array<Scalars['String']['input']>;
-  speed?: InputMaybe<Scalars['Int']['input']>;
+  speed: Scalars['Int']['input'];
   subclass: Scalars['String']['input'];
   subrace: Scalars['String']['input'];
   tempHealth: Scalars['Int']['input'];
@@ -116,6 +116,8 @@ export type Mutation = {
   deleteFeature?: Maybe<Feature>;
   login: AuthPayload;
   registerUser: User;
+  updateAbilityScores: AbilityScores;
+  updateCharacter?: Maybe<Character>;
   updateHealth?: Maybe<Character>;
 };
 
@@ -150,6 +152,18 @@ export type MutationRegisterUserArgs = {
 };
 
 
+export type MutationUpdateAbilityScoresArgs = {
+  id: Scalars['ID']['input'];
+  input: CreateAbilityScoresInput;
+};
+
+
+export type MutationUpdateCharacterArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateCharacterInput;
+};
+
+
 export type MutationUpdateHealthArgs = {
   id: Scalars['ID']['input'];
   input: UpdateHealthInput;
@@ -176,6 +190,23 @@ export type QueryCharacterArgs = {
 
 export type QueryFeaturesArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type UpdateCharacterInput = {
+  armor: Scalars['Int']['input'];
+  class: Scalars['String']['input'];
+  currentHealth: Scalars['Int']['input'];
+  healthDice: Scalars['String']['input'];
+  level: Scalars['Int']['input'];
+  maxHealth: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  proficiencies: Array<Scalars['String']['input']>;
+  race: Scalars['String']['input'];
+  savingThrows: Array<Scalars['String']['input']>;
+  speed: Scalars['Int']['input'];
+  subclass: Scalars['String']['input'];
+  subrace: Scalars['String']['input'];
+  tempHealth: Scalars['Int']['input'];
 };
 
 export type UpdateHealthInput = {
@@ -279,6 +310,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  UpdateCharacterInput: UpdateCharacterInput;
   UpdateHealthInput: UpdateHealthInput;
   User: ResolverTypeWrapper<User>;
 };
@@ -300,6 +332,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
+  UpdateCharacterInput: UpdateCharacterInput;
   UpdateHealthInput: UpdateHealthInput;
   User: User;
 };
@@ -324,19 +357,19 @@ export type AuthPayloadResolvers<ContextType = MyContext, ParentType extends Res
 export type CharacterResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Character'] = ResolversParentTypes['Character']> = {
   abilityScoresId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   armor?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  class?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  class?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   currentHealth?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  healthDice?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  healthDice?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   level?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   maxHealth?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  proficiencies?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
-  race?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  savingThrows?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  proficiencies?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  race?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  savingThrows?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   speed?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  subclass?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  subrace?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  subclass?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subrace?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tempHealth?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -357,6 +390,8 @@ export type MutationResolvers<ContextType = MyContext, ParentType extends Resolv
   deleteFeature?: Resolver<Maybe<ResolversTypes['Feature']>, ParentType, ContextType, RequireFields<MutationDeleteFeatureArgs, 'id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   registerUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
+  updateAbilityScores?: Resolver<ResolversTypes['AbilityScores'], ParentType, ContextType, RequireFields<MutationUpdateAbilityScoresArgs, 'id' | 'input'>>;
+  updateCharacter?: Resolver<Maybe<ResolversTypes['Character']>, ParentType, ContextType, RequireFields<MutationUpdateCharacterArgs, 'id' | 'input'>>;
   updateHealth?: Resolver<Maybe<ResolversTypes['Character']>, ParentType, ContextType, RequireFields<MutationUpdateHealthArgs, 'id' | 'input'>>;
 };
 
