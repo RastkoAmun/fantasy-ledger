@@ -7,7 +7,9 @@ type Query {
 
 type Mutation {
   createAbilityScores(input: CreateAbilityScoresInput!): AbilityScores!
+  updateAbilityScores(id: ID!, input: CreateAbilityScoresInput!): AbilityScores!
   createCharacter(input: CreateCharacterInput!): Character
+  updateCharacter(id: ID!, input: UpdateCharacterInput!): Character
   createFeature(input: CreateFeatureInput!): Feature!
   registerUser(input: CreateUserInput!): User!
   login(input: LoginInput!): AuthPayload!
@@ -29,18 +31,18 @@ type Character {
   id: Int!
   name: String!
   level: Int!
-  class: String
-  subclass: String
-  race: String
-  subrace: String
+  class: String!
+  subclass: String!
+  race: String!
+  subrace: String!
   speed: Int
   armor: Int
   maxHealth: Int!
   currentHealth: Int!
   tempHealth: Int!
-  healthDice: String
-  proficiencies: [String]
-  savingThrows: [String]
+  healthDice: String!
+  proficiencies: [String!]!
+  savingThrows: [String!]!
   abilityScoresId: Int
 }
 
@@ -80,15 +82,34 @@ input CreateCharacterInput {
   level: Int!
   currentHealth: Int!
   maxHealth: Int!
-  temporaryHealth: Int!
-  hitDice: String!
+  tempHealth: Int!
+  healthDice: String!
   race: String!
   subrace: String!
   class: String!
   subclass: String!
-  abilityScores: Int!
-  speed: Int
-  abilityScoresID: Int
+  speed: Int!
+  armor: Int!
+  proficiencies: [String!]!
+  savingThrows: [String!]!
+  abilityScoresId: Int!
+}
+
+input UpdateCharacterInput {
+  name: String!
+  level: Int!
+  currentHealth: Int!
+  maxHealth: Int!
+  tempHealth: Int!
+  healthDice: String!
+  race: String!
+  subrace: String!
+  class: String!
+  subclass: String!
+  speed: Int!
+  armor: Int!
+  proficiencies: [String!]!
+  savingThrows: [String!]!
 }
 
 input CreateUserInput {

@@ -36,19 +36,19 @@ export type Character = {
   __typename?: 'Character';
   abilityScoresId?: Maybe<Scalars['Int']['output']>;
   armor?: Maybe<Scalars['Int']['output']>;
-  class?: Maybe<Scalars['String']['output']>;
+  class: Scalars['String']['output'];
   currentHealth: Scalars['Int']['output'];
-  healthDice?: Maybe<Scalars['String']['output']>;
+  healthDice: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   level: Scalars['Int']['output'];
   maxHealth: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  proficiencies?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  race?: Maybe<Scalars['String']['output']>;
-  savingThrows?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  proficiencies: Array<Scalars['String']['output']>;
+  race: Scalars['String']['output'];
+  savingThrows: Array<Scalars['String']['output']>;
   speed?: Maybe<Scalars['Int']['output']>;
-  subclass?: Maybe<Scalars['String']['output']>;
-  subrace?: Maybe<Scalars['String']['output']>;
+  subclass: Scalars['String']['output'];
+  subrace: Scalars['String']['output'];
   tempHealth: Scalars['Int']['output'];
 };
 
@@ -62,17 +62,21 @@ export type CreateAbilityScoresInput = {
 };
 
 export type CreateCharacterInput = {
-  abilityScores: Scalars['Int']['input'];
+  abilityScoresId: Scalars['Int']['input'];
+  armor: Scalars['Int']['input'];
   class: Scalars['String']['input'];
   currentHealth: Scalars['Int']['input'];
-  hitDice: Scalars['String']['input'];
+  healthDice: Scalars['String']['input'];
   level: Scalars['Int']['input'];
   maxHealth: Scalars['Int']['input'];
   name: Scalars['String']['input'];
+  proficiencies: Array<Scalars['String']['input']>;
   race: Scalars['String']['input'];
+  savingThrows: Array<Scalars['String']['input']>;
+  speed: Scalars['Int']['input'];
   subclass: Scalars['String']['input'];
   subrace: Scalars['String']['input'];
-  temporaryHealth: Scalars['Int']['input'];
+  tempHealth: Scalars['Int']['input'];
 };
 
 export type CreateFeatureInput = {
@@ -107,8 +111,11 @@ export type Mutation = {
   createAbilityScores: AbilityScores;
   createCharacter?: Maybe<Character>;
   createFeature: Feature;
+  deleteFeature?: Maybe<Feature>;
   login: AuthPayload;
   registerUser: User;
+  updateAbilityScores: AbilityScores;
+  updateCharacter?: Maybe<Character>;
   updateHealth?: Maybe<Character>;
 };
 
@@ -128,6 +135,11 @@ export type MutationCreateFeatureArgs = {
 };
 
 
+export type MutationDeleteFeatureArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationLoginArgs = {
   input: LoginInput;
 };
@@ -135,6 +147,18 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationUpdateAbilityScoresArgs = {
+  id: Scalars['ID']['input'];
+  input: CreateAbilityScoresInput;
+};
+
+
+export type MutationUpdateCharacterArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateCharacterInput;
 };
 
 
@@ -164,6 +188,23 @@ export type QueryCharacterArgs = {
 
 export type QueryFeaturesArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type UpdateCharacterInput = {
+  armor: Scalars['Int']['input'];
+  class: Scalars['String']['input'];
+  currentHealth: Scalars['Int']['input'];
+  healthDice: Scalars['String']['input'];
+  level: Scalars['Int']['input'];
+  maxHealth: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  proficiencies: Array<Scalars['String']['input']>;
+  race: Scalars['String']['input'];
+  savingThrows: Array<Scalars['String']['input']>;
+  speed: Scalars['Int']['input'];
+  subclass: Scalars['String']['input'];
+  subrace: Scalars['String']['input'];
+  tempHealth: Scalars['Int']['input'];
 };
 
 export type UpdateHealthInput = {

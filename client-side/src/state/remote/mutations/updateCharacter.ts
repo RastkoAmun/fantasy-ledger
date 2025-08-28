@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const createCharacter = gql`
-  mutation CreateCharacter($input: CreateCharacterInput!){
-    createCharacter(input: $input){
+export const updateCharacter = gql`
+  mutation UpdateCharacter($id: ID!, $input: UpdateCharacterInput!){
+    updateCharacter(id: $id, input: $input){
       id
       name
       level
@@ -18,7 +18,6 @@ export const createCharacter = gql`
       armor
       proficiencies
       savingThrows
-      abilityScoresId
     }
   }
 `

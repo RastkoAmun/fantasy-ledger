@@ -14,10 +14,13 @@ import {
   MutationCreateFeatureArgs, 
   MutationDeleteFeatureArgs, 
   MutationRegisterUserArgs, 
+  MutationUpdateAbilityScoresArgs, 
+  MutationUpdateCharacterArgs, 
   MutationUpdateHealthArgs, 
   Resolvers
 } from "./graphql/generated-types";
 import { MyContext } from "./context";
+
 const prisma = new PrismaClient();
 
 config();
@@ -125,9 +128,40 @@ export const createAbilityScores = async (
   }
 };
 
+export const updateAbilityScores = async (
+  _parent: unknown,
+  args: MutationUpdateAbilityScoresArgs
+): Promise<AbilityScores> => {
+  const input = args.input;
+
+  if (!input) {
+    throw new Error("No input received in mutation.");
+  }
+
+  try {
+    const updatedAbilityScores = await prisma.ability_scores.update({
+      where: { id: Number(args.id) },
+      data: {
+        strength: input.strength,
+        dexterity: input.dexterity,
+        constitution: input.constitution,
+        intelligence: input.intelligence,
+        wisdom: input.wisdom,
+        charisma: input.charisma,
+      },
+    });
+
+    return updatedAbilityScores as AbilityScores;
+  } catch (error: any) {
+    console.error("Error updating ability scores:", error);
+    throw new Error("Failed to insert ability scores: " + error.message);
+  }
+};
+
 export const createCharacter = async (
   _parent: unknown,
-  args: MutationCreateCharacterArgs
+  args: MutationCreateCharacterArgs,
+  context: MyContext
 ): Promise<Character> => {
   const input = args.input;
 
@@ -145,18 +179,57 @@ export const createCharacter = async (
         class: input.class,
         subclass: input.subclass,
         speed: input.speed,
+        armor: input.armor,
         currentHealth: input.currentHealth, 
         maxHealth: input.maxHealth,
-        tempHealth: input.temporaryHealth ?? 0,
-        healthDice: input.hitDice,
-        abilityScoresId: input.abilityScoresID ?? null,
-        proficiencies: [], //FIX LATER
-        savingThrows: [], //FIX LATER
-        userId: input.userId, //FIX LATER
+        tempHealth: input.tempHealth ?? 0,
+        healthDice: input.healthDice,
+        abilityScoresId: input.abilityScoresId ?? null,
+        proficiencies: input.proficiencies,
+        savingThrows: input.savingThrows,
+        userId: context.userId as string,
       },
     });
 
     return newCharacter as Character;
+  } catch (error: any) {
+    console.error("Error creating character:", error);
+    throw new Error("Failed to insert new character: " + error.message);
+  }
+};
+
+export const updateCharacter = async (
+  _parent: unknown,
+  args: MutationUpdateCharacterArgs
+): Promise<Character> => {
+  const input = args.input;
+
+  if (!input) {
+    throw new Error("No input received in mutation.");
+  }
+
+  try {
+    const updatedCharacter = await prisma.characters.update({
+      where: { id: Number(args.id) },
+      data: {
+        name: input.name,
+        level: input.level,
+        race: input.race,
+        subrace: input.subrace,
+        class: input.class,
+        subclass: input.subclass,
+        speed: input.speed,
+        armor: input.armor,
+        currentHealth: input.currentHealth, 
+        maxHealth: input.maxHealth,
+        tempHealth: input.tempHealth ?? 0,
+        healthDice: input.healthDice,
+        proficiencies: input.proficiencies,
+        savingThrows: input.savingThrows,
+      },
+    });
+
+    return updatedCharacter as Character;
   } catch (error: any) {
     console.error("Error creating character:", error);
     throw new Error("Failed to insert new character: " + error.message);
@@ -230,7 +303,6 @@ const deleteFeature = async (
 
 
 const login = async (_: unknown, { input }: {input: LoginInput}) => {
-  console.log(input)
   const user = await prisma.users.findUnique({ where: { username: input.username }})
   if (!user) throw new Error("Username does not exist")
   
@@ -279,7 +351,9 @@ export const resolvers: Resolvers<MyContext> = {
 
   Mutation: {
     createAbilityScores: (_parent, args, _context) => createAbilityScores(_parent, args),
-    createCharacter: (_parent, args, _context) => createCharacter(_parent, args),
+    updateAbilityScores: (_parent, args, _context) => updateAbilityScores(_parent, args),
+    createCharacter: (_parent, args, context) => createCharacter(_parent, args, context),
+    updateCharacter: (_parent, args, _context) => updateCharacter(_parent, args),
     updateHealth: (_parent, args, _context) => updateHealth(_parent, args),
     createFeature: (_parent, args, _context) => createFeature(_parent, args),
     registerUser: (_parent, args, _context) => registerUser(_parent, args),

@@ -21,12 +21,12 @@ const AbilityScoresDialogPage = ({
   abilityScoresForm,
   setAbilityScoresForm,
 }: AbilityScoresDialogPageType) => {
-  const [strength, setStrength] = useState(0);
-  const [dexterity, setDexterity] = useState(0);
-  const [constitution, setConstitution] = useState(0);
-  const [intelligence, setIntelligence] = useState(0);
-  const [wisdom, setWisdom] = useState(0);
-  const [charisma, setCharisma] = useState(0);
+  const [strength, setStrength] = useState(abilityScoresForm.strength);
+  const [dexterity, setDexterity] = useState(abilityScoresForm.dexterity);
+  const [constitution, setConstitution] = useState(abilityScoresForm.constitution);
+  const [intelligence, setIntelligence] = useState(abilityScoresForm.intelligence);
+  const [wisdom, setWisdom] = useState(abilityScoresForm.wisdom);
+  const [charisma, setCharisma] = useState(abilityScoresForm.charisma);
 
   const getters = {
     strength: strength,
@@ -46,8 +46,6 @@ const AbilityScoresDialogPage = ({
     charisma: setCharisma,
   };
 
-  // console.log(abilityScoresForm)
-
   const handleAbilityInput = (ability: keyof typeof setters, value: number) => {
     const setter = setters[ability];
     setter(value)
@@ -55,7 +53,7 @@ const AbilityScoresDialogPage = ({
 
   return (
     <CustomTabPanel value={value} index={tabNumber}>
-      <Stack justifyContent="center" alignSelf="center" textAlign="center">
+      <Stack textAlign="center" mt={5} height='80%'>
         <Grid container spacing={3}>
           {Object.keys(getters).map((abilityScore) => {
             return (
@@ -78,27 +76,45 @@ const AbilityScoresDialogPage = ({
                       [abilityScore.toLowerCase()]: Number(e.target.value),
                     })
                   }
-                  sx={{ width: 80 }}
+                  sx={{ width: 40,
+                    "& .MuiInputBase-input": { textAlign: "center" },
+                    }}
                 />
               </Grid>
             );
           })}
         </Grid>
+        
       </Stack>
-      <Stack direction="row" justifyContent="center" mt={5} columnGap={10}>
-        <Button
-          variant="contained"
-          onClick={() => handlePageNavigation.goNext()}
+      <Stack
+          direction="row"
+          justifyContent="space-between"
+          mt={5}
+          columnGap={10}
+          position="relative"
+          bottom={41}
         >
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => handlePageNavigation.goNext()}
-        >
-          Next
-        </Button>
-      </Stack>
+          <Button
+            variant="contained"
+            onClick={() => handlePageNavigation.closeButton()}
+          >
+            Close
+          </Button>
+          <Stack direction="row" columnGap={2}>
+            <Button
+              variant="contained"
+              onClick={() => handlePageNavigation.goBack()}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => handlePageNavigation.goNext()}
+            >
+              Next
+            </Button>
+          </Stack>
+        </Stack>
     </CustomTabPanel>
   );
 };

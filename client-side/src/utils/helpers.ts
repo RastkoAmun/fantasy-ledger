@@ -11,8 +11,20 @@ export enum CharacterCreationTabNumbers {
   CORE = 0,
   ARCHTYPE = 1,
   ABILITY_SCORES = 2,
-  FINALIZE = 3
+  PROFICIENCIES = 3,
+  FINALIZE = 4
 }
+
+export const SKILLS = ["acrobatics", "animal handling", "arcana", "athletics",
+  "deception", "history", "insight", "intimidation", "investigation", "medicine", 
+  "nature", "perception",  "performance", "persuasion", "religion", "slight of hand", 
+  "stealth", "survival"] as const;
+
+export const SAVING_THROWS = ['strength', 'dexterity', 'constitution', 
+  'intelligence', 'wisdom', 'charisma'] as const;
+
+export type SkillProficiencies = typeof SKILLS[number];
+export type SavingThrowsProficiencies = typeof SAVING_THROWS[number];
 
 type AbilityScoreModifierType = {
   modifier: number;
