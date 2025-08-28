@@ -28,7 +28,7 @@ const AbilityScoresDashboard = ({
         backgroundBlendMode: "lighten",
       }}
     >
-      <Grid container rowGap={3}>
+      <Grid container rowGap={3} pb={1}>
         {Object.keys(AbilityScores).map((abilityScore) => {
           return (
             <AbilityScoreCard

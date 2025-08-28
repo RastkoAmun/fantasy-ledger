@@ -57,7 +57,7 @@ const CharacterClient = ({ id }: { id: number }) => {
         height="78vh"
         width="100%"
       >
-        <Grid item height="100%" xs={4}>
+        <Grid item height="100%" xs={12} md={7} lg={8} xl={4}>
           <Stack direction="column" height="100%" width="100%">
             <CharacterInfo
               character={characterData.character}
@@ -72,13 +72,13 @@ const CharacterClient = ({ id }: { id: number }) => {
             />
           </Stack>
         </Grid>
-        <Grid item height="100%" xs={2.5}>
+        <Grid item height="100%" xs={12} md={5} lg={4} xl={2.5}>
           <SkillProficiencies
             proficiencies={characterData.character.proficiencies}
             abilityScores={abilitiesData.abilityScores}
           />
         </Grid>
-        <Grid item width="100%" height="100%" xs={5.5}>
+        <Grid item width="100%" height="100%" xs={12} md={12} lg={12} xl={5.5}>
           <HealthAndBattleDashboard
             character={characterData.character}
             initiative={
@@ -106,9 +106,9 @@ const CharacterClient = ({ id }: { id: number }) => {
               CONDITIONS
             </Typography>
           </Box>
-          <Box width={500} height="20%" mt={1}>
+          <Box height="20%" mt={1}>
             <Grid container spacing={1}>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Button
                   variant="contained"
                   sx={{
@@ -123,7 +123,7 @@ const CharacterClient = ({ id }: { id: number }) => {
                   <Typography>Go to Inventory</Typography>
                 </Button>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Button
                   variant="contained"
                   sx={{
@@ -142,7 +142,7 @@ const CharacterClient = ({ id }: { id: number }) => {
                   </Typography>
                 </Button>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Button
                   variant="contained"
                   sx={{
@@ -156,6 +156,22 @@ const CharacterClient = ({ id }: { id: number }) => {
                   onClick={() => handleRedirect("features")}
                 >
                   <Typography>Go to Features</Typography>
+                </Button>
+              </Grid>
+              <Grid item xs={3}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    height: 80,
+                    border: 2,
+                    borderColor: "purple",
+                    borderRadius: 5,
+                    bgcolor: "purple",
+                  }}
+                  onClick={() => handleRedirect("features")}
+                >
+                  <Typography>Go to Notes</Typography>
                 </Button>
               </Grid>
             </Grid>

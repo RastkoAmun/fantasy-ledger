@@ -36,7 +36,7 @@ const SavingThrowsDashboard = ({
       <Typography textAlign="center" fontWeight={700} mt={0.5}>
         SAVING THROWS
       </Typography>
-      <Grid container rowGap={1} columnGap={5} justifyContent='center'>
+      <Grid container rowGap={1} columnGap={3} justifyContent='center'>
         {Object.keys(AbilityScores).map((abilityScore) => {
           const { modifier, sign } = calculateModifier(
             abilityScores[

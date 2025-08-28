@@ -11,13 +11,30 @@ const SavingThrowCard = ({
   proficient?: boolean;
 }) => {
   return (
-    <Grid item xs={2} m={1} mx={2} display="flex" position="relative">
+    <Grid
+      item
+      xs={2}
+      sm={3}
+      xl={2}
+      m={1}
+      // mx={2}
+      pr={4}
+      display="flex"
+      position="relative"
+      justifyContent="center"
+    >
       <Box
         display="flex"
         height={28}
         sx={{ borderTopLeftRadius: 20, borderBottomLeftRadius: 20 }}
       >
-        <Typography alignSelf="center" ml={5.5} mt={1.2} fontSize={13} fontWeight={700}>
+        <Typography
+          alignSelf="center"
+          ml={10}
+          mt={1.2}
+          fontSize={13}
+          fontWeight={700}
+        >
           {name}
         </Typography>
       </Box>
@@ -35,7 +52,7 @@ const SavingThrowCard = ({
           display="flex"
           alignItems="center"
           justifyContent="center"
-          height='95%'
+          height="95%"
         >
           <Typography
             fontSize={17}
