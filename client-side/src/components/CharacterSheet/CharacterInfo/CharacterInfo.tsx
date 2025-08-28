@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 const CharacterInfo = ({
   character,
-  abilityScores
+  abilityScores,
 }: {
   character: CharacterType;
   abilityScores: AbilityScoresQueryType;
@@ -15,9 +15,19 @@ const CharacterInfo = ({
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditButton = () => {
-    setIsOpen(true)
-    setIsEditing(true)
-  }
+    setIsOpen(true);
+    setIsEditing(true);
+  };
+
+  const slug = (s: string) =>
+    s
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "");
+
+  const bgPath = `/backgrounds/${slug(character.class)}.png`;
+  const iconPath = `/icons/${slug("sorcerer")}.png`;
 
   return (
     <Box
@@ -28,7 +38,7 @@ const CharacterInfo = ({
       bgcolor="#e1e1e1"
       boxSizing="border-box"
       sx={{
-        backgroundImage: `url('/backgrounds/${character.class}.png')`,
+        backgroundImage: `url(${bgPath})`,
         backgroundSize: "cover",
         backgroundPosition: "top",
         backgroundRepeat: "no-repeat",
@@ -43,7 +53,7 @@ const CharacterInfo = ({
               <Box width={80} height={80} m={1} bgcolor="blue">
                 <Image
                   // src={`/images/${sorcerer}.png`}
-                  src="/icons/sorcerer-icon.png"
+                  src={`${iconPath}`}
                   alt="character-picture"
                   width={80}
                   height={80}
