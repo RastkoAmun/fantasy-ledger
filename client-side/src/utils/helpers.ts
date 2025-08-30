@@ -12,24 +12,69 @@ export enum CharacterCreationTabNumbers {
   ARCHTYPE = 1,
   ABILITY_SCORES = 2,
   PROFICIENCIES = 3,
-  FINALIZE = 4
+  FINALIZE = 4,
 }
 
-export const SKILLS = ["acrobatics", "animal handling", "arcana", "athletics",
-  "deception", "history", "insight", "intimidation", "investigation", "medicine", 
-  "nature", "perception",  "performance", "persuasion", "religion", "slight of hand", 
-  "stealth", "survival"] as const;
+export const SKILLS = [
+  "acrobatics",
+  "animal handling",
+  "arcana",
+  "athletics",
+  "deception",
+  "history",
+  "insight",
+  "intimidation",
+  "investigation",
+  "medicine",
+  "nature",
+  "perception",
+  "performance",
+  "persuasion",
+  "religion",
+  "slight of hand",
+  "stealth",
+  "survival",
+] as const;
 
-export const SAVING_THROWS = ['strength', 'dexterity', 'constitution', 
-  'intelligence', 'wisdom', 'charisma'] as const;
+export const SAVING_THROWS = [
+  "strength",
+  "dexterity",
+  "constitution",
+  "intelligence",
+  "wisdom",
+  "charisma",
+] as const;
 
-export type SkillProficiencies = typeof SKILLS[number];
-export type SavingThrowsProficiencies = typeof SAVING_THROWS[number];
+export type SkillProficiencies = (typeof SKILLS)[number];
+export type SavingThrowsProficiencies = (typeof SAVING_THROWS)[number];
+
+export const CLASSES = new Set([
+  "Artificer",
+  "Barbarian",
+  "Bard",
+  "Cleric",
+  "Druid",
+  "Fighter",
+  "Monk",
+  "Paladin",
+  "Ranger",
+  "Rogue",
+  "Sorcerer",
+  "Warlock",
+  "Wizard",
+]);
 
 type AbilityScoreModifierType = {
   modifier: number;
   sign: string;
 };
+
+export const slug = (s: string) =>
+  s
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
 
 export const calculateModifier = (value: number): AbilityScoreModifierType => {
   switch (value) {
@@ -98,7 +143,6 @@ export const calculateModifier = (value: number): AbilityScoreModifierType => {
       };
   }
 };
-
 
 export const calculateProficiency = (level: number) => {
   switch (true) {

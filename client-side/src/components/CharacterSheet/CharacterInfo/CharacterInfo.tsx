@@ -1,4 +1,5 @@
 import CharacterCreationDialog from "@/components/Dialogs/CharacterCreation/DialogForm";
+import { CLASSES, slug } from "@/utils/helpers";
 import { AbilityScoresQueryType, CharacterType } from "@/utils/types";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
@@ -6,7 +7,7 @@ import React, { useState } from "react";
 
 const CharacterInfo = ({
   character,
-  abilityScores
+  abilityScores,
 }: {
   character: CharacterType;
   abilityScores: AbilityScoresQueryType;
@@ -15,9 +16,14 @@ const CharacterInfo = ({
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditButton = () => {
-    setIsOpen(true)
-    setIsEditing(true)
-  }
+    setIsOpen(true);
+    setIsEditing(true);
+  };
+
+  const bgPath = CLASSES.has(character.class)
+    ? `/backgrounds/${slug(character.class)}.png`
+    : "/backgrounds/default1.png";
+  const iconPath = `/icons/${slug("sorcerer")}.png`;
 
   return (
     <Box
@@ -28,7 +34,7 @@ const CharacterInfo = ({
       bgcolor="#e1e1e1"
       boxSizing="border-box"
       sx={{
-        backgroundImage: `url('/backgrounds/${character.class}.png')`,
+        backgroundImage: `url(${bgPath})`,
         backgroundSize: "cover",
         backgroundPosition: "top",
         backgroundRepeat: "no-repeat",
@@ -42,8 +48,7 @@ const CharacterInfo = ({
             <Stack direction="row">
               <Box width={80} height={80} m={1} bgcolor="blue">
                 <Image
-                  // src={`/images/${sorcerer}.png`}
-                  src="/icons/sorcerer-icon.png"
+                  src={`${iconPath}`}
                   alt="character-picture"
                   width={80}
                   height={80}
@@ -52,7 +57,7 @@ const CharacterInfo = ({
               <Stack mt={1}>
                 <Typography variant="h4">{character.name}</Typography>
                 <Typography variant="h6">
-                  Level: {character.level} (Male)
+                  Level: {character.level}
                 </Typography>
               </Stack>
             </Stack>
@@ -70,7 +75,7 @@ const CharacterInfo = ({
           item
           xs={4}
           display="flex"
-          justifyContent="space-between"
+          justifyContent="flex-end"
           alignItems="flex-end"
           direction="column"
           padding={1}
@@ -82,20 +87,6 @@ const CharacterInfo = ({
               sx={{ width: "110px", bgcolor: "white" }}
             >
               Edit
-            </Button>
-          </Stack>
-          <Stack direction="column" rowGap={1} position="relative" top={8}>
-            <Button
-              variant="outlined"
-              sx={{ width: "110px", padding: 0, bgcolor: "white" }}
-            >
-              Short Rest
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{ width: "110px", padding: 0, bgcolor: "white" }}
-            >
-              Long Rest
             </Button>
           </Stack>
         </Grid>

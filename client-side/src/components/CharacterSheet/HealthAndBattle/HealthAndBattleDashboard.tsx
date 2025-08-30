@@ -17,8 +17,8 @@ const HealthAndBattleDashboard = ({
   console.log(character);
   return (
     <Stack
-      width='100%'
-      height='50%'
+      width="100%"
+      height="50%"
       border={2}
       borderColor="purple"
       bgcolor="#e1e1e1"
@@ -26,6 +26,10 @@ const HealthAndBattleDashboard = ({
       justifyContent="center"
       alignItems="center"
       sx={{
+        backgroundImage: `url('/backgrounds/two-dragons.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         backgroundColor: `rgba(255,255,255,0.5)`,
         backgroundBlendMode: "lighten",
       }}
