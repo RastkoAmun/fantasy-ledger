@@ -1,3 +1,4 @@
+import AddTempHealthDialog from "@/components/Dialogs/AddingDialogs/AddTempHealthDialog";
 import { updateHealth } from "@/state/remote/mutations/updateHealth";
 import { CharacterType } from "@/utils/types";
 import { useMutation } from "@apollo/client";
@@ -36,6 +37,7 @@ const HealthStack = ({ label, value, color }: HealthStackType) => {
 
 const HealthBoard = ({ character }: { character: CharacterType }) => {
   const [health, setHealth] = useState("");
+  const [isTempHealthDialogOpen, setIsTempHealthDialogOpen] = useState(false);
 
   const [updateHealthMutation] = useMutation(updateHealth, {
     refetchQueries: ["GetCharacter"],
@@ -68,12 +70,19 @@ const HealthBoard = ({ character }: { character: CharacterType }) => {
       damage = damage - character.tempHealth;
     }
 
+    if (damage > character.currentHealth) {
+      damage = character.currentHealth;
+    }
+
     try {
       updateHealthMutation({
         variables: {
           id: character.id,
           input: {
-            currentHealth: character.currentHealth - damage,
+            currentHealth:
+              tempHealth > 0
+                ? character.currentHealth
+                : character.currentHealth - damage,
             tempHealth: tempHealth <= 0 ? 0 : tempHealth,
           },
         },
@@ -104,12 +113,22 @@ const HealthBoard = ({ character }: { character: CharacterType }) => {
           </Stack>
         </Grid>
         <Grid item xs={4}>
-          <Box onClick={() => console.log("a")}>
-            <HealthStack
-              label={hitPointsLabels.hpType.temp}
-              value={character.tempHealth != 0 ? character.tempHealth : "-"}
-            />
-          </Box>
+          <Stack
+            alignItems="center"
+            onClick={() => setIsTempHealthDialogOpen(true)}
+            sx={{
+              "&:hover": {
+                cursor: "pointer",
+                backgroundColor: `rgba(255,255,255,0.3)`,
+                backgroundBlendMode: "lighten",
+              },
+            }}
+          >
+            <Typography fontSize={14}>{hitPointsLabels.hpType.temp}</Typography>
+            <Typography fontSize={30}>
+              {character.tempHealth != 0 ? character.tempHealth : "-"}
+            </Typography>
+          </Stack>
         </Grid>
       </Grid>
       <Stack
@@ -122,7 +141,18 @@ const HealthBoard = ({ character }: { character: CharacterType }) => {
         <Button
           variant="outlined"
           onClick={handleHeal}
-          sx={{ borderColor: "green", color: "green", height: 28, border: 2 }}
+          sx={{
+            borderColor: "green",
+            color: "green",
+            height: 28,
+            border: 2,
+            "&:hover": {
+              backgroundColor: `rgba(62, 131, 83, 0.3)`,
+              backgroundBlendMode: "lighten",
+              borderColor: "green",
+              borderWidth: 2,
+            },
+          }}
         >
           {hitPointsLabels.buttons.heal}
         </Button>
@@ -137,11 +167,27 @@ const HealthBoard = ({ character }: { character: CharacterType }) => {
           variant="outlined"
           size="small"
           onClick={handleDeal}
-          sx={{ borderColor: "red", color: "red", height: 28, border: 2 }}
+          sx={{
+            borderColor: "red",
+            color: "red",
+            height: 28,
+            border: 2,
+            "&:hover": {
+              backgroundColor: `rgba(148, 44, 44, 0.3)`,
+              backgroundBlendMode: "lighten",
+              borderColor: "red",
+              borderWidth: 2,
+            },
+          }}
         >
           {hitPointsLabels.buttons.deal}
         </Button>
       </Stack>
+      <AddTempHealthDialog
+        isOpen={isTempHealthDialogOpen}
+        onClose={() => setIsTempHealthDialogOpen(false)}
+        character={character}
+      />
     </Stack>
   );
 };

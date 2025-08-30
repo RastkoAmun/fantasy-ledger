@@ -95,6 +95,9 @@ const CharacterClient = ({ id }: { id: number }) => {
             sx={{
               backgroundColor: `rgba(255,255,255,0.4)`,
               backgroundBlendMode: "lighten",
+              overflowY: "auto",
+              scrollbarWidth: "thin",
+              scrollbarColor: "rgba(0,0,0,.35) transparent",
             }}
           >
             <Typography
@@ -104,6 +107,9 @@ const CharacterClient = ({ id }: { id: number }) => {
               mt={1}
             >
               CONDITIONS
+            </Typography>
+            <Typography fontSize={15} textAlign="center" mt={5}>
+              (Conditions are coming in the next patch)
             </Typography>
           </Box>
           <Box width={500} height="20%" mt={1}>
