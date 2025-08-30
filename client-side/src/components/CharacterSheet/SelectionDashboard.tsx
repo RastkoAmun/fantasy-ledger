@@ -17,10 +17,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { Character } from "@/state/remote/__generated__/types";
 import { useRouter } from "next/navigation";
 import CharacterCreationDialog from "../Dialogs/CharacterCreation/DialogForm";
+import { CLASSES } from "@/utils/helpers";
 
 const CardGrid = () => {
   const { data, loading, error } = useQuery(getAllCharactersQuery);
-  const [ characterCreationOpen, setCharacterCreationOpen ] = useState(false);
+  const [characterCreationOpen, setCharacterCreationOpen] = useState(false);
 
   const router = useRouter();
 
@@ -60,10 +61,14 @@ const CardGrid = () => {
                     height: 160,
                     objectPosition: "top",
                   }}
-                  image={`/backgrounds/${(character.class as any)
-                    .toLowerCase()
-                    .replace(/ /g, "-")}.png`}
-                  title="green iguana"
+                  image={
+                    CLASSES.has(character.class)
+                      ? `/backgrounds/${character.class
+                          .toLowerCase()
+                          .replace(/ /g, "-")}.png`
+                      : `/backgrounds/default1.png`
+                  }
+                  title="character-background"
                   component="img"
                 />
                 <CardActionArea
@@ -130,7 +135,10 @@ const CardGrid = () => {
             </Card>
           </Grid>
         </Grid>
-        <CharacterCreationDialog isOpen={characterCreationOpen} setIsOpen={setCharacterCreationOpen}/>
+        <CharacterCreationDialog
+          isOpen={characterCreationOpen}
+          setIsOpen={setCharacterCreationOpen}
+        />
       </Stack>
     </Box>
   );

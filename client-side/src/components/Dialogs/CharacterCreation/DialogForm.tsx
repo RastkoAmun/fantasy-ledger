@@ -144,6 +144,11 @@ const CharacterCreationDialog = ({
 
     setIsOpen(false);
     setValue(0);
+    setCoreForm(coreInfoDefaultForm);
+    setHealthForm(healthDefaultForm);
+    setArchtypeForm(archtypeDefaultForm);
+    setAbilityScoresForm(abilityScoreDefaultForm);
+    setProficienciesForm(proficienciesDefaultForm);
   };
 
   const handleEdit = async () => {

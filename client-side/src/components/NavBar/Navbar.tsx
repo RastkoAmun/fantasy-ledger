@@ -45,7 +45,16 @@ export default function Navbar() {
       sx={{ backgroundColor: "#1e1e2f", width: "100%" }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: "bold",
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+          onClick={() => router.push("/characters")}
+        >
           FantasyLedger
         </Typography>
 
