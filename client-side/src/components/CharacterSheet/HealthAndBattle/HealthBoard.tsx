@@ -94,7 +94,7 @@ const HealthBoard = ({ character }: { character: CharacterType }) => {
   };
 
   return (
-    <Stack width={350} height={150}>
+    <Stack width={350} height={150} mt={1}>
       <Typography m={0.8} textAlign="center" fontWeight={700} fontSize={17}>
         {hitPointsLabels.title}
       </Typography>

@@ -17,12 +17,12 @@ type BattleBoardTypes = {
 
 const BattleBoard = ({ proficiency, armor, speed, initiative }: BattleBoardTypes) => {
   return (
-    <Box width={450} height={100} m={2}>
+    <Box width={{ xs: '70%', md: '90%'}} height={100} m={2}>
       <Grid
         container
         m={1}
       >
-        <Grid item justifyItems='center'>
+        <Grid item justifyItems='center' xs={6} md={3}>
           <Typography fontSize={14}>{labels.proficiency}</Typography>
           <Box
             display="flex"
@@ -37,7 +37,7 @@ const BattleBoard = ({ proficiency, armor, speed, initiative }: BattleBoardTypes
             <Typography fontSize={24}>+{proficiency}</Typography>
           </Box>
         </Grid>
-        <Grid item justifyItems='center' xs={3}>
+        <Grid item justifyItems='center' xs={6} md={3}>
           <Typography fontSize={14}>{labels.armor}</Typography>
           <Box
             width={50}
@@ -53,7 +53,7 @@ const BattleBoard = ({ proficiency, armor, speed, initiative }: BattleBoardTypes
             </Typography>
           </Box>
         </Grid>
-        <Grid item justifyItems='center' xs={3}>
+        <Grid item justifyItems='center' xs={6} md={3}>
           <Typography fontSize={14}>{labels.speed}</Typography>
           <Box
             display="flex"
@@ -67,7 +67,7 @@ const BattleBoard = ({ proficiency, armor, speed, initiative }: BattleBoardTypes
             <Typography fontSize={19}>{speed} ft.</Typography>
           </Box>
         </Grid>
-        <Grid item justifyItems='center' xs={3}>
+        <Grid item justifyItems='center' xs={6} md={3}>
           <Typography fontSize={14}>{labels.initiative}</Typography>
           <Box
             display="flex"

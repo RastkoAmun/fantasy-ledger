@@ -18,12 +18,11 @@ const HealthAndBattleDashboard = ({
   return (
     <Stack
       width="100%"
-      height="50%"
+      height={{ xs: 370, md: "50%"}}
       border={2}
       borderColor="purple"
       bgcolor="#e1e1e1"
       borderRadius={3}
-      justifyContent="center"
       alignItems="center"
       sx={{
         backgroundImage: `url('/backgrounds/two-dragons.png')`,

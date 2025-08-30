@@ -22,7 +22,7 @@ const SavingThrowsDashboard = ({
   return (
     <Box
       width="100%"
-      height="26%"
+      height={{ xs: '30%', md: "26%"}}
       border={2}
       borderColor="purple"
       borderRadius={5}
@@ -36,7 +36,7 @@ const SavingThrowsDashboard = ({
       <Typography textAlign="center" fontWeight={700} mt={0.5}>
         SAVING THROWS
       </Typography>
-      <Grid container rowGap={1} columnGap={5} justifyContent='center'>
+      <Grid container rowGap={1} columnGap={2} justifyContent='center'>
         {Object.keys(AbilityScores).map((abilityScore) => {
           const { modifier, sign } = calculateModifier(
             abilityScores[

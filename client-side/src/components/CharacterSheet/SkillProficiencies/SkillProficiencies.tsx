@@ -93,11 +93,11 @@ const SkillProficiencies = ({
           <Typography fontWeight={700} textAlign="center" mb={1}>
             SKILLS
           </Typography>
-          <Stack>
+          <Stack display='flex' alignItems='center'>
             {Object.keys(skillProficiencies).map((category) => {
               return (
-                <Stack key={category}>
-                  <Typography fontSize={14} fontWeight={600}>
+                <Stack key={category} width={{ xs: '90%', sm: '50%', md: '100%'}}>
+                  <Typography fontSize={{ lg: 12, xl: 14}} fontWeight={600}>
                     {category}
                   </Typography>
                   {skillProficiencies[
@@ -120,7 +120,7 @@ const SkillProficiencies = ({
                           <FiberManualRecordIcon
                             fontSize="small"
                             sx={{
-                              fontSize: 16,
+                              fontSize: {xs: 13, xl: 16 },
                               verticalAlign: "middle",
                               color: "purple",
                             }}
@@ -129,7 +129,7 @@ const SkillProficiencies = ({
                           <FiberManualRecordOutlinedIcon
                             fontSize="small"
                             sx={{
-                              fontSize: 16,
+                              fontSize: { xs: 13, xl: 16 },
                               verticalAlign: "middle",
                             }}
                           />
@@ -138,13 +138,13 @@ const SkillProficiencies = ({
                           <FiberManualRecordOutlinedIcon
                             fontSize="small"
                             sx={{
-                              fontSize: 16,
+                              fontSize: { xs: 13, xl: 16 },
                               mr: 1,
                               verticalAlign: "middle",
                             }}
                           />
                         }
-                        <Typography fontSize={14}>{skill}</Typography>
+                        <Typography fontSize={{ xs: 13, xl: 14}}>{skill}</Typography>
                       </Stack>
                       <Box
                         width={30}
@@ -154,7 +154,7 @@ const SkillProficiencies = ({
                         borderRadius={1}
                       >
                         <Typography
-                          fontSize={17}
+                          fontSize={{ xs: 13, xl: 17}}
                           fontFamily="monospace"
                           height="100%"
                           display="flex"
