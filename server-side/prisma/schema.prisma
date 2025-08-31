@@ -63,12 +63,12 @@ model Spells {
   id          BigInt     @id @default(autoincrement())
   name        String
   level       Int
-  school      String?
-  casting     String?
-  range       String?
-  components  String?
-  duration    String?
-  description String?
+  school      String
+  casting     String
+  range       String
+  components  String
+  duration    String
+  description String
   characterId Int      @map("character_id")
   character   characters   @relation(fields: [characterId], references: [id])
 

@@ -3,6 +3,7 @@ type Query {
   abilityScores(id: ID!): AbilityScores!
   characters: [Character]
   features(id: ID!): [Feature]
+  spells(id: ID!): [Spell]
 }
 
 type Mutation {
@@ -11,10 +12,12 @@ type Mutation {
   createCharacter(input: CreateCharacterInput!): Character
   updateCharacter(id: ID!, input: UpdateCharacterInput!): Character
   createFeature(input: CreateFeatureInput!): Feature!
+  createSpell(input: CreateSpellInput!): Spell!
   registerUser(input: CreateUserInput!): User!
   login(input: LoginInput!): AuthPayload!
   updateHealth(id: ID!, input: UpdateHealthInput!): Character
   deleteFeature(id: ID!): Feature
+  deleteSpell(id: ID!): Spell
 }
 
 type AbilityScores {
@@ -65,6 +68,19 @@ type Feature {
   name: String!
   description: String
   level: Int!
+  characterId: Int!
+}
+
+type Spell {
+  id: ID!
+  name: String!
+  level: Int!
+  school: String!
+  casting: String!
+  range: String!
+  components: String!
+  duration: String!
+  description: String!
   characterId: Int!
 }
 
@@ -132,5 +148,17 @@ input CreateFeatureInput {
   name: String!
   description: String
   level: Int!
+  characterId: Int!
+}
+
+input CreateSpellInput {
+  name: String!
+  level: Int!
+  school: String!
+  casting: String!
+  range: String!
+  components: String!
+  duration: String!
+  description: String!
   characterId: Int!
 }

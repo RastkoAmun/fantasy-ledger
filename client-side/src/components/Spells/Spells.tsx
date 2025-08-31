@@ -3,14 +3,13 @@ import React, { useState } from "react";
 import { Box, Card, Typography, Grid, Paper, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import AddFeatureDialog from "../Dialogs/AddingDialogs/AddFeatureDialog";
 import { useQuery } from "@apollo/client";
-import DisplayFeatureDialog from "../Dialogs/DisplayDialogs/DisplayFeatureDialog";
-import { Feature, Spell } from "@/state/remote/__generated__/types";
+
 import { useRouter } from "next/navigation";
 import { getSpells } from "@/state/remote/queries/getSpells";
 import DisplaySpellDialog from "../Dialogs/DisplayDialogs/DisplaySpellDialog";
 import AddSpellDialog from "../Dialogs/AddingDialogs/AddSpellDialog";
+import { Spell } from "@/state/remote/__generated__/types";
 
 enum SCHOOLS_OF_MAGIC {
   ABJURATION = "#b4d1ff",
@@ -53,8 +52,8 @@ const Spells = ({ characterId }: { characterId: string }) => {
     <Box
       display="flex"
       justifyContent="center"
-      mt={13}
-      height="78vh"
+      pt={13}
+      height="90vh"
       width="100%"
     >
       <Paper

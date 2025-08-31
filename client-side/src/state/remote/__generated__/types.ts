@@ -85,6 +85,18 @@ export type CreateFeatureInput = {
   name: Scalars['String']['input'];
 };
 
+export type CreateSpellInput = {
+  casting: Scalars['String']['input'];
+  characterId: Scalars['Int']['input'];
+  components: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  duration: Scalars['String']['input'];
+  level: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  range: Scalars['String']['input'];
+  school: Scalars['String']['input'];
+};
+
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -110,7 +122,9 @@ export type Mutation = {
   createAbilityScores: AbilityScores;
   createCharacter?: Maybe<Character>;
   createFeature: Feature;
+  createSpell: Spell;
   deleteFeature?: Maybe<Feature>;
+  deleteSpell?: Maybe<Spell>;
   login: AuthPayload;
   registerUser: User;
   updateAbilityScores: AbilityScores;
@@ -134,7 +148,17 @@ export type MutationCreateFeatureArgs = {
 };
 
 
+export type MutationCreateSpellArgs = {
+  input: CreateSpellInput;
+};
+
+
 export type MutationDeleteFeatureArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteSpellArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -172,6 +196,7 @@ export type Query = {
   character: Character;
   characters?: Maybe<Array<Maybe<Character>>>;
   features?: Maybe<Array<Maybe<Feature>>>;
+  spells?: Maybe<Array<Maybe<Spell>>>;
 };
 
 
@@ -187,6 +212,25 @@ export type QueryCharacterArgs = {
 
 export type QueryFeaturesArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QuerySpellsArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type Spell = {
+  __typename?: 'Spell';
+  casting: Scalars['String']['output'];
+  characterId: Scalars['Int']['output'];
+  components: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  duration: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  level: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  range: Scalars['String']['output'];
+  school: Scalars['String']['output'];
 };
 
 export type UpdateCharacterInput = {

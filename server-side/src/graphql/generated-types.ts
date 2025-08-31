@@ -88,6 +88,18 @@ export type CreateFeatureInput = {
   name: Scalars['String']['input'];
 };
 
+export type CreateSpellInput = {
+  casting: Scalars['String']['input'];
+  characterId: Scalars['Int']['input'];
+  components: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  duration: Scalars['String']['input'];
+  level: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  range: Scalars['String']['input'];
+  school: Scalars['String']['input'];
+};
+
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -113,7 +125,9 @@ export type Mutation = {
   createAbilityScores: AbilityScores;
   createCharacter?: Maybe<Character>;
   createFeature: Feature;
+  createSpell: Spell;
   deleteFeature?: Maybe<Feature>;
+  deleteSpell?: Maybe<Spell>;
   login: AuthPayload;
   registerUser: User;
   updateAbilityScores: AbilityScores;
@@ -137,7 +151,17 @@ export type MutationCreateFeatureArgs = {
 };
 
 
+export type MutationCreateSpellArgs = {
+  input: CreateSpellInput;
+};
+
+
 export type MutationDeleteFeatureArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteSpellArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -175,6 +199,7 @@ export type Query = {
   character: Character;
   characters?: Maybe<Array<Maybe<Character>>>;
   features?: Maybe<Array<Maybe<Feature>>>;
+  spells?: Maybe<Array<Maybe<Spell>>>;
 };
 
 
@@ -190,6 +215,25 @@ export type QueryCharacterArgs = {
 
 export type QueryFeaturesArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QuerySpellsArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type Spell = {
+  __typename?: 'Spell';
+  casting: Scalars['String']['output'];
+  characterId: Scalars['Int']['output'];
+  components: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  duration: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  level: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  range: Scalars['String']['output'];
+  school: Scalars['String']['output'];
 };
 
 export type UpdateCharacterInput = {
@@ -302,6 +346,7 @@ export type ResolversTypes = {
   CreateAbilityScoresInput: CreateAbilityScoresInput;
   CreateCharacterInput: CreateCharacterInput;
   CreateFeatureInput: CreateFeatureInput;
+  CreateSpellInput: CreateSpellInput;
   CreateUserInput: CreateUserInput;
   Feature: ResolverTypeWrapper<Feature>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -309,6 +354,7 @@ export type ResolversTypes = {
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  Spell: ResolverTypeWrapper<Spell>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UpdateCharacterInput: UpdateCharacterInput;
   UpdateHealthInput: UpdateHealthInput;
@@ -324,6 +370,7 @@ export type ResolversParentTypes = {
   CreateAbilityScoresInput: CreateAbilityScoresInput;
   CreateCharacterInput: CreateCharacterInput;
   CreateFeatureInput: CreateFeatureInput;
+  CreateSpellInput: CreateSpellInput;
   CreateUserInput: CreateUserInput;
   Feature: Feature;
   ID: Scalars['ID']['output'];
@@ -331,6 +378,7 @@ export type ResolversParentTypes = {
   LoginInput: LoginInput;
   Mutation: {};
   Query: {};
+  Spell: Spell;
   String: Scalars['String']['output'];
   UpdateCharacterInput: UpdateCharacterInput;
   UpdateHealthInput: UpdateHealthInput;
@@ -387,7 +435,9 @@ export type MutationResolvers<ContextType = MyContext, ParentType extends Resolv
   createAbilityScores?: Resolver<ResolversTypes['AbilityScores'], ParentType, ContextType, RequireFields<MutationCreateAbilityScoresArgs, 'input'>>;
   createCharacter?: Resolver<Maybe<ResolversTypes['Character']>, ParentType, ContextType, RequireFields<MutationCreateCharacterArgs, 'input'>>;
   createFeature?: Resolver<ResolversTypes['Feature'], ParentType, ContextType, RequireFields<MutationCreateFeatureArgs, 'input'>>;
+  createSpell?: Resolver<ResolversTypes['Spell'], ParentType, ContextType, RequireFields<MutationCreateSpellArgs, 'input'>>;
   deleteFeature?: Resolver<Maybe<ResolversTypes['Feature']>, ParentType, ContextType, RequireFields<MutationDeleteFeatureArgs, 'id'>>;
+  deleteSpell?: Resolver<Maybe<ResolversTypes['Spell']>, ParentType, ContextType, RequireFields<MutationDeleteSpellArgs, 'id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   registerUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
   updateAbilityScores?: Resolver<ResolversTypes['AbilityScores'], ParentType, ContextType, RequireFields<MutationUpdateAbilityScoresArgs, 'id' | 'input'>>;
@@ -400,6 +450,21 @@ export type QueryResolvers<ContextType = MyContext, ParentType extends Resolvers
   character?: Resolver<ResolversTypes['Character'], ParentType, ContextType, RequireFields<QueryCharacterArgs, 'id'>>;
   characters?: Resolver<Maybe<Array<Maybe<ResolversTypes['Character']>>>, ParentType, ContextType>;
   features?: Resolver<Maybe<Array<Maybe<ResolversTypes['Feature']>>>, ParentType, ContextType, RequireFields<QueryFeaturesArgs, 'id'>>;
+  spells?: Resolver<Maybe<Array<Maybe<ResolversTypes['Spell']>>>, ParentType, ContextType, RequireFields<QuerySpellsArgs, 'id'>>;
+};
+
+export type SpellResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Spell'] = ResolversParentTypes['Spell']> = {
+  casting?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  characterId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  components?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  duration?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  level?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  range?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  school?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -419,6 +484,7 @@ export type Resolvers<ContextType = MyContext> = {
   Feature?: FeatureResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Spell?: SpellResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

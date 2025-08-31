@@ -15,11 +15,13 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  SelectChangeEvent,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useMutation } from "@apollo/client";
-import { createFeature } from "@/state/remote/mutations/createFeature";
-import { getFeatures } from "@/state/remote/queries/getFeatures";
+import { createSpell } from "@/state/remote/mutations/createSpell";
+import { getSpells } from "@/state/remote/queries/getSpells";
+import { SpellsSchool } from "@/utils/types";
 
 interface Props {
   open: boolean;
@@ -30,25 +32,49 @@ interface Props {
 const AddSpellDialog: React.FC<Props> = ({ open, onClose, characterId }) => {
   const [name, setName] = useState("");
   const [level, setLevel] = useState<number | null>(null);
+  const [school, setSchool] = useState<SpellsSchool>("unknown");
+  const [casting, setCasting] = useState("");
+  const [range, setRange] = useState("");
+  const [components, setComponents] = useState("");
+  const [duration, setDuration] = useState("");
   const [description, setDescription] = useState("");
 
-  const [createFeatureMutation] = useMutation(createFeature);
+  const [createSpellMutation] = useMutation(createSpell);
+
+  const handleFormReset = () => {
+    setName("");
+    setLevel(null);
+    setSchool("unknown");
+    setCasting("");
+    setRange("");
+    setComponents("");
+    setDuration("");
+    setDescription("");
+  };
+
+  const handleChange = (e: SelectChangeEvent<SpellsSchool>) => {
+    setSchool(e.target.value as SpellsSchool);
+  };
 
   const handleSubmit = () => {
-    createFeatureMutation({
+    createSpellMutation({
       variables: {
         input: {
           name,
           level,
+          school,
+          casting,
+          range,
+          components,
+          duration,
           description,
           characterId: Number(characterId),
         },
       },
-      refetchQueries: [getFeatures],
+      refetchQueries: [getSpells],
     });
-    setName("");
-    setLevel(null);
-    setDescription("");
+
+    handleFormReset();
     onClose();
   };
 
@@ -111,8 +137,8 @@ const AddSpellDialog: React.FC<Props> = ({ open, onClose, characterId }) => {
             variant="outlined"
             color="secondary"
             size="small"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={range}
+            onChange={(e) => setRange(e.target.value)}
           />
           <TextField
             label="Casting Time"
@@ -120,8 +146,8 @@ const AddSpellDialog: React.FC<Props> = ({ open, onClose, characterId }) => {
             variant="outlined"
             color="secondary"
             size="small"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={casting}
+            onChange={(e) => setCasting(e.target.value)}
           />
           <TextField
             label="Duration"
@@ -129,22 +155,22 @@ const AddSpellDialog: React.FC<Props> = ({ open, onClose, characterId }) => {
             variant="outlined"
             color="secondary"
             size="small"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
           />
         </Stack>
 
-        <FormControl fullWidth sx={{ mt: 1 }}>
+        <FormControl fullWidth sx={{ mt: 2 }}>
           <InputLabel id="school-of-magic-selection">
             School of Magic
           </InputLabel>
           <Select
             labelId="school-of-magic-selection"
             id="school-of-magic-simple-select"
-            // value={age}
+            value={school}
             label="School of Magic"
             margin="dense"
-            // onChange={handleChange}
+            onChange={handleChange}
           >
             <MenuItem value="abjuration">Abjuration</MenuItem>
             <MenuItem value="conjuration">Conjuration</MenuItem>
@@ -157,16 +183,16 @@ const AddSpellDialog: React.FC<Props> = ({ open, onClose, characterId }) => {
           </Select>
         </FormControl>
 
-       <TextField
-            label="Components"
-            fullWidth
-            variant="outlined"
-            color="secondary"
-            size="small"
-            margin="dense"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+        <TextField
+          label="Components"
+          fullWidth
+          variant="outlined"
+          color="secondary"
+          size="small"
+          margin="dense"
+          value={components}
+          onChange={(e) => setComponents(e.target.value)}
+        />
         <TextField
           label="Description"
           fullWidth
@@ -187,7 +213,13 @@ const AddSpellDialog: React.FC<Props> = ({ open, onClose, characterId }) => {
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} color="secondary">
+        <Button
+          onClick={() => {
+            onClose();
+            handleFormReset();
+          }}
+          color="secondary"
+        >
           Cancel
         </Button>
         <Button
