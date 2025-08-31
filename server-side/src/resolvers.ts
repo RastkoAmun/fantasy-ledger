@@ -65,6 +65,22 @@ const getFeatures = async (_: unknown, { id }: {id: string }) => {
   }
 }
 
+const getSpells = async (_: unknown, { id }: {id: string }) => {
+  try{
+    const spells = await prisma.spells.findMany({
+      where: { characterId: parseInt(id) }
+    });
+
+    return spells.map((s) => ({
+      ...s,
+      id: s.id.toString(),
+    }));
+  }catch(error){
+    console.error("Error fetching data:", error);
+    throw new Error("Error fetching data");
+  }
+}
+
 const getAllCharacters = async (_parent: unknown, _args: unknown, context: MyContext) => {
   try{
     if (!context?.userId) throw new Error("Not authenticated");
@@ -283,6 +299,22 @@ const createFeature = async (
   }
 };
 
+const createSpell = async (_: unknown, { input }) => {
+  try {
+    const newSpell = await prisma.spells.create({
+      data: input,
+    });
+
+    return {
+      ...newSpell,
+      id: newSpell.id.toString()
+    };
+  } catch (error) {
+    console.error('Error creating spell:', error);
+    throw new Error('Failed to create spell. Please try again.');
+  }
+};
+
 const deleteFeature = async (
   _parent: unknown, 
   args: MutationDeleteFeatureArgs): Promise<Feature> => {
@@ -298,6 +330,17 @@ const deleteFeature = async (
   }catch (error) {
     console.error('Error deleting feature:', error);
     throw new Error('Failed to delete feature. Please try again.');
+  }
+}
+
+const deleteSpell = async (_: unknown, { id }) => {
+  try{
+    await prisma.spells.delete({
+      where: { id: id }
+    })
+  }catch (error) {
+    console.error('Error deleting spell:', error);
+    throw new Error('Failed to delete spell. Please try again.');
   }
 }
 
@@ -347,6 +390,7 @@ export const resolvers: Resolvers<MyContext> = {
     abilityScores: (_parent, args, _context) => getAbilityScores(_parent, args),
     characters: (_parent, _args, context) => getAllCharacters(_parent, _args, context),
     features: (_parent, args, _context) => getFeatures(_parent, args),
+    spells: (_parent, args, _context) => getSpells(__parent, args)
   },
 
   Mutation: {
@@ -356,6 +400,7 @@ export const resolvers: Resolvers<MyContext> = {
     updateCharacter: (_parent, args, _context) => updateCharacter(_parent, args),
     updateHealth: (_parent, args, _context) => updateHealth(_parent, args),
     createFeature: (_parent, args, _context) => createFeature(_parent, args),
+    createSpell: (_parent, args, _context) => createSpell(_parent, args),
     registerUser: (_parent, args, _context) => registerUser(_parent, args),
     login: (_parent, args, _context) => login(_parent, args),
     deleteFeature: (_parent, args, _context) => deleteFeature(_parent, args),

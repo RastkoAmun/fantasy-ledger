@@ -147,6 +147,7 @@ const CharacterClient = ({ id }: { id: number }) => {
                       bgcolor: "purple",
                     },
                   }}
+                  onClick={() => handleRedirect("spells")}
                 >
                   <Typography fontSize={14} textAlign="center">
                     Go to Spells
