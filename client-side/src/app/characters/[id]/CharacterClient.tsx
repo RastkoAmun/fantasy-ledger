@@ -57,7 +57,7 @@ const CharacterClient = ({ id }: { id: number }) => {
         height="78vh"
         width="100%"
       >
-        <Grid item height="100%" xs={4}>
+        <Grid item height="100%" xs={12} md={7} lg={4}>
           <Stack direction="column" height="100%" width="100%">
             <CharacterInfo
               character={characterData.character}
@@ -72,13 +72,13 @@ const CharacterClient = ({ id }: { id: number }) => {
             />
           </Stack>
         </Grid>
-        <Grid item height="100%" xs={2.5}>
+        <Grid item height="100%" xs={12} md={5} lg={2.5}>
           <SkillProficiencies
             proficiencies={characterData.character.proficiencies}
             abilityScores={abilitiesData.abilityScores}
           />
         </Grid>
-        <Grid item width="100%" height="100%" xs={5.5}>
+        <Grid item width="100%" height="100%" xs={12} md={12} lg={5.5}>
           <HealthAndBattleDashboard
             character={characterData.character}
             initiative={
@@ -112,11 +112,52 @@ const CharacterClient = ({ id }: { id: number }) => {
               (Conditions are coming in the next patch)
             </Typography>
           </Box>
-          <Box width={500} height="20%" mt={1}>
+          <Box height="20%" mt={1}>
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <Button
                   variant="contained"
+                  sx={{
+                    width: "100%",
+                    height: 80,
+                    border: 2,
+                    borderColor: "purple",
+                    borderRadius: 5,
+                    bgcolor: `rgba(109, 8, 131, 0.5)`,
+                    "&:hover": {
+                      bgcolor: "purple",
+                    },
+                  }}
+                  onClick={() => handleRedirect("features")}
+                >
+                  <Typography fontSize={14}>Go to Features</Typography>
+                </Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    height: 80,
+                    border: 2,
+                    borderColor: "purple",
+                    borderRadius: 5,
+                    bgcolor: `rgba(109, 8, 131, 0.5)`,
+                    "&:hover": {
+                      bgcolor: "purple",
+                    },
+                  }}
+                >
+                  <Typography fontSize={14} textAlign="center">
+                    Go to Spells
+                  </Typography>
+                </Button>
+              </Grid>
+
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  disabled
                   sx={{
                     width: "100%",
                     height: "100%",
@@ -124,44 +165,17 @@ const CharacterClient = ({ id }: { id: number }) => {
                     borderColor: "purple",
                     borderRadius: 5,
                     bgcolor: "purple",
+                    "&:hover": {
+                      borderColor: "purple",
+                      borderRadius: 5,
+                      bgcolor: "purple",
+                      backgroundBlendMode: "lighten",
+                    },
                   }}
                 >
-                  <Typography>Go to Inventory</Typography>
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    width: "100%",
-                    height: 80,
-                    border: 2,
-                    borderColor: "purple",
-                    borderRadius: 5,
-                    bgcolor: "purple",
-                  }}
-                >
-                  <Typography textAlign="center">
-                    Go to
-                    <br />
-                    Spells
+                  <Typography fontSize={12} color="white">
+                    Inventory (coming soon)
                   </Typography>
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    width: "100%",
-                    height: 80,
-                    border: 2,
-                    borderColor: "purple",
-                    borderRadius: 5,
-                    bgcolor: "purple",
-                  }}
-                  onClick={() => handleRedirect("features")}
-                >
-                  <Typography>Go to Features</Typography>
                 </Button>
               </Grid>
             </Grid>

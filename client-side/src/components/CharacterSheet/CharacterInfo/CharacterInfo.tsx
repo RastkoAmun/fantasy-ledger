@@ -46,26 +46,44 @@ const CharacterInfo = ({
         <Grid item xs={8}>
           <Stack direction="column" justifyContent="space-between">
             <Stack direction="row">
-              <Box width={80} height={80} m={1} bgcolor="blue">
+              <Box
+                position="relative"
+                m={1}
+                bgcolor="transparent"
+                borderRadius={1}
+                overflow="hidden"
+                width={{ lg: 72, xl: 80 }}
+                height={{ lg: 72, xl: 80 }}
+              >
                 <Image
-                  src={`${iconPath}`}
+                  src={iconPath}
                   alt="character-picture"
-                  width={80}
-                  height={80}
+                  fill
+                  style={{ objectFit: "contain" }}
                 />
               </Box>
               <Stack mt={1}>
-                <Typography variant="h4">{character.name}</Typography>
-                <Typography variant="h6">
+                <Typography variant="h4"  fontSize={{ lg: 28, xl: 32 }}>
+                  {character.name}
+                </Typography>
+                <Typography variant="h6" fontSize={{ lg: 18, xl: 22 }}>
                   Level: {character.level}
                 </Typography>
               </Stack>
             </Stack>
             <Stack ml={1.5} justifyContent="center">
-              <Typography variant="body1" fontWeight={700}>
+              <Typography
+                variant="body1"
+                fontWeight={700}
+                sx={{ fontSize: { lg: "0.9rem", xl: "1rem" } }}
+              >
                 {character.subclass} {character.class}
               </Typography>
-              <Typography variant="body1" fontWeight={700}>
+              <Typography
+                variant="body1"
+                fontWeight={700}
+                sx={{ fontSize: { lg: "0.9rem", xl: "1rem" } }}
+              >
                 {character.subrace} {character.race}
               </Typography>
             </Stack>

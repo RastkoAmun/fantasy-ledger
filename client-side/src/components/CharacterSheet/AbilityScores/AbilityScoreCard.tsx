@@ -17,7 +17,7 @@ const AbilityScoreCard = ({ name, value }: AbilityScoreCardProps) => {
       justifyContent="center"
       position="relative"
     >
-      <Stack direction="column" alignItems="center">
+      <Stack direction="column" alignItems="center" justifyContent='center'>
         <Typography
           fontWeight={700}
           fontSize={11}
@@ -27,8 +27,8 @@ const AbilityScoreCard = ({ name, value }: AbilityScoreCardProps) => {
           {name}
         </Typography>
         <Box
-          width={60}
-          height={70}
+          width={55}
+          height={65}
           border={3}
           borderColor="purple"
           bgcolor="whitesmoke"
@@ -48,7 +48,7 @@ const AbilityScoreCard = ({ name, value }: AbilityScoreCardProps) => {
         border={3}
         borderColor="purple"
         position="absolute"
-        top={68}
+        top={65}
         bgcolor="white"
         borderRadius={10}
       >
