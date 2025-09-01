@@ -29,8 +29,8 @@ const SavingThrowCard = ({
       >
         <Typography
           alignSelf="center"
-          ml={10}
-          mt={1.2}
+          ml={{ xs: 10, lg: 8.5, xl: 10 }}
+          mt={{ xs: 1.2, md: 0, xl: 1.2 }}
           fontSize={13}
           fontWeight={700}
         >
@@ -38,9 +38,9 @@ const SavingThrowCard = ({
         </Typography>
       </Box>
       <Box
-        width={{ xs: 38, md: 34, xl: 38}}
-        height={{ xs: 38, md: 34, xl: 38}}
-        border={3.5}
+        width={{ xs: 38, md: 30, xl: 36 }}
+        height={{ xs: 38, md: 30, xl: 36 }}
+        border={3}
         borderColor={proficient ? "purple" : "#9A9696"}
         position="absolute"
         bgcolor="white"
@@ -54,7 +54,7 @@ const SavingThrowCard = ({
           height="95%"
         >
           <Typography
-            fontSize={17}
+            fontSize={{ lg: 15, xl: 17 }}
             fontFamily="monospace"
             height="100%"
             display="flex"

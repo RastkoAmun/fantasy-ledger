@@ -18,7 +18,7 @@ const HealthAndBattleDashboard = ({
   return (
     <Stack
       width="100%"
-      height={{ xs: 370, md: "50%"}}
+      height={{ xs: 370, md: 280, lg: "50%" }}
       border={2}
       borderColor="purple"
       bgcolor="#e1e1e1"
@@ -31,6 +31,13 @@ const HealthAndBattleDashboard = ({
         backgroundRepeat: "no-repeat",
         backgroundColor: `rgba(255,255,255,0.5)`,
         backgroundBlendMode: "lighten",
+        zoom: 1,
+        "@media (min-width:1700px) and (min-height:950px)": {
+          zoom: 1.3,
+        },
+        "@media (min-width:2050px) and (min-height:1270px)": {
+          zoom: 1.7,
+        },
       }}
     >
       <HealthBoard character={character} />

@@ -30,6 +30,12 @@ const AbilityScoresDashboard = ({
         backgroundColor: `rgba(255,255,255,0.5)`,
         backgroundBlendMode: "lighten",
         zoom: { md: 0.85, lg: 0.9, xl: 1 },
+        "@media (min-width:1700px) and (min-height:950px)": {
+          zoom: 1.3,
+        },
+        "@media (min-width:2050px) and (min-height:1270px)": {
+          zoom: 1.7,
+        },
       }}
     >
       <Grid container rowGap={3} pb={1}>

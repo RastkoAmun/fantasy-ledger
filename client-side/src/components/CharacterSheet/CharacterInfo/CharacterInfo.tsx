@@ -40,6 +40,13 @@ const CharacterInfo = ({
         backgroundRepeat: "no-repeat",
         backgroundColor: `rgba(255,255,255,0.6)`,
         backgroundBlendMode: "lighten",
+        zoom: 1,
+        "@media (min-width:1700px) and (min-height:950px)": {
+          zoom: 1.3,
+        },
+        "@media (min-width:2050px) and (min-height:1270px)": {
+          zoom: 1.7,
+        },
       }}
     >
       <Grid container>
@@ -63,7 +70,7 @@ const CharacterInfo = ({
                 />
               </Box>
               <Stack mt={1}>
-                <Typography variant="h4"  fontSize={{ lg: 28, xl: 32 }}>
+                <Typography variant="h4" fontSize={{ lg: 28, xl: 32 }}>
                   {character.name}
                 </Typography>
                 <Typography variant="h6" fontSize={{ lg: 18, xl: 22 }}>

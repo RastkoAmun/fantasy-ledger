@@ -98,6 +98,13 @@ const CharacterClient = ({ id }: { id: number }) => {
               overflowY: "auto",
               scrollbarWidth: "thin",
               scrollbarColor: "rgba(0,0,0,.35) transparent",
+              zoom: 1,
+              "@media (min-width:1700px) and (min-height:950px)": {
+                zoom: 1.4,
+              },
+              "@media (min-width:2050px) and (min-height:1270px)": {
+                zoom: 1.7,
+              },
             }}
           >
             <Typography

@@ -22,7 +22,7 @@ const SavingThrowsDashboard = ({
   return (
     <Box
       width="100%"
-      height={{ xs: '30%', md: "26%"}}
+      height={{ xs: "30%", md: "26%" }}
       border={2}
       borderColor="purple"
       borderRadius={5}
@@ -31,12 +31,19 @@ const SavingThrowsDashboard = ({
       sx={{
         backgroundColor: `rgba(255,255,255,0.5)`,
         backgroundBlendMode: "lighten",
+        zoom: 1,
+        "@media (min-width:1700px) and (min-height:950px)": {
+          zoom: 1.3,
+        },
+        "@media (min-width:2050px) and (min-height:1270px)": {
+          zoom: 1.7,
+        },
       }}
     >
       <Typography textAlign="center" fontWeight={700} mt={0.5}>
         SAVING THROWS
       </Typography>
-      <Grid container rowGap={1} columnGap={2} justifyContent='center'>
+      <Grid container rowGap={1} columnGap={2} justifyContent="center">
         {Object.keys(AbilityScores).map((abilityScore) => {
           const { modifier, sign } = calculateModifier(
             abilityScores[
@@ -50,7 +57,9 @@ const SavingThrowsDashboard = ({
               modifier={
                 sign +
                 (modifier +
-                  (savingThrowsSet.has(abilityScore.toLocaleLowerCase()) ? 2 : 0))
+                  (savingThrowsSet.has(abilityScore.toLocaleLowerCase())
+                    ? 2
+                    : 0))
               }
               proficient={savingThrowsSet.has(abilityScore.toLocaleLowerCase())}
             />
