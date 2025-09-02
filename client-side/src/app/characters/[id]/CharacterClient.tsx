@@ -143,20 +143,25 @@ const CharacterClient = ({ id }: { id: number }) => {
               <Grid item xs={4}>
                 <Button
                   variant="contained"
+                  disabled
                   sx={{
                     width: "100%",
                     height: 80,
                     border: 2,
                     borderColor: "purple",
                     borderRadius: 5,
-                    bgcolor: `rgba(109, 8, 131, 0.5)`,
+                    // bgcolor: `rgba(109, 8, 131, 0.5)`,
+                    bgcolor: "purple",
                     "&:hover": {
+                      borderColor: "purple",
+                      borderRadius: 5,
                       bgcolor: "purple",
+                      backgroundBlendMode: "lighten",
                     },
                   }}
                 >
-                  <Typography fontSize={14} textAlign="center">
-                    Go to Spells
+                  <Typography fontSize={12} textAlign="center" color='white'>
+                    SPells (Coming Soon)
                   </Typography>
                 </Button>
               </Grid>

@@ -18,6 +18,7 @@ import { Character } from "@/state/remote/__generated__/types";
 import { useRouter } from "next/navigation";
 import CharacterCreationDialog from "../Dialogs/CharacterCreation/DialogForm";
 import { CLASSES } from "@/utils/helpers";
+import { almendra } from "@/fonts/fonts";
 
 const CardGrid = () => {
   const { data, loading, error } = useQuery(getAllCharactersQuery);
@@ -35,7 +36,13 @@ const CardGrid = () => {
   return (
     <Box minHeight="80vh" width="70%" mt={10} mx="auto">
       <Stack>
-        <Typography variant="h2" textAlign="center" mb={5}>
+        <Typography
+          variant="h1"
+          textAlign="center"
+          mt={1}
+          mb={5}
+          className={almendra.className}
+        >
           Choose Your Character
         </Typography>
         <Grid container rowGap={8} sx={{ mx: "auto" }} justifyContent="center">
@@ -79,8 +86,13 @@ const CardGrid = () => {
                   }}
                 >
                   <CardHeader
-                    title={character.name}
+                    title={
+                      <span className={almendra.className}>
+                        {character.name}
+                      </span>
+                    }
                     subheader={`Level: ${character.level}`}
+                    className={almendra.className}
                     titleTypographyProps={{ fontSize: 50 }}
                     subheaderTypographyProps={{ fontSize: 24 }}
                   />

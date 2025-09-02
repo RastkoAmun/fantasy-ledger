@@ -74,7 +74,7 @@ const Features = ({ characterId }: { characterId: string }) => {
                     textAlign: "center",
                     borderRadius: 4,
                     "&:hover": {
-                      bgcolor: "#f6d1ff",
+                      bgcolor: "rgba(109, 8, 131, 0.4)",
                       cursor: "pointer",
                     },
                   }}

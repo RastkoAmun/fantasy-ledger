@@ -4,9 +4,10 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   Button,
   IconButton,
+  Stack,
+  Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Delete } from "@mui/icons-material";
@@ -30,7 +31,7 @@ const DisplayFeatureDialog = ({ open, feature, onClose }: Props) => {
         variables: { id: feature.id },
         refetchQueries: [getFeatures],
       });
-      onClose()
+      onClose();
     } catch (err) {
       console.error("Error deleting Feature", err);
     }
@@ -51,16 +52,20 @@ const DisplayFeatureDialog = ({ open, feature, onClose }: Props) => {
         </IconButton>
       </DialogTitle>
 
-      <DialogContent>{feature.description}</DialogContent>
+      <DialogContent>
+        <Typography sx={{ whiteSpace: "pre-line" }}>
+          {feature.description}
+        </Typography>
+      </DialogContent>
 
-      <DialogActions>
-        <IconButton onClick={handleDelete} sx={{ color: 'red'}}>
+      <Stack direction="row" justifyContent="space-between" m={1}>
+        <IconButton onClick={handleDelete} sx={{ color: "red" }}>
           <Delete />
         </IconButton>
         <Button onClick={onClose} color="secondary">
           Close
         </Button>
-      </DialogActions>
+      </Stack>
     </Dialog>
   );
 };
